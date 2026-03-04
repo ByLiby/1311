@@ -524,7 +524,7 @@ export default function CatalogPage({
       <TrustBar content={dictionary} />
       <PortfolioSection content={dictionary} />
       <AboutSection lang={lang} content={dictionary} />
-      <StrengthsSection content={dictionary} />
+      <BusKunstlederSlider />
       <SiteFooter content={dictionary} />
     </main>
   );
