@@ -18,18 +18,18 @@
     { "title": "Automotive B2B-Spezialist", "text": "Professionelle Materialien" },
     { "title": "Flexibel ab 1 Meter", "text": "Keine hohen Mindestmengen" }
   ],
-  "portfolio": {
-    "label": "PORTFOLIO",
-    "headline": "Kollektionen",
-    "collections": [
-      {
-        "series": "BLACK SERIES",
-        "title": "Kunstleder Schwarz",
-        "description": "Vielseitige schwarze Oberflächen für Sitze, Türverkleidungen und Zierelemente.",
-        "specs": ["PU- & PVC-Optionen", "Matte und satinierte Oberflächen", "Feinkorn & Glatt"]
-      },
-      {
-        "series": "BEIGE & SAND",
+    "portfolio": {
+      "label": "PORTFOLIO",
+      "headline": "Kollektionen",
+      "collections": [
+        {
+          "series": "BUS KUNSTLEDER",
+          "title": "",
+          "description": "",
+          "specs": []
+        },
+        {
+          "series": "BEIGE & SAND",
         "title": "Kunstleder Beige",
         "description": "Warmtonige Oberflächen für hochwertige Interieuranwendungen.",
         "specs": ["Satin- & Mattoberflächen", "Perforierte Optionen", "Naturkornprägung"]
