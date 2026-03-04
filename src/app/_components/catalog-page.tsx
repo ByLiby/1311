@@ -344,31 +344,29 @@ function PortfolioSection({ content }: { content: Dictionary }) {
                 )}
               </div>
 
-              <div className="py-6">
-                {index === 0 ? (
-                  null // Title already rendered above
-                ) : (
-                  <>
-                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold">
-                      {col.series}
-                    </p>
-                    <h3 className="mt-2 text-lg font-semibold text-text-primary">
-                      {col.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                      {col.description}
-                    </p>
-                    <ul className="mt-4 flex flex-col gap-1.5">
-                      {col.specs.map((spec, si) => (
-                        <li key={si} className="flex items-center gap-2 text-[13px] text-text-secondary">
-                          <span className="inline-block h-1 w-1 shrink-0 rounded-full bg-gold" />
-                          {spec}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </div>
+              {index === 0 ? (
+                <div className="pb-8" /> // Small spacer for the first card instead of full content area
+              ) : (
+                <div className="py-6">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold">
+                    {col.series}
+                  </p>
+                  <h3 className="mt-2 text-lg font-semibold text-text-primary">
+                    {col.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    {col.description}
+                  </p>
+                  <ul className="mt-4 flex flex-col gap-1.5">
+                    {col.specs.map((spec, si) => (
+                      <li key={si} className="flex items-center gap-2 text-[13px] text-text-secondary">
+                        <span className="inline-block h-1 w-1 shrink-0 rounded-full bg-gold" />
+                        {spec}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           ))}
         </div>
