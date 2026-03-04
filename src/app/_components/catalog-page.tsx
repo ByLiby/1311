@@ -2,8 +2,9 @@
 
 import NextLink from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Mail, Phone, MapPin, Menu, X } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Mail, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
 
 export type Lang = "de" | "en" | "ru";
 
