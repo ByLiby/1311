@@ -302,9 +302,9 @@ function SquareSlider() {
 
 function PortfolioSection({ content }: { content: Dictionary }) {
   return (
-    <section id="portfolio" className="bg-base py-20 md:py-28">
+    <section id="portfolio" className="bg-base py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-12">
+        <div className="mb-16">
           <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gold">
             {content.portfolio.label}
           </p>
@@ -313,7 +313,7 @@ function PortfolioSection({ content }: { content: Dictionary }) {
           </h2>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2">
+        <div className="grid gap-10 sm:grid-cols-2">
           {content.portfolio.collections.map((col, index) => (
             <div
               key={index}
@@ -321,14 +321,14 @@ function PortfolioSection({ content }: { content: Dictionary }) {
             >
               {/* Card Title - Above for Bus Kunstleder as per requested style */}
               {index === 0 && (
-                <div className="mb-4">
-                  <h3 className="text-sm font-medium uppercase tracking-[0.25em] text-white">
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium uppercase tracking-[0.3em] text-white font-serif">
                     {col.series}
                   </h3>
                 </div>
               )}
 
-              <div className="relative aspect-square overflow-hidden rounded-md border border-[#232428] bg-card-bg transition-colors duration-300 group-hover:border-[#C6A86B]">
+              <div className="relative aspect-square overflow-hidden rounded-md border border-divider bg-card-bg transition-colors duration-500 group-hover:border-gold">
                 {index === 0 ? (
                   <SquareSlider />
                 ) : (
