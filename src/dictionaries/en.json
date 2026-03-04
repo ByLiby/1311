@@ -18,18 +18,18 @@
     { "title": "Automotive B2B Specialist", "text": "Professional-grade materials" },
     { "title": "Flexible from 1 Meter", "text": "No large minimum orders" }
   ],
-  "portfolio": {
-    "label": "PORTFOLIO",
-    "headline": "Collections",
-    "collections": [
-      {
-        "series": "BLACK SERIES",
-        "title": "Synthetic Leather Black",
-        "description": "Versatile black surfaces for seats, door panels and trim applications.",
-        "specs": ["PU & PVC options", "Matte and satin finishes", "Fine grain & smooth"]
-      },
-      {
-        "series": "BEIGE & SAND",
+    "portfolio": {
+      "label": "PORTFOLIO",
+      "headline": "Collections",
+      "collections": [
+        {
+          "series": "BUS KUNSTLEDER",
+          "title": "",
+          "description": "",
+          "specs": []
+        },
+        {
+          "series": "BEIGE & SAND",
         "title": "Synthetic Leather Beige",
         "description": "Warm toned surfaces for premium interior applications.",
         "specs": ["Satin & matte finishes", "Perforated options", "Natural grain emboss"]
