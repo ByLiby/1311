@@ -382,49 +382,49 @@ function BusKunstlederSlider() {
   }, [emblaApi]);
 
   const images = [
-    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/C70956E7-BF75-4B94-9703-0F43746E3742-1772652552672.webp?width=8000&height=8000&resize=contain",
-    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/245BCEF3-1601-44ED-BF62-A338F985C379-1772652557564.webp?width=8000&height=8000&resize=contain",
-    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/1FC9CFA8-5BF7-4AFF-9B53-2BEC897D6132-1772652564827.webp?width=8000&height=8000&resize=contain",
+    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/C70956E7-BF75-4B94-9703-0F43746E3742-1772652552672.webp?width=1200&height=1200&resize=cover",
+    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/245BCEF3-1601-44ED-BF62-A338F985C379-1772652557564.webp?width=1200&height=1200&resize=cover",
+    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/1FC9CFA8-5BF7-4AFF-9B53-2BEC897D6132-1772652564827.webp?width=1200&height=1200&resize=cover",
   ];
 
   return (
     <section className="bg-[#0B0D10] py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-10 flex items-center justify-between">
-          <h2 className="text-base font-medium uppercase tracking-[0.25em] text-white font-serif">
+        <div className="mb-12 flex items-center justify-between">
+          <h2 className="text-sm font-medium uppercase tracking-[0.3em] text-white/90 font-serif">
             BUS KUNSTLEDER
           </h2>
           <div className="hidden gap-3 md:flex">
             <button
               onClick={scrollPrev}
-              className="group flex h-10 w-10 items-center justify-center rounded-full border border-[#232428] transition-colors hover:border-[#C6A86B]"
+              className="group flex h-11 w-11 items-center justify-center rounded-full border border-divider transition-all hover:border-gold"
               aria-label="Previous slide"
             >
-              <ChevronLeft size={18} className="text-white transition-colors group-hover:text-[#C6A86B]" />
+              <ChevronLeft size={20} className="text-white transition-colors group-hover:text-gold" />
             </button>
             <button
               onClick={scrollNext}
-              className="group flex h-10 w-10 items-center justify-center rounded-full border border-[#232428] transition-colors hover:border-[#C6A86B]"
+              className="group flex h-11 w-11 items-center justify-center rounded-full border border-divider transition-all hover:border-gold"
               aria-label="Next slide"
             >
-              <ChevronRight size={18} className="text-white transition-colors group-hover:text-[#C6A86B]" />
+              <ChevronRight size={20} className="text-white transition-colors group-hover:text-gold" />
             </button>
           </div>
         </div>
 
         <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex">
+          <div className="flex touch-pan-y">
             {images.map((src, index) => (
               <div
                 key={index}
-                className="min-w-0 flex-[0_0_100%] pr-4 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+                className="min-w-0 flex-[0_0_100%] pr-5 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
               >
-                <div className="group relative aspect-square overflow-hidden border border-[#232428] transition-colors hover:border-[#C6A86B]">
+                <div className="group relative aspect-square overflow-hidden border border-divider transition-all duration-500 hover:border-gold/50">
                   <Image
                     src={src}
                     alt={`Bus Kunstleder ${index + 1}`}
                     fill
-                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.05]"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
                   />
                 </div>
               </div>
