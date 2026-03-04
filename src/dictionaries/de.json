@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "home": "Start",
+    "materials": "Materialien",
+    "about": "Über uns"
+  },
+  "contactCta": "Kontakt aufnehmen",
+  "hero": {
+    "headline": "Europäische Automotive-Interieur-Materialien",
+    "subline": "Zuverlässige PU- & PVC-Lösungen ab Lager Österreich mit europaweiter Lieferung.",
+    "ctaPrimary": "Kontakt aufnehmen",
+    "ctaSecondary": "Materialien ansehen",
+    "heroAlt": "Premium Automotive Lederinterieur"
+  },
+  "trustBar": [
+    { "title": "Lagerware in Österreich", "text": "Standort Zell am See" },
+    { "title": "Europaweiter Versand", "text": "Lieferung in die gesamte EU" },
+    { "title": "Automotive B2B-Spezialist", "text": "Professionelle Materialien" },
+    { "title": "Flexibel ab 1 Meter", "text": "Keine hohen Mindestmengen" }
+  ],
+  "portfolio": {
+    "label": "PORTFOLIO",
+    "headline": "Kollektionen",
+    "collections": [
+      {
+        "series": "BLACK SERIES",
+        "title": "Kunstleder Schwarz",
+        "description": "Vielseitige schwarze Oberflächen für Sitze, Türverkleidungen und Zierelemente.",
+        "specs": ["PU- & PVC-Optionen", "Matte und satinierte Oberflächen", "Feinkorn & Glatt"]
+      },
+      {
+        "series": "BEIGE & SAND",
+        "title": "Kunstleder Beige",
+        "description": "Warmtonige Oberflächen für hochwertige Interieuranwendungen.",
+        "specs": ["Satin- & Mattoberflächen", "Perforierte Optionen", "Naturkornprägung"]
+      },
+      {
+        "series": "GREY COLLECTION",
+        "title": "Kunstleder Grau",
+        "description": "Neutrale Töne von Silber bis Anthrazit für moderne Interieurs.",
+        "specs": ["Kühle und warme Töne", "Strukturierte Texturen", "Mikrokornmuster"]
+      },
+      {
+        "series": "COGNAC & BROWN",
+        "title": "Kunstleder Braun",
+        "description": "Satte Bernstein- und Walnusstöne für anspruchsvolle Interieurs.",
+        "specs": ["Tiefe Kornstruktur", "Verschiedene Brauntöne", "Satinoberflächen"]
+      }
+    ]
+  },
+  "about": {
+    "headline": "Über uns",
+    "p1": "Als spezialisierter Materialdistributor mit Sitz in Zell am See beliefern wir Verarbeiter und B2B-Partner in ganz Europa mit hochwertigen Kunstlederlösungen.",
+    "p2": "Unser Portfolio ist auf Langlebigkeit, Oberflächenpräzision und überlegene Verarbeitbarkeit ausgelegt — entwickelt für professionelle Automotive- und Interieuranwendungen.",
+    "p3": "Durch lokale Lagerhaltung in Österreich gewährleisten wir kurze Lieferzeiten, hohe Verfügbarkeit und maximale Flexibilität bei Bestellmengen."
+  },
+  "strengths": {
+    "items": [
+      "Konstante Qualität",
+      "Zuverlässige Versorgung",
+      "Schnelle europäische Distribution",
+      "Direkte Kommunikation"
+    ]
+  },
+  "footer": {
+    "company": "Leder Stoffe",
+    "tagline": "MATERIALDISTRIBUTOR | ÖSTERREICH",
+    "address": ["Kitzsteinhornstrasse 63", "5700 Zell am See", "Österreich"],
+    "email": "kunstleder5700@gmail.com",
+    "phone": "+43 676 4725428",
+    "legalNotice": "Impressum",
+    "privacyPolicy": "Datenschutz",
+    "rights": "Alle Rechte vorbehalten."
+  }
+}
