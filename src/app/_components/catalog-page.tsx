@@ -69,11 +69,14 @@ const collectionImages = [
   "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=85&fit=crop",
 ];
 
+const busKunstlederImages = [
+  "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/C70956E7-BF75-4B94-9703-0F43746E3742-1772652552672.webp?width=1200&height=1200&resize=cover",
+  "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/245BCEF3-1601-44ED-BF62-A338F985C379-1772652557564.webp?width=1200&height=1200&resize=cover",
+  "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/1FC9CFA8-5BF7-4AFF-9B53-2BEC897D6132-1772652564827.webp?width=1200&height=1200&resize=cover",
+];
+
 /* ─────────────────────────────────────────────
-   HEADER
-   Left:  Logo + Subtitle
-   Center: Start | Materialien | Uber uns
-   Right: [Kontakt aufnehmen] gold button + DE|EN|RU
+   COMPONENTS
    ───────────────────────────────────────────── */
 
 function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
@@ -82,7 +85,6 @@ function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
   return (
     <header className="sticky top-0 z-40 border-b border-divider bg-base/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        {/* Left: Logo + Subtitle */}
         <div className="shrink-0">
           <p className="text-lg font-semibold tracking-tight text-text-primary">
             {content.footer.company}
@@ -92,29 +94,18 @@ function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
           </p>
         </div>
 
-        {/* Center: Navigation (desktop) */}
         <nav className="hidden items-center gap-8 lg:flex">
-          <a
-            href="#home"
-            className="text-[13px] text-text-secondary transition hover:text-text-primary"
-          >
+          <a href="#home" className="text-[13px] text-text-secondary transition hover:text-text-primary">
             {content.nav.home}
           </a>
-          <a
-            href="#portfolio"
-            className="text-[13px] text-text-secondary transition hover:text-text-primary"
-          >
+          <a href="#portfolio" className="text-[13px] text-text-secondary transition hover:text-text-primary">
             {content.nav.materials}
           </a>
-          <a
-            href="#about"
-            className="text-[13px] text-text-secondary transition hover:text-text-primary"
-          >
+          <a href="#about" className="text-[13px] text-text-secondary transition hover:text-text-primary">
             {content.nav.about}
           </a>
         </nav>
 
-        {/* Right: CTA button + language switcher (desktop) */}
         <div className="hidden items-center gap-5 lg:flex">
           <NextLink
             href={`/${lang}/contact`}
@@ -129,22 +120,17 @@ function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
                 <NextLink
                   href={`/${item.code}`}
                   className={`px-1 py-0.5 transition ${
-                    item.code === lang
-                      ? "text-gold"
-                      : "text-text-secondary/50 hover:text-text-primary"
+                    item.code === lang ? "text-gold" : "text-text-secondary/50 hover:text-text-primary"
                   }`}
                 >
                   {item.label}
                 </NextLink>
-                {index < languages.length - 1 && (
-                  <span className="text-text-secondary/20">|</span>
-                )}
+                {index < languages.length - 1 && <span className="text-text-secondary/20">|</span>}
               </span>
             ))}
           </div>
         </div>
 
-        {/* Mobile toggle */}
         <button
           className="flex items-center justify-center lg:hidden text-text-primary"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -154,7 +140,6 @@ function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
         </button>
       </div>
 
-      {/* Mobile nav */}
       {menuOpen && (
         <div className="border-t border-divider bg-base px-6 py-5 lg:hidden">
           <nav className="flex flex-col gap-4 text-[13px] text-text-secondary">
@@ -183,16 +168,12 @@ function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
                 <NextLink
                   href={`/${item.code}`}
                   className={`px-1 py-0.5 transition ${
-                    item.code === lang
-                      ? "text-gold"
-                      : "text-text-secondary/50 hover:text-text-primary"
+                    item.code === lang ? "text-gold" : "text-text-secondary/50 hover:text-text-primary"
                   }`}
                 >
                   {item.label}
                 </NextLink>
-                {index < languages.length - 1 && (
-                  <span className="text-text-secondary/20">|</span>
-                )}
+                {index < languages.length - 1 && <span className="text-text-secondary/20">|</span>}
               </span>
             ))}
           </div>
@@ -201,8 +182,6 @@ function Navigation({ lang, content }: { lang: Lang; content: Dictionary }) {
     </header>
   );
 }
-
-/* ─── Hero ─── */
 
 function HeroSection({ lang, content }: { lang: Lang; content: Dictionary }) {
   return (
@@ -227,14 +206,12 @@ function HeroSection({ lang, content }: { lang: Lang; content: Dictionary }) {
                 {content.hero.subline}
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
-                {/* Primary CTA: Kontakt aufnehmen (gold button) */}
                 <NextLink
                   href={`/${lang}/contact`}
                   className="inline-flex items-center rounded-md bg-gold px-7 py-3.5 text-sm font-medium text-base transition hover:bg-gold-hover"
                 >
                   {content.hero.ctaPrimary}
                 </NextLink>
-                {/* Secondary CTA: Materialien ansehen (outline) */}
                 <a
                   href="#portfolio"
                   className="inline-flex items-center rounded-md border border-gold/40 px-7 py-3.5 text-sm font-medium text-gold transition hover:border-gold hover:text-gold-hover"
@@ -250,8 +227,6 @@ function HeroSection({ lang, content }: { lang: Lang; content: Dictionary }) {
   );
 }
 
-/* ─── Trust Bar ─── */
-
 function TrustBar({ content }: { content: Dictionary }) {
   return (
     <section className="border-b border-divider bg-surface">
@@ -260,9 +235,7 @@ function TrustBar({ content }: { content: Dictionary }) {
           <div
             key={index}
             className={`flex flex-col items-center px-6 py-8 text-center ${
-              index < content.trustBar.length - 1
-                ? "border-b sm:border-b-0 sm:border-r border-divider"
-                : ""
+              index < content.trustBar.length - 1 ? "border-b sm:border-b-0 sm:border-r border-divider" : ""
             }`}
           >
             <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-gold">
@@ -276,7 +249,56 @@ function TrustBar({ content }: { content: Dictionary }) {
   );
 }
 
-/* ─── Portfolio ─── */
+function SquareSlider() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: false,
+    align: "start",
+    slidesToScroll: 1,
+  });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  return (
+    <div className="relative h-full w-full overflow-hidden" ref={emblaRef}>
+      <div className="flex h-full touch-pan-y">
+        {busKunstlederImages.map((src, index) => (
+          <div key={index} className="relative h-full min-w-0 flex-[0_0_100%]">
+            <Image
+              src={src}
+              alt={`Bus Kunstleder ${index + 1}`}
+              fill
+              className="object-cover object-center"
+            />
+          </div>
+        ))}
+      </div>
+      
+      {/* Minimal Arrows - Desktop Only */}
+      <div className="absolute inset-x-4 top-1/2 hidden -translate-y-1/2 justify-between md:flex pointer-events-none">
+        <button
+          onClick={scrollPrev}
+          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-base/20 text-white backdrop-blur-sm transition hover:bg-base/40"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button
+          onClick={scrollNext}
+          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-base/20 text-white backdrop-blur-sm transition hover:bg-base/40"
+          aria-label="Next slide"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function PortfolioSection({ content }: { content: Dictionary }) {
   return (
@@ -291,43 +313,61 @@ function PortfolioSection({ content }: { content: Dictionary }) {
           </h2>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-8 sm:grid-cols-2">
           {content.portfolio.collections.map((col, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-md border border-divider bg-card-bg"
+              className="group flex flex-col"
             >
-              <div className="relative aspect-[16/9] overflow-hidden">
-                <Image
-                  src={collectionImages[index % collectionImages.length]}
-                  alt={col.title}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-[1.03] [filter:saturate(0.4)_brightness(0.5)]"
-                />
-                <div className="absolute inset-0 bg-base/20" />
+              {/* Card Title - Above for Bus Kunstleder as per requested style */}
+              {index === 0 && (
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium uppercase tracking-[0.25em] text-white">
+                    {col.series}
+                  </h3>
+                </div>
+              )}
+
+              <div className="relative aspect-square overflow-hidden rounded-md border border-[#232428] bg-card-bg transition-colors duration-300 group-hover:border-[#C6A86B]">
+                {index === 0 ? (
+                  <SquareSlider />
+                ) : (
+                  <>
+                    <Image
+                      src={collectionImages[index % collectionImages.length]}
+                      alt={col.title}
+                      fill
+                      className="object-cover transition duration-500 group-hover:scale-[1.03] [filter:saturate(0.4)_brightness(0.5)]"
+                    />
+                    <div className="absolute inset-0 bg-base/20" />
+                  </>
+                )}
               </div>
 
-              <div className="p-6">
-                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold">
-                  {col.series}
-                </p>
-                <h3 className="mt-2 text-lg font-semibold text-text-primary">
-                  {col.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  {col.description}
-                </p>
-                <ul className="mt-4 flex flex-col gap-1.5">
-                  {col.specs.map((spec, si) => (
-                    <li
-                      key={si}
-                      className="flex items-center gap-2 text-[13px] text-text-secondary"
-                    >
-                      <span className="inline-block h-1 w-1 shrink-0 rounded-full bg-gold" />
-                      {spec}
-                    </li>
-                  ))}
-                </ul>
+              <div className="py-6">
+                {index === 0 ? (
+                  null // Title already rendered above
+                ) : (
+                  <>
+                    <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gold">
+                      {col.series}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-text-primary">
+                      {col.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                      {col.description}
+                    </p>
+                    <ul className="mt-4 flex flex-col gap-1.5">
+                      {col.specs.map((spec, si) => (
+                        <li key={si} className="flex items-center gap-2 text-[13px] text-text-secondary">
+                          <span className="inline-block h-1 w-1 shrink-0 rounded-full bg-gold" />
+                          {spec}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
           ))}
@@ -336,8 +376,6 @@ function PortfolioSection({ content }: { content: Dictionary }) {
     </section>
   );
 }
-
-/* ─── About Teaser ─── */
 
 function AboutSection({ lang, content }: { lang: Lang; content: Dictionary }) {
   return (
@@ -364,86 +402,11 @@ function AboutSection({ lang, content }: { lang: Lang; content: Dictionary }) {
   );
 }
 
-/* ─── Bus Kunstleder Slider ─── */
-
-function BusKunstlederSlider() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: false,
-    align: "start",
-    slidesToScroll: 1,
-  });
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  const images = [
-    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/C70956E7-BF75-4B94-9703-0F43746E3742-1772652552672.webp?width=1200&height=1200&resize=cover",
-    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/245BCEF3-1601-44ED-BF62-A338F985C379-1772652557564.webp?width=1200&height=1200&resize=cover",
-    "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/68159a00-9b6c-49e5-84ea-3462298e7a08/1FC9CFA8-5BF7-4AFF-9B53-2BEC897D6132-1772652564827.webp?width=1200&height=1200&resize=cover",
-  ];
-
-  return (
-    <section className="bg-[#0B0D10] py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-12 flex items-center justify-between">
-          <h2 className="text-sm font-medium uppercase tracking-[0.3em] text-white/90 font-serif">
-            BUS KUNSTLEDER
-          </h2>
-          <div className="hidden gap-3 md:flex">
-            <button
-              onClick={scrollPrev}
-              className="group flex h-11 w-11 items-center justify-center rounded-full border border-divider transition-all hover:border-gold"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft size={20} className="text-white transition-colors group-hover:text-gold" />
-            </button>
-            <button
-              onClick={scrollNext}
-              className="group flex h-11 w-11 items-center justify-center rounded-full border border-divider transition-all hover:border-gold"
-              aria-label="Next slide"
-            >
-              <ChevronRight size={20} className="text-white transition-colors group-hover:text-gold" />
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex touch-pan-y">
-            {images.map((src, index) => (
-              <div
-                key={index}
-                className="min-w-0 flex-[0_0_100%] pr-5 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
-              >
-                <div className="group relative aspect-square overflow-hidden border border-divider transition-all duration-500 hover:border-gold/50">
-                  <Image
-                    src={src}
-                    alt={`Bus Kunstleder ${index + 1}`}
-                    fill
-                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Footer ─── */
-
 function SiteFooter({ content }: { content: Dictionary }) {
   return (
     <footer id="footer" className="bg-surface">
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Company */}
           <div>
             <p className="text-base font-semibold text-text-primary">
               {content.footer.company}
@@ -453,7 +416,6 @@ function SiteFooter({ content }: { content: Dictionary }) {
             </p>
           </div>
 
-          {/* Address */}
           <div className="flex items-start gap-3">
             <MapPin size={15} className="mt-0.5 shrink-0 text-gold/60" />
             <div className="text-sm leading-relaxed text-text-secondary">
@@ -463,7 +425,6 @@ function SiteFooter({ content }: { content: Dictionary }) {
             </div>
           </div>
 
-          {/* Contact */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <Mail size={15} className="shrink-0 text-gold/60" />
@@ -485,7 +446,6 @@ function SiteFooter({ content }: { content: Dictionary }) {
             </div>
           </div>
 
-          {/* Legal */}
           <div className="flex flex-col gap-2 text-sm text-text-secondary/60">
             <a href="#" className="transition hover:text-text-secondary">
               {content.footer.legalNotice}
@@ -508,8 +468,6 @@ function SiteFooter({ content }: { content: Dictionary }) {
   );
 }
 
-/* ─── Main Page ─── */
-
 export default function CatalogPage({
   lang,
   dictionary,
@@ -524,7 +482,6 @@ export default function CatalogPage({
       <TrustBar content={dictionary} />
       <PortfolioSection content={dictionary} />
       <AboutSection lang={lang} content={dictionary} />
-      <BusKunstlederSlider />
       <SiteFooter content={dictionary} />
     </main>
   );
