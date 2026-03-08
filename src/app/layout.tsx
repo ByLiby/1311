@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import deDictionary from "@/dictionaries/de.json";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,9 +14,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Leder Stoffe | European Automotive Interior Materials",
-  description:
-    "European partner for automotive interior materials. Reliable PU & PVC synthetic leather stocked in Austria and delivered across Europe.",
+  title: deDictionary.meta.siteTitle,
+  description: deDictionary.meta.siteDescription,
 };
 
 export const viewport: Viewport = {

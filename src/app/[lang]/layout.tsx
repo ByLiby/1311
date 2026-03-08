@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { type Lang } from "../_components/catalog-page";
+import { getDictionary } from "@/lib/dictionary";
+import { isSupportedLang } from "@/lib/i18n";
+import LangCookieSync from "./lang-cookie-sync";
 
 type LocalizedLayoutProps = {
   children: React.ReactNode;
@@ -9,61 +11,44 @@ type LocalizedLayoutProps = {
   }>;
 };
 
-const LANGS: Lang[] = ["de", "en", "ru"];
-
-const metadataByLang: Record<Lang, Metadata> = {
-  de: {
-    title: "Leder Stoffe | Europäische Automotive-Interieur-Materialien",
-    description:
-      "Zuverlässige PU- & PVC-Lösungen ab Lager Österreich mit europaweiter Lieferung.",
-    alternates: {
-      languages: {
-        "de-AT": "/de",
-        en: "/en",
-        ru: "/ru",
-      },
-    },
-  },
-  en: {
-    title: "Leder Stoffe | European Automotive Interior Materials",
-    description:
-      "Reliable PU & PVC solutions stocked in Austria and delivered across Europe.",
-    alternates: {
-      languages: {
-        "de-AT": "/de",
-        en: "/en",
-        ru: "/ru",
-      },
-    },
-  },
-  ru: {
-    title: "Leder Stoffe | Европейские материалы для автомобильных интерьеров",
-    description:
-      "Надёжные PU- и PVC-решения со склада в Австрии с доставкой по всей Европе.",
-    alternates: {
-      languages: {
-        "de-AT": "/de",
-        en: "/en",
-        ru: "/ru",
-      },
-    },
-  },
-};
-
 export async function generateMetadata({
   params,
 }: Omit<LocalizedLayoutProps, "children">): Promise<Metadata> {
   const { lang } = await params;
-  if (!LANGS.includes(lang as Lang)) {
+
+  if (!isSupportedLang(lang)) {
     notFound();
   }
-  return metadataByLang[lang as Lang];
+
+  const dictionary = await getDictionary(lang);
+
+  return {
+    title: dictionary.meta.home.title,
+    description: dictionary.meta.home.description,
+    alternates: {
+      languages: {
+        "de-AT": "/de",
+        en: "/en",
+        ru: "/ru",
+      },
+    },
+  };
 }
 
 export default async function LocalizedLayout({
   children,
   params,
 }: LocalizedLayoutProps) {
-  await params;
-  return children;
+  const { lang } = await params;
+
+  if (!isSupportedLang(lang)) {
+    notFound();
+  }
+
+  return (
+    <>
+      <LangCookieSync lang={lang as SupportedLang} />
+      {children}
+    </>
+  );
 }

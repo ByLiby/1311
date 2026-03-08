@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { type Lang } from "../../_components/catalog-page";
+import { getDictionary } from "@/lib/dictionary";
+import { isSupportedLang } from "@/lib/i18n";
 import ContactPageClient from "./contact-client";
 
 type LocalizedPageProps = {
@@ -8,22 +9,14 @@ type LocalizedPageProps = {
   }>;
 };
 
-const LANGS: Lang[] = ["de", "en", "ru"];
-
-const dictionaries = {
-  de: () => import("@/dictionaries/de.json").then((m) => m.default),
-  en: () => import("@/dictionaries/en.json").then((m) => m.default),
-  ru: () => import("@/dictionaries/ru.json").then((m) => m.default),
-};
-
 export default async function ContactPage({ params }: LocalizedPageProps) {
   const { lang } = await params;
 
-  if (!LANGS.includes(lang as Lang)) {
+  if (!isSupportedLang(lang)) {
     notFound();
   }
 
-  const dictionary = await dictionaries[lang as Lang]();
+  const dictionary = await getDictionary(lang);
 
-  return <ContactPageClient lang={lang as Lang} dictionary={dictionary} />;
+  return <ContactPageClient lang={lang} dictionary={dictionary} />;
 }

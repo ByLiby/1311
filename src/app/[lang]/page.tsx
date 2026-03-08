@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
-import CatalogPage, { type Lang } from "../_components/catalog-page";
+import CatalogPage from "../_components/catalog-page";
+import { getDictionary } from "@/lib/dictionary";
+import { isSupportedLang, SUPPORTED_LANGS } from "@/lib/i18n";
 
 type LocalizedPageProps = {
   params: Promise<{
@@ -7,28 +9,20 @@ type LocalizedPageProps = {
   }>;
 };
 
-const LANGS: Lang[] = ["de", "en", "ru"];
-
-const dictionaries = {
-  de: () => import("@/dictionaries/de.json").then((module) => module.default),
-  en: () => import("@/dictionaries/en.json").then((module) => module.default),
-  ru: () => import("@/dictionaries/ru.json").then((module) => module.default),
-};
-
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return LANGS.map((lang) => ({ lang }));
+  return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
 export default async function LocalizedPage({ params }: LocalizedPageProps) {
   const { lang } = await params;
-  
-  if (!LANGS.includes(lang as Lang)) {
+
+  if (!isSupportedLang(lang)) {
     notFound();
   }
 
-  const dictionary = await dictionaries[lang as Lang]();
+  const dictionary = await getDictionary(lang);
 
-  return <CatalogPage lang={lang as Lang} dictionary={dictionary} />;
+  return <CatalogPage lang={lang} dictionary={dictionary} />;
 }
