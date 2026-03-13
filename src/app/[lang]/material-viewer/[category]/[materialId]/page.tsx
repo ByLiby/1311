@@ -3,10 +3,6 @@ import MaterialViewerExperience from "@/components/catalog/material-viewer-exper
 import { getDictionary } from "@/lib/dictionary";
 import { isSupportedLang, type SupportedLang } from "@/lib/i18n";
 import { findMaterialById, isMaterialCategorySlug } from "@/lib/material-catalog";
-import {
-  discoverSeatModelInPublicModels,
-  type DiscoveredSeatModel,
-} from "@/lib/seat-model-discovery";
 
 const copyByLang: Record<
   SupportedLang,
@@ -52,12 +48,6 @@ export default async function MaterialViewerPage({ params }: LocalizedViewerPage
   }
 
   const copy = copyByLang[lang];
-  let discoveredSeatModel: DiscoveredSeatModel;
-  try {
-    discoveredSeatModel = await discoverSeatModelInPublicModels();
-  } catch {
-    notFound();
-  }
 
   return (
     <main className="min-h-screen bg-base text-text-primary">
@@ -77,13 +67,7 @@ export default async function MaterialViewerPage({ params }: LocalizedViewerPage
 
       <section className="py-8 pb-14 md:py-10 md:pb-16">
         <div className="mx-auto max-w-6xl px-6">
-          <MaterialViewerExperience
-            lang={lang}
-            initialMaterialId={material.id}
-            modelPath={discoveredSeatModel.modelPath}
-            modelFolderPath={discoveredSeatModel.modelFolderPath}
-            modelMtlPath={discoveredSeatModel.mtlPath}
-          />
+          <MaterialViewerExperience lang={lang} />
         </div>
       </section>
     </main>

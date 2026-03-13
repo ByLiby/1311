@@ -388,7 +388,7 @@ function configurePreviewTexture(
   if (isAlcantara) {
     previewTexture.wrapS = THREE.RepeatWrapping;
     previewTexture.wrapT = THREE.RepeatWrapping;
-    previewTexture.repeat.set(2, 2);
+    previewTexture.repeat.set(3, 3);
   } else {
     previewTexture.wrapS = THREE.RepeatWrapping;
     previewTexture.wrapT = THREE.RepeatWrapping;
@@ -429,7 +429,10 @@ function applyMaterialPreview(
           map: previewTexture,
           roughness: 0.95,
           metalness: 0,
+          envMapIntensity: 0.25,
           color: new THREE.Color(0xffffff),
+          normalMap: null,
+          roughnessMap: null,
         });
       });
 

@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/automobilkunstleder/page": "/automobilkunstleder",
+  "/contact/page": "/contact",
+  "/datenschutz/page": "/datenschutz",
+  "/other/page": "/other",
+  "/impressum/page": "/impressum",
+  "/page": "/",
+  "/[lang]/automobilkunstleder/page": "/[lang]/automobilkunstleder",
+  "/[lang]/contact/page": "/[lang]/contact",
+  "/[lang]/datenschutz/page": "/[lang]/datenschutz",
+  "/[lang]/material-viewer/[category]/[materialId]/page": "/[lang]/material-viewer/[category]/[materialId]",
+  "/[lang]/impressum/page": "/[lang]/impressum",
+  "/[lang]/other/page": "/[lang]/other",
+  "/[lang]/page": "/[lang]"
+}

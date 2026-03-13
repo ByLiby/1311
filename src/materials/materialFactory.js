@@ -6,9 +6,9 @@ function configureFabricTexture(texture, maxAnisotropy) {
   }
 
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.wrapS = THREE.ClampToEdgeWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.repeat.set(1, 1);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(3, 3);
   texture.generateMipmaps = false;
   texture.minFilter = THREE.LinearFilter;
   texture.magFilter = THREE.LinearFilter;
@@ -30,7 +30,7 @@ export function createSeatMaterial(type, texture, options = {}) {
       map: texture,
       roughness: 0.95,
       metalness: 0,
-      envMapIntensity: 0.15,
+      envMapIntensity: 0.25,
       color: new THREE.Color(0xffffff),
       normalMap: null,
       bumpMap: null,

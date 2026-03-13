@@ -6,7 +6,7 @@ const explicitTextureByMaterialId: Partial<Record<string, string>> = {
   "pu-classic-white": "/textures/pu-cream.jpg",
   "pu-brown": "/textures/pu-brown.jpg",
   "pu-cream": "/textures/pu-cream.jpg",
-  "alcantara-style": "/materials/alcantara-schwarz.jpg",
+  "alcantara-style": "/textures/alcantara-style.jpg",
   "pu-classic-grain": "/textures/pu-classic-black.jpg",
 };
 
