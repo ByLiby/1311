@@ -176,11 +176,8 @@ export default function MaterialCatalogPage({
       <section className="py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <ProductGrid
-            category={category}
             products={currentCategory.products}
-            langPathPrefix={`/${lang}`}
             locale={localeByLang[lang]}
-            openMaterialAriaLabel={dictionary.common.openMaterialAriaLabel}
             priceUnitLabel={copy.priceUnitLabel}
           />
         </div>

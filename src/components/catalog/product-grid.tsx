@@ -1,21 +1,15 @@
-import type { MaterialCategorySlug, MaterialProduct } from "@/lib/material-catalog";
+import type { MaterialProduct } from "@/lib/material-catalog";
 import ProductCard from "./product-card";
 
 type ProductGridProps = {
-  category: MaterialCategorySlug;
   products: MaterialProduct[];
-  langPathPrefix: string;
   locale: string;
-  openMaterialAriaLabel: string;
   priceUnitLabel: string;
 };
 
 export default function ProductGrid({
-  category,
   products,
-  langPathPrefix,
   locale,
-  openMaterialAriaLabel,
   priceUnitLabel,
 }: ProductGridProps) {
   return (
@@ -25,10 +19,8 @@ export default function ProductGrid({
           key={product.id}
           name={product.name}
           pricePerMeter={product.pricePerMeter}
-          href={`${langPathPrefix}/material-viewer/${category}/${product.id}`}
           locale={locale}
           placeholderVariant={index}
-          openLabel={openMaterialAriaLabel.replace("{name}", product.name)}
           priceUnitLabel={priceUnitLabel}
         />
       ))}

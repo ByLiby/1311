@@ -1,10 +1,10 @@
 {
   "meta": {
-    "siteTitle": "Leder Stoffe",
-    "siteDescription": "Reliable PU and PVC solutions stocked in Austria and delivered across Europe.",
+    "siteTitle": "Leder Stoffe | Automotive Synthetic Leather & Upholstery Materials",
+    "siteDescription": "Premium synthetic leather, microfiber surfaces, and technical upholstery materials stocked in Austria and delivered across Europe.",
     "home": {
-      "title": "Leder Stoffe",
-      "description": "Reliable PU and PVC solutions stocked in Austria and delivered across Europe."
+      "title": "Leder Stoffe | Automotive Synthetic Leather & Upholstery Materials",
+      "description": "Premium synthetic leather, microfiber surfaces, and technical upholstery materials stocked in Austria and delivered across Europe."
     },
     "legalNotice": {
       "title": "Legal Notice | Leder Stoffe",
@@ -22,18 +22,18 @@
   },
   "common": {
     "toggleMenuAriaLabel": "Toggle menu",
-    "openCategoryAriaLabel": "Open category {name}",
-    "openMaterialAriaLabel": "Open material {name}"
+    "openCategoryAriaLabel": "Open category {name}"
   },
   "nav": {
     "home": "Home",
     "about": "About Us"
   },
-  "contactCta": "Contact Us",
+  "contactCta": "Request a Quote",
   "hero": {
-    "headline": "",
-    "subline": "Reliable PU and PVC solutions stocked in Austria and delivered across Europe.",
-    "ctaPrimary": "Contact Us",
+    "eyebrow": "Automotive materials for professional interior applications",
+    "headline": "Automotive synthetic leather and upholstery materials for saddleries, processors, and B2B projects.",
+    "subline": "Premium synthetic leather, microfiber, and upholstery materials stocked in Austria, with technical guidance, dependable availability, and fast delivery for automotive and interior applications.",
+    "ctaPrimary": "Request a Quote",
     "ctaSecondary": "View Materials",
     "heroAlt": "Premium automotive leather interior"
   },
@@ -161,7 +161,7 @@
       },
       "values": {
         "company": "Leder Stoffe",
-        "address": ["Kitzsteinhorn Strasse 61", "A-5700 Zell am See", "Austria"],
+        "address": ["Kitzsteinhornstraße 63", "A-5700 Zell am See", "Austria"],
         "authorizedRepresentative": "Alexander Naimiller",
         "businessPurpose": "Trading in synthetic leather, technical fabrics, upholstery materials, as well as materials for the automotive, bus, rail, marine, and furniture industries.",
         "registeredOffice": "5700 Zell am See, Austria",
@@ -184,7 +184,7 @@
       "values": {
         "company": "Leder Stoffe",
         "representative": "Alexander Naimiller",
-        "address": ["Kitzsteinhorn Strasse 61", "5700 Zell am See", "Austria"],
+        "address": ["Kitzsteinhornstraße 63", "5700 Zell am See", "Austria"],
         "generalInformation": "Protecting your personal data is very important to us. We process your data exclusively on the basis of the legal provisions of the General Data Protection Regulation (GDPR).",
         "emailContact": "If you contact us by email, the data you provide will be stored for the purpose of handling your request. This data will not be shared without your consent.",
         "serverLogs": "The website operator automatically collects and stores information in so-called server log files, which your browser transmits automatically. This includes IP address, date and time of the request, browser type, and operating system used.",
@@ -196,7 +196,7 @@
   "footer": {
     "company": "Leder Stoffe",
     "tagline": "MATERIAL DISTRIBUTOR | AUSTRIA",
-    "address": ["Kitzsteinhornstrasse 63", "5700 Zell am See", "Austria"],
+    "address": ["Kitzsteinhornstraße 63", "5700 Zell am See", "Austria"],
     "email": "kunstleder5700@gmail.com",
     "phone": "+43 676 4725428",
     "legalNotice": "Legal Notice",

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/lib/dictionary";
-import { isSupportedLang } from "@/lib/i18n";
+import { isSupportedLang, SUPPORTED_LANGS, type SupportedLang } from "@/lib/i18n";
 import LangCookieSync from "./lang-cookie-sync";
 
 type LocalizedLayoutProps = {
@@ -10,6 +10,12 @@ type LocalizedLayoutProps = {
     lang: string;
   }>;
 };
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return SUPPORTED_LANGS.map((lang) => ({ lang }));
+}
 
 export async function generateMetadata({
   params,

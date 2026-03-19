@@ -1,3 +1,5 @@
+// Preserved seat-only material presets.
+// Not part of the active catalog/homepage runtime; kept for later isolated seat rebuild work.
 export type SeatMaterialPresetId = "LuxurySportSeat";
 
 export type SeatMaterialColorPresetId =
@@ -69,28 +71,28 @@ export const SEAT_MATERIAL_PRESETS: Record<SeatMaterialPresetId, SeatMaterialPre
     stitchingEmissiveIntensity: 0,
     stitchingEmissiveColor: "#000000",
     lighting: {
-      ambient: 0.5,
-      key: 1.35,
-      fill: 0.5,
-      rim: 0.3,
-      exposure: 1.08,
+      ambient: 0.4,
+      key: 1.36,
+      fill: 0.56,
+      rim: 0.46,
+      exposure: 1.14,
     },
     colors: {
       "black-edition": {
-        sideColor: "#1a1a1a",
-        centerColor: "#2a2a2a",
+        sideColor: "#141517",
+        centerColor: "#26282c",
       },
       "white-edition": {
-        sideColor: "#e5e5e5",
-        centerColor: "#ffffff",
+        sideColor: "#d3ccc2",
+        centerColor: "#ebe4d9",
       },
       "brown-edition": {
-        sideColor: "#5a3a2a",
-        centerColor: "#c8ccd6",
+        sideColor: "#3c271f",
+        centerColor: "#5d3c2e",
       },
       "dark-grey-edition": {
-        sideColor: "#2f3338",
-        centerColor: "#3c4148",
+        sideColor: "#252a31",
+        centerColor: "#394047",
       },
     },
   },

@@ -1,6 +1,16 @@
 node_modules
 .venv
 .next
+.next*
 dist
 build
+coverage
 .cache
+.env
+.env.local
+.env.*
+!.env.example
+*.log
+test-results/
+seat-*.png
+tsconfig.tsbuildinfo

@@ -8,11 +8,26 @@ import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 import {
   DEFAULT_SEAT_MATERIAL_COLOR_PRESET_ID,
   DEFAULT_SEAT_MATERIAL_PRESET_ID,
+  SEAT_MATERIAL_PRESETS,
   type SeatMaterialColorPresetId,
   type SeatMaterialPresetId,
 } from "@/lib/seat-material-presets";
+import {
+  createAlcantaraFabricTextures,
+  type AlcantaraFabricTextureSet,
+} from "@/materials/alcantara-fabric";
+import {
+  ensureUpholsteryPhysicalMaterial,
+  getStitchingTextureRepeat,
+  getUpholsteryMaterialProfile,
+  getUpholsteryTextureRepeat,
+  syncAlcantaraMaterial,
+  syncKunstlederMaterial,
+} from "@/materials/materialFactory";
 import { cn } from "@/lib/utils";
 
+// Preserved seat-specific reference viewer.
+// This remains in-repo for a future isolated rebuild and is intentionally decoupled from active app flow.
 type SeatMaterialVariant = "leather" | "alcantara" | "perforated";
 type PremiumCenterInsertStyle = "light-leather" | "perforated" | "dark-alcantara";
 
@@ -31,7 +46,7 @@ type SeatSurfaceZone = "center" | "side";
 type SeatInteractiveArea = "headrest" | "backrest" | "sideBolster" | "seatCushion";
 
 type SeatMaterialAssignment = {
-  material: THREE.MeshStandardMaterial;
+  material: THREE.MeshPhysicalMaterial;
   zone: SeatSurfaceZone;
   area: SeatInteractiveArea;
   mesh: THREE.Mesh;
@@ -49,11 +64,15 @@ type MaterialSlot = {
   material: THREE.Material;
 };
 
-type ViewerLightRig = {
-  ambient: THREE.AmbientLight;
-  key: THREE.DirectionalLight;
-  fill: THREE.DirectionalLight;
-  rim: THREE.DirectionalLight;
+type AlcantaraTextureSet = SeatTextureSet & {
+  center: AlcantaraFabricTextureSet;
+  side: AlcantaraFabricTextureSet;
+  centerMap: THREE.Texture | null;
+  sideMap: THREE.Texture | null;
+  centerNormalMap: THREE.Texture | null;
+  sideNormalMap: THREE.Texture | null;
+  centerRoughnessMap: THREE.Texture | null;
+  sideRoughnessMap: THREE.Texture | null;
 };
 
 const upholsteryMaterialKeywords = [
@@ -77,6 +96,8 @@ const excludedUpholsteryKeywords = [
   "frame",
   "trim_hard",
 ];
+
+const genericSeatMaterialNames = ["", "material", "default", "defaultmaterial", "mat", "lambert1"];
 
 const centerSurfaceKeywords = [
   "center",
@@ -134,6 +155,10 @@ const WHITE_PU_TEXTURE_URL = "/textures/pu-classic-white.jpg";
 const BROWN_LEATHER_TEXTURE_URL = "/materials/brown-leather.png";
 const BROWN_LEATHER_NORMAL_URL = "/materials/leder-normal.jpg";
 const BROWN_LEATHER_ROUGHNESS_URL = "/materials/hex-leather-roughness.jpg";
+const BROWN_SEAT_LEATHER_TEXTURE_URL = "/seat-assets/leather/Leather033C_1K-JPG_Color.jpg";
+const BROWN_SEAT_LEATHER_NORMAL_URL = "/seat-assets/leather/Leather033C_1K-JPG_NormalGL.jpg";
+const BROWN_SEAT_LEATHER_ROUGHNESS_URL = "/seat-assets/leather/Leather033C_1K-JPG_Roughness.jpg";
+const BROWN_SEAT_LEATHER_REPEAT = 3;
 const HEX_LEATHER_TEXTURE_URL = "/materials/hex-leather.jpg";
 const HEX_LEATHER_NORMAL_URL = "/materials/hex-leather-normal.jpg";
 const HEX_LEATHER_ROUGHNESS_URL = "/materials/hex-leather-roughness.jpg";
@@ -153,6 +178,8 @@ const materialTextureKeys = [
   "map",
   "normalMap",
   "roughnessMap",
+  "sheenRoughnessMap",
+  "sheenColorMap",
   "metalnessMap",
   "aoMap",
   "emissiveMap",
@@ -163,49 +190,62 @@ const materialTextureKeys = [
 
 const availableTextureCache = new Set<string>();
 const unavailableTextureCache = new Set<string>();
-const SOFT_LIGHTING_PRESET = {
-  ambient: 0.98,
-  key: 0.74,
-  fill: 0.76,
-  rim: 0.24,
-  exposure: 1.16,
-};
-const ALCANTARA_BASE_COLOR = 0x2e2a25;
-const ALCANTARA_GRAIN_WORLD_SCALE = 95;
-const ALCANTARA_GRAIN_STRENGTH = 0.024;
-const ALCANTARA_ROUGHNESS_GRAIN_STRENGTH = 0.036;
-
+const MAX_TEXTURE_ANISOTROPY = 8;
 function getMaterialResponse(variant: SeatMaterialVariant) {
-  if (variant === "alcantara") {
-    return {
-      roughness: 0.95,
-      metalness: 0.0,
-      envMapIntensity: 0.15,
-      normalStrength: 0.0,
-      bumpStrength: 0.0,
-      textureRepeat: 3,
-    };
-  }
-
-  if (variant === "perforated") {
-    return {
-      roughness: 0.64,
-      metalness: 0.05,
-      envMapIntensity: 0.24,
-      normalStrength: 0.28,
-      bumpStrength: 0.0,
-      textureRepeat: 2,
-    };
-  }
+  const family = variant === "alcantara" ? "alcantara" : "kunstleder";
+  const profile = getUpholsteryMaterialProfile({
+    family,
+    zone: "side",
+    perforated: variant === "perforated",
+  });
 
   return {
-    roughness: 0.9,
-    metalness: 0.02,
-    envMapIntensity: 0.26,
-    normalStrength: 0.6,
+    roughness: profile.roughness,
+    metalness: profile.metalness,
+    envMapIntensity: profile.envMapIntensity,
+    normalStrength: profile.normalStrength,
     bumpStrength: 0.0,
-    textureRepeat: 6,
+    textureRepeat: getUpholsteryTextureRepeat({
+      family,
+      context: "seat",
+      zone: "side",
+      perforated: variant === "perforated",
+    }),
   };
+}
+
+function getSeatMaterialPreset(presetId: SeatMaterialPresetId) {
+  return SEAT_MATERIAL_PRESETS[presetId] ?? SEAT_MATERIAL_PRESETS[DEFAULT_SEAT_MATERIAL_PRESET_ID];
+}
+
+function getSeatColorVariant(
+  presetId: SeatMaterialPresetId,
+  colorPresetId: SeatMaterialColorPresetId,
+) {
+  const preset = getSeatMaterialPreset(presetId);
+  return preset.colors[colorPresetId] ?? preset.colors[DEFAULT_SEAT_MATERIAL_COLOR_PRESET_ID];
+}
+
+function isGenericSeatMaterialName(materialName: string) {
+  return (
+    genericSeatMaterialNames.includes(materialName) ||
+    materialName.startsWith("material") ||
+    materialName.startsWith("mat.")
+  );
+}
+
+function isStitchMaterialName(materialName: string) {
+  return materialName.includes("stitch") || materialName.includes("stich");
+}
+
+function adjustSeatMaterialColor(
+  source: string | number | THREE.Color,
+  lightnessOffset: number,
+  saturationOffset = 0,
+) {
+  const color = source instanceof THREE.Color ? source.clone() : new THREE.Color(source);
+  color.offsetHSL(0, saturationOffset, lightnessOffset);
+  return color;
 }
 
 function uniq(values: Array<string | null | undefined>) {
@@ -286,10 +326,7 @@ function isSeatSurfaceMaterial(mesh: THREE.Mesh, material: THREE.Material) {
   }
 
   const meshName = mesh.name.toLowerCase();
-  return (
-    meshName.includes("seat") &&
-    !excludedUpholsteryKeywords.some((keyword) => materialName.includes(keyword))
-  );
+  return meshName.includes("seat") && isGenericSeatMaterialName(materialName);
 }
 
 function replaceMeshMaterialAtIndex(
@@ -310,9 +347,9 @@ function applySeatMaterialAssignmentsToModel(
     return;
   }
 
-  const assignmentMap = new Map<THREE.Mesh, Map<number, THREE.MeshStandardMaterial>>();
+  const assignmentMap = new Map<THREE.Mesh, Map<number, THREE.MeshPhysicalMaterial>>();
   assignments.forEach(({ mesh, materialIndex, material }) => {
-    const mapForMesh = assignmentMap.get(mesh) ?? new Map<number, THREE.MeshStandardMaterial>();
+    const mapForMesh = assignmentMap.get(mesh) ?? new Map<number, THREE.MeshPhysicalMaterial>();
     mapForMesh.set(materialIndex, material);
     assignmentMap.set(mesh, mapForMesh);
   });
@@ -359,31 +396,89 @@ function restoreMeshMaterialSnapshots(snapshots: MeshMaterialSnapshot[]) {
   });
 }
 
-function ensureMeshStandardMaterial(material: THREE.Material) {
-  if (material instanceof THREE.MeshStandardMaterial) {
-    return material;
+function assignTextureColorSpace(
+  texture: THREE.Texture | null | undefined,
+  colorSpace: THREE.ColorSpace,
+) {
+  if (!(texture instanceof THREE.Texture)) {
+    return null;
   }
 
-  const source = material as THREE.Material & {
-    color?: THREE.Color;
-    roughness?: number;
-    metalness?: number;
-    transparent?: boolean;
-    opacity?: number;
-    side?: THREE.Side;
-  };
+  texture.colorSpace = colorSpace;
+  texture.needsUpdate = true;
+  return texture;
+}
 
-  const standardMaterial = new THREE.MeshStandardMaterial({
-    color: source.color instanceof THREE.Color ? source.color.clone() : new THREE.Color(0xffffff),
-    roughness: typeof source.roughness === "number" ? source.roughness : 0.78,
-    metalness: typeof source.metalness === "number" ? source.metalness : 0.06,
-    envMapIntensity: 0.3,
-    transparent: Boolean(source.transparent),
-    opacity: typeof source.opacity === "number" ? source.opacity : 1,
-    side: source.side ?? THREE.FrontSide,
+function cloneLinearDataTexture(texture: THREE.Texture) {
+  const linearTexture = texture.clone();
+  linearTexture.colorSpace = THREE.NoColorSpace;
+  linearTexture.needsUpdate = true;
+  return linearTexture;
+}
+
+function createSoftenedAlcantaraRoughnessTexture(
+  sourceTexture: THREE.DataTexture,
+  repeatScale: number,
+  maxAnisotropy: number,
+) {
+  const sourceData = sourceTexture.image.data;
+  if (!(sourceData instanceof Uint8Array)) {
+    return null;
+  }
+
+  const softenedData = new Uint8Array(sourceData.length);
+  for (let i = 0; i < sourceData.length; i += 4) {
+    const originalRoughness = sourceData[i + 1] / 255;
+    const originalSheenRoughness = sourceData[i + 3] / 255;
+    const softenedRoughness = THREE.MathUtils.clamp(
+      THREE.MathUtils.lerp(0.992, originalRoughness, 0.08),
+      0.975,
+      1,
+    );
+    const softenedSheenRoughness = THREE.MathUtils.clamp(
+      THREE.MathUtils.lerp(0.985, originalSheenRoughness, 0.2),
+      0.93,
+      1,
+    );
+    const roughnessByte = Math.round(THREE.MathUtils.clamp(softenedRoughness, 0, 1) * 255);
+    const sheenByte = Math.round(
+      THREE.MathUtils.clamp(softenedSheenRoughness, 0, 1) * 255,
+    );
+
+    softenedData[i] = roughnessByte;
+    softenedData[i + 1] = roughnessByte;
+    softenedData[i + 2] = roughnessByte;
+    softenedData[i + 3] = sheenByte;
+  }
+
+  const softenedTexture = new THREE.DataTexture(
+    softenedData,
+    sourceTexture.image.width,
+    sourceTexture.image.height,
+    THREE.RGBAFormat,
+  );
+  softenedTexture.colorSpace = THREE.NoColorSpace;
+  softenedTexture.wrapS = THREE.RepeatWrapping;
+  softenedTexture.wrapT = THREE.RepeatWrapping;
+  softenedTexture.repeat.set(repeatScale, repeatScale);
+  softenedTexture.minFilter = THREE.LinearMipmapLinearFilter;
+  softenedTexture.magFilter = THREE.LinearFilter;
+  softenedTexture.generateMipmaps = true;
+  softenedTexture.flipY = false;
+  softenedTexture.anisotropy = Math.max(1, maxAnisotropy);
+  softenedTexture.needsUpdate = true;
+
+  return softenedTexture;
+}
+
+function ensureSeatMaterial(material: THREE.Material) {
+  return ensureUpholsteryPhysicalMaterial(material, {
+    repeatScale: getUpholsteryTextureRepeat({
+      family: "kunstleder",
+      context: "seat",
+      zone: "side",
+    }),
   });
-  standardMaterial.name = material.name;
-  return standardMaterial;
 }
 
 function configureTexture(
@@ -396,7 +491,13 @@ function configureTexture(
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(repeatScale, repeatScale);
-  texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = true;
+  texture.anisotropy = Math.min(
+    MAX_TEXTURE_ANISOTROPY,
+    renderer.capabilities.getMaxAnisotropy(),
+  );
   texture.flipY = false;
   texture.needsUpdate = true;
 }
@@ -473,8 +574,14 @@ function isBrownLeatherSelection(textureUrl: string) {
   return (
     normalizedTextureUrl === BROWN_PU_TEXTURE_URL ||
     normalizedTextureUrl === "/textures/pu-brown.jpg" ||
-    normalizedTextureUrl === BROWN_LEATHER_TEXTURE_URL
+    normalizedTextureUrl === BROWN_LEATHER_TEXTURE_URL ||
+    normalizedTextureUrl === BROWN_SEAT_LEATHER_TEXTURE_URL
   );
+}
+
+function isLightLeatherSelection(textureUrl: string) {
+  const normalizedTextureUrl = textureUrl.split("?")[0].toLowerCase();
+  return normalizedTextureUrl.includes("white") || normalizedTextureUrl.includes("cream");
 }
 
 function buildLeatherTextureCandidates(selectedTextureUrl: string) {
@@ -499,7 +606,10 @@ function buildBrownLeatherTextureCandidates() {
 }
 
 function buildBrownBolsterLeatherTextureCandidates() {
-  return uniq([BROWN_LEATHER_TEXTURE_URL]);
+  return uniq([
+    BROWN_SEAT_LEATHER_TEXTURE_URL,
+    BROWN_LEATHER_TEXTURE_URL,
+  ]);
 }
 
 function buildSmoothPuTextureCandidates(selectedTextureUrl: string) {
@@ -529,6 +639,7 @@ function buildLeatherNormalCandidates() {
 
 function buildBrownLeatherNormalCandidates() {
   return uniq([
+    BROWN_SEAT_LEATHER_NORMAL_URL,
     BROWN_LEATHER_NORMAL_URL,
     HEX_LEATHER_NORMAL_URL,
     "/textures/leather_normal.png",
@@ -544,14 +655,16 @@ function buildLeatherRoughnessCandidates() {
 
 function buildBrownLeatherRoughnessCandidates() {
   return uniq([
+    BROWN_SEAT_LEATHER_ROUGHNESS_URL,
     BROWN_LEATHER_ROUGHNESS_URL,
     HEX_LEATHER_ROUGHNESS_URL,
     SEAT_ROUGHNESS_MAP_URL,
   ]);
 }
 
-function buildDarkAlcantaraTextureCandidates() {
+function buildDarkAlcantaraTextureCandidates(selectedTextureUrl?: string) {
   return uniq([
+    selectedTextureUrl,
     ALCANTARA_TEXTURE_URL,
     "/textures/alcantara-style.jpg",
     "/textures/alcantara.jpg",
@@ -580,43 +693,70 @@ function buildStitchTextureCandidates() {
 
 function getPremiumCenterInsertTextureConfig(style: PremiumCenterInsertStyle) {
   if (style === "light-leather") {
+    const profile = getUpholsteryMaterialProfile({
+      family: "kunstleder",
+      zone: "center",
+      appearance: "light",
+    });
     return {
       colorCandidates: buildBrownLeatherTextureCandidates(),
       normalCandidates: buildBrownLeatherNormalCandidates(),
       roughnessCandidates: buildBrownLeatherRoughnessCandidates(),
-      repeat: 6,
+      repeat: getUpholsteryTextureRepeat({
+        family: "kunstleder",
+        context: "seat",
+        zone: "center",
+      }),
       color: 0xf2ebe1,
-      roughness: 0.65,
-      metalness: 0.02,
-      envMapIntensity: 0.6,
-      normalStrength: 0.8,
+      roughness: profile.roughness,
+      metalness: profile.metalness,
+      envMapIntensity: profile.envMapIntensity,
+      normalStrength: profile.normalStrength,
     };
   }
 
   if (style === "perforated") {
+    const profile = getUpholsteryMaterialProfile({
+      family: "kunstleder",
+      zone: "center",
+      perforated: true,
+    });
     return {
       colorCandidates: buildPerforatedTextureCandidates(),
       normalCandidates: buildPerforatedNormalCandidates(),
       roughnessCandidates: buildLeatherRoughnessCandidates(),
-      repeat: 6,
+      repeat: getUpholsteryTextureRepeat({
+        family: "kunstleder",
+        context: "seat",
+        zone: "center",
+        perforated: true,
+      }),
       color: 0xddd5ca,
-      roughness: 0.68,
-      metalness: 0.02,
-      envMapIntensity: 0.58,
-      normalStrength: 0.8,
+      roughness: profile.roughness,
+      metalness: profile.metalness,
+      envMapIntensity: profile.envMapIntensity,
+      normalStrength: profile.normalStrength,
     };
   }
 
+  const profile = getUpholsteryMaterialProfile({
+    family: "alcantara",
+    zone: "center",
+  });
   return {
     colorCandidates: buildDarkAlcantaraTextureCandidates(),
     normalCandidates: [] as string[],
     roughnessCandidates: [SEAT_ROUGHNESS_MAP_URL],
-    repeat: 6,
+    repeat: getUpholsteryTextureRepeat({
+      family: "alcantara",
+      context: "seat",
+      zone: "center",
+    }),
     color: 0xbab0a1,
-    roughness: 0.86,
-    metalness: 0.01,
-    envMapIntensity: 0.16,
-    normalStrength: 0.14,
+    roughness: profile.roughness,
+    metalness: profile.metalness,
+    envMapIntensity: profile.envMapIntensity,
+    normalStrength: profile.normalStrength,
   };
 }
 
@@ -854,12 +994,119 @@ function disposeTextureSet(textures: SeatTextureSet | null | undefined) {
   });
 }
 
+function createSeatAlcantaraTextureSet(maxAnisotropy: number): AlcantaraTextureSet {
+  const sideRepeat = getUpholsteryTextureRepeat({
+    family: "alcantara",
+    context: "seat",
+    zone: "side",
+  });
+  const centerRepeat = getUpholsteryTextureRepeat({
+    family: "alcantara",
+    context: "seat",
+    zone: "center",
+  });
+  const side = createAlcantaraFabricTextures({
+    maxAnisotropy,
+    repeatScale: sideRepeat,
+  });
+  const center = createAlcantaraFabricTextures({
+    maxAnisotropy,
+    repeatScale: centerRepeat,
+  });
+
+  return {
+    side,
+    center,
+    sideMap: null,
+    centerMap: null,
+    sideNormalMap: null,
+    centerNormalMap: null,
+    sideRoughnessMap: null,
+    centerRoughnessMap: null,
+    textures: [...side.textures, ...center.textures],
+  };
+}
+
+async function loadSeatAlcantaraTextureSet(
+  textureLoader: THREE.TextureLoader,
+  renderer: THREE.WebGLRenderer,
+  selectedTextureUrl: string,
+): Promise<AlcantaraTextureSet> {
+  const maxAnisotropy = Math.min(
+    MAX_TEXTURE_ANISOTROPY,
+    renderer.capabilities.getMaxAnisotropy(),
+  );
+  const sideRepeat = getUpholsteryTextureRepeat({
+    family: "alcantara",
+    context: "seat",
+    zone: "side",
+  });
+  const centerRepeat = getUpholsteryTextureRepeat({
+    family: "alcantara",
+    context: "seat",
+    zone: "center",
+  });
+  const textureCandidates = buildDarkAlcantaraTextureCandidates(selectedTextureUrl);
+  const [sideMap, centerMap] = await Promise.all([
+    loadFirstAvailableTexture(
+      textureLoader,
+      textureCandidates,
+      renderer,
+      THREE.SRGBColorSpace,
+      sideRepeat,
+    ),
+    loadFirstAvailableTexture(
+      textureLoader,
+      textureCandidates,
+      renderer,
+      THREE.SRGBColorSpace,
+      centerRepeat,
+    ),
+  ]);
+  const sideNormalMap = null;
+  const centerNormalMap = null;
+  const generatedTextureSet = createSeatAlcantaraTextureSet(maxAnisotropy);
+  const sideRoughnessMap = createSoftenedAlcantaraRoughnessTexture(
+    generatedTextureSet.side.responseTexture,
+    sideRepeat,
+    maxAnisotropy,
+  );
+  const centerRoughnessMap = createSoftenedAlcantaraRoughnessTexture(
+    generatedTextureSet.center.responseTexture,
+    centerRepeat,
+    maxAnisotropy,
+  );
+
+  return {
+    ...generatedTextureSet,
+    sideMap,
+    centerMap,
+    sideNormalMap,
+    centerNormalMap,
+    sideRoughnessMap,
+    centerRoughnessMap,
+    textures: [
+      ...generatedTextureSet.textures,
+      ...[sideMap, centerMap, sideNormalMap, centerNormalMap, sideRoughnessMap, centerRoughnessMap].filter(
+        (texture): texture is THREE.Texture => Boolean(texture),
+      ),
+    ],
+  };
+}
+
 function isTextureStillUsedBySeatMaterials(
   texture: THREE.Texture,
   assignments: SeatMaterialAssignment[],
 ) {
   return assignments.some(({ material }) => {
-    return material.map === texture || material.normalMap === texture || material.roughnessMap === texture;
+    return (
+      material.map === texture ||
+      material.normalMap === texture ||
+      material.roughnessMap === texture ||
+      material.sheenRoughnessMap === texture ||
+      material.sheenColorMap === texture ||
+      material.bumpMap === texture
+    );
   });
 }
 
@@ -887,102 +1134,107 @@ function disposeModel(root: THREE.Object3D) {
   });
 }
 
-function applySoftLightingPreset(
-  renderer: THREE.WebGLRenderer,
-  lightRig: ViewerLightRig | null,
+function applyAlcantaraMaterial(
+  assignment: SeatMaterialAssignment,
+  textureSet: AlcantaraTextureSet,
+  colorVariant: ReturnType<typeof getSeatColorVariant>,
 ) {
-  if (!lightRig) {
-    return;
+  const surfaceTextureSet = assignment.zone === "center" ? textureSet.center : textureSet.side;
+  const surfaceMap = assignment.zone === "center" ? textureSet.centerMap : textureSet.sideMap;
+  const surfaceRoughnessMap =
+    assignment.zone === "center" ? textureSet.centerRoughnessMap : textureSet.sideRoughnessMap;
+  const surfaceResponseMap = surfaceRoughnessMap ?? surfaceTextureSet.responseTexture;
+  const baseColor =
+    assignment.zone === "center"
+      ? colorVariant.centerColor
+      : colorVariant.sideColor;
+  syncAlcantaraMaterial(assignment.material, {
+    zone: assignment.zone,
+    context: "seat",
+    area: assignment.area,
+    map: surfaceMap,
+    color: baseColor,
+    fabricTextures: surfaceTextureSet,
+  });
+
+  // Alcantara should read through diffuse response and soft sheen, not leather-like normals.
+  assignment.material.normalMap = null;
+  assignment.material.roughnessMap = surfaceResponseMap;
+  assignment.material.sheenRoughnessMap = surfaceResponseMap;
+  assignment.material.normalScale.set(0, 0);
+  assignment.material.metalness = 0;
+  assignment.material.clearcoat = 0;
+  assignment.material.clearcoatRoughness = 1;
+  assignment.material.roughness = 0.988;
+  assignment.material.envMapIntensity = 0.08;
+  assignment.material.sheen = Math.min(1, assignment.material.sheen + 0.05);
+  assignment.material.sheenColor.copy(adjustSeatMaterialColor(baseColor, 0.055, -0.02));
+  assignment.material.sheenRoughness = 0.98;
+  assignment.material.specularIntensity = 0.014;
+  assignment.material.reflectivity = 0.009;
+  assignment.material.color.multiplyScalar(0.965);
+
+  if (assignment.material.bumpMap) {
+    assignment.material.bumpScale = Math.min(assignment.material.bumpScale, 0.0035);
   }
 
-  lightRig.ambient.intensity = SOFT_LIGHTING_PRESET.ambient;
-  lightRig.key.intensity = SOFT_LIGHTING_PRESET.key;
-  lightRig.fill.intensity = SOFT_LIGHTING_PRESET.fill;
-  lightRig.rim.intensity = SOFT_LIGHTING_PRESET.rim;
-  renderer.toneMappingExposure = SOFT_LIGHTING_PRESET.exposure;
+  assignment.material.needsUpdate = true;
 }
 
-function disableAlcantaraWorldGrain(material: THREE.MeshStandardMaterial) {
-  if (!material.userData.alcantaraWorldGrain) {
-    return;
-  }
-
-  material.onBeforeCompile = () => {};
-  delete material.userData.alcantaraWorldGrain;
-  material.needsUpdate = true;
-}
-
-function enableAlcantaraWorldGrain(material: THREE.MeshStandardMaterial) {
-  if (material.userData.alcantaraWorldGrain) {
-    return;
-  }
-
-  material.onBeforeCompile = (shader) => {
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        "#include <common>",
-        "#include <common>\nvarying vec3 vAlcantaraWorldPosition;",
-      )
-      .replace(
-        "#include <begin_vertex>",
-        "#include <begin_vertex>\nvAlcantaraWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;",
-      );
-
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        "#include <common>",
-        `#include <common>
-varying vec3 vAlcantaraWorldPosition;
-
-float alcantaraNoise3d(vec3 p) {
-  p = fract(p * 0.1031);
-  p += dot(p, p.yzx + 33.33);
-  return fract((p.x + p.y) * p.z);
-}`,
-      )
-      .replace(
-        "vec4 diffuseColor = vec4( diffuse, opacity );",
-        `vec4 diffuseColor = vec4( diffuse, opacity );
-float alcantaraNoiseA = alcantaraNoise3d(floor(vAlcantaraWorldPosition * ${ALCANTARA_GRAIN_WORLD_SCALE.toFixed(1)}));
-float alcantaraNoiseB = alcantaraNoise3d(floor((vAlcantaraWorldPosition + vec3(21.73)) * ${(
-          ALCANTARA_GRAIN_WORLD_SCALE * 1.43
-        ).toFixed(1)}));
-float alcantaraGrain = (alcantaraNoiseA * 0.68 + alcantaraNoiseB * 0.32) - 0.5;
-diffuseColor.rgb += alcantaraGrain * ${ALCANTARA_GRAIN_STRENGTH.toFixed(3)};`,
-      )
-      .replace(
-        "float roughnessFactor = roughness;",
-        `float roughnessFactor = roughness;
-roughnessFactor = clamp(
-  roughnessFactor + alcantaraGrain * ${ALCANTARA_ROUGHNESS_GRAIN_STRENGTH.toFixed(3)},
-  0.0,
-  1.0
-);`,
-      );
-  };
-
-  material.userData.alcantaraWorldGrain = true;
-  material.needsUpdate = true;
-}
-
-function applyUnifiedAlcantaraMaterial(material: THREE.MeshStandardMaterial) {
-  enableAlcantaraWorldGrain(material);
-  material.map = null;
-  material.normalMap = null;
-  material.roughnessMap = null;
-  material.metalnessMap = null;
-  material.aoMap = null;
-  material.alphaMap = null;
-  material.emissiveMap = null;
-  material.emissive.setHex(0x000000);
-  material.emissiveIntensity = 0;
-  material.bumpMap = null;
-  material.bumpScale = 0;
-  material.normalScale.set(0, 0);
-  material.roughness = 0.95;
+function applyStitchMaterial(
+  material: THREE.MeshPhysicalMaterial,
+  colorVariant: ReturnType<typeof getSeatColorVariant>,
+) {
+  const stitchColor = adjustSeatMaterialColor(colorVariant.centerColor, 0.12, -0.015);
+  material.color.copy(stitchColor);
+  material.roughness = 0.93;
   material.metalness = 0;
-  material.envMapIntensity = 0.15;
-  material.color.setHex(ALCANTARA_BASE_COLOR);
+  material.envMapIntensity = 0.03;
+  material.sheen = 0.03;
+  material.sheenColor.copy(adjustSeatMaterialColor(stitchColor, 0.02, -0.005));
+  material.sheenRoughness = 0.84;
+  material.specularIntensity = 0.03;
+  material.clearcoat = 0;
+  material.alphaTest = 0.18;
+  material.transparent = true;
+  material.map = assignTextureColorSpace(material.map, THREE.SRGBColorSpace);
+  if (material.alphaMap === material.map && material.map) {
+    material.alphaMap = cloneLinearDataTexture(material.map);
+  } else if (!material.alphaMap && material.map) {
+    material.alphaMap = cloneLinearDataTexture(material.map);
+  } else {
+    material.alphaMap = assignTextureColorSpace(material.alphaMap, THREE.NoColorSpace);
+  }
+  material.needsUpdate = true;
+}
+
+function applyAccentMaterial(material: THREE.MeshPhysicalMaterial) {
+  const materialName = material.name.toLowerCase();
+
+  material.sheen = 0;
+  material.sheenColor.setHex(0x000000);
+  material.sheenRoughness = 1;
+  material.specularIntensity = 0.26;
+  material.clearcoat = 0;
+  material.clearcoatRoughness = 1;
+
+  if (materialName.includes("metal")) {
+    material.color.setHex(0x666a72);
+    material.roughness = 0.34;
+    material.metalness = 0.92;
+    material.envMapIntensity = 0.58;
+  } else if (materialName.includes("button")) {
+    material.color.setHex(0x16181b);
+    material.roughness = 0.76;
+    material.metalness = 0.12;
+    material.envMapIntensity = 0.12;
+  } else {
+    material.color.setHex(0x1a1d22);
+    material.roughness = materialName === "black" ? 0.82 : 0.88;
+    material.metalness = materialName === "black" ? 0.08 : 0.03;
+    material.envMapIntensity = 0.12;
+  }
+
   material.needsUpdate = true;
 }
 
@@ -994,10 +1246,11 @@ export default function SeatViewer({
 }: SeatViewerProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const lightRigRef = useRef<ViewerLightRig | null>(null);
   const seatRef = useRef<THREE.Object3D | null>(null);
-  const seatMaterialsRef = useRef<THREE.MeshStandardMaterial[]>([]);
+  const seatMaterialsRef = useRef<THREE.MeshPhysicalMaterial[]>([]);
   const seatMaterialAssignmentsRef = useRef<SeatMaterialAssignment[]>([]);
+  const stitchMaterialsRef = useRef<THREE.MeshPhysicalMaterial[]>([]);
+  const accentMaterialsRef = useRef<THREE.MeshPhysicalMaterial[]>([]);
   const meshMaterialSnapshotsRef = useRef<MeshMaterialSnapshot[]>([]);
   const textureLoaderRef = useRef<THREE.TextureLoader | null>(null);
   const activeTexturesRef = useRef<SeatTextureSet | null>(null);
@@ -1091,7 +1344,9 @@ export default function SeatViewer({
         return;
       }
 
-      const assignmentsForArea = seatMaterialAssignments;
+      const assignmentsForArea = seatMaterialAssignments.filter(({ area: assignmentArea }) => {
+        return assignmentArea === area;
+      });
       if (assignmentsForArea.length === 0) {
         return;
       }
@@ -1101,12 +1356,23 @@ export default function SeatViewer({
 
       const variant = materialVariantRef.current;
       if (variant === "alcantara") {
+        const colorVariant = getSeatColorVariant(
+          materialPresetRef.current,
+          colorPresetRef.current,
+        );
+        const existingFabricTextures = activeTexturesRef.current as AlcantaraTextureSet | null;
+        const fabricTextures =
+          existingFabricTextures ??
+          (await loadSeatAlcantaraTextureSet(textureLoader, renderer, nextTextureUrl));
+        if (!existingFabricTextures) {
+          activeTexturesRef.current = fabricTextures;
+        }
         const previousTexture = areaTexturesRef.current[area];
         areaTexturesRef.current[area] = undefined;
         areaTextureOverridesRef.current[area] = nextTextureUrl;
 
-        assignmentsForArea.forEach(({ material }) => {
-          applyUnifiedAlcantaraMaterial(material);
+        assignmentsForArea.forEach((assignment) => {
+          applyAlcantaraMaterial(assignment, fabricTextures, colorVariant);
         });
         applySeatMaterialAssignmentsToModel(seatRef.current, seatMaterialAssignmentsRef.current);
 
@@ -1119,7 +1385,12 @@ export default function SeatViewer({
         return;
       }
 
-      const repeatScale = 6;
+      const repeatScale = getUpholsteryTextureRepeat({
+        family: "kunstleder",
+        context: "seat",
+        zone: assignmentsForArea[0]?.zone ?? "side",
+        perforated: variant === "perforated",
+      });
       const textureCandidates =
         variant === "leather"
           ? buildSmoothPuTextureCandidates(nextTextureUrl)
@@ -1146,11 +1417,19 @@ export default function SeatViewer({
       areaTexturesRef.current[area] = nextTexture;
       areaTextureOverridesRef.current[area] = nextTextureUrl;
 
-      assignmentsForArea.forEach(({ material }) => {
-        disableAlcantaraWorldGrain(material);
-        material.map = nextTexture;
-        material.color.setHex(0xffffff);
-        material.needsUpdate = true;
+      assignmentsForArea.forEach((assignment) => {
+        syncKunstlederMaterial(assignment.material, {
+          zone: assignment.zone,
+          context: "seat",
+          perforated: variant === "perforated",
+          appearance: isLightLeatherSelection(nextTextureUrl) ? "light" : "dark",
+          map: nextTexture,
+          normalMap: assignment.material.normalMap ?? null,
+          roughnessMap: assignment.material.roughnessMap ?? null,
+          metalnessMap: assignment.material.metalnessMap ?? null,
+          aoMap: assignment.material.aoMap ?? null,
+          repeatScale,
+        });
       });
       applySeatMaterialAssignmentsToModel(seatRef.current, seatMaterialAssignmentsRef.current);
 
@@ -1180,18 +1459,35 @@ export default function SeatViewer({
       const isAlcantara = variant === "alcantara";
       const isLeather = variant === "leather";
       const materialResponse = getMaterialResponse(variant);
-      const lightRig = lightRigRef.current;
+      const colorVariant = getSeatColorVariant(
+        materialPresetRef.current,
+        colorPresetRef.current,
+      );
+      const stitchMaterials = stitchMaterialsRef.current;
+      const accentMaterials = accentMaterialsRef.current;
+
+      const refreshAccentMaterials = () => {
+        stitchMaterials.forEach((material) => {
+          applyStitchMaterial(material, colorVariant);
+        });
+        accentMaterials.forEach((material) => {
+          applyAccentMaterial(material);
+        });
+      };
 
       if (!isAlcantara) {
         restoreMeshMaterialSnapshots(meshMaterialSnapshotsRef.current);
+        refreshAccentMaterials();
       }
 
       const requestId = ++textureRequestIdRef.current;
       if (isLeather) {
         const useBrownLeatherConfig = isBrownLeatherSelection(nextTextureUrl);
+        const leatherAppearance = isLightLeatherSelection(nextTextureUrl) ? "light" : "dark";
         if (useBrownLeatherConfig) {
           const centerInsertConfig = getPremiumCenterInsertTextureConfig(PREMIUM_CENTER_INSERT_STYLE);
-          const sideRepeat = 6;
+          const sideRepeat = BROWN_SEAT_LEATHER_REPEAT;
+          const stitchRepeat = getStitchingTextureRepeat("seat");
           const [
             centerColorTexture,
             centerNormalTexture,
@@ -1248,7 +1544,7 @@ export default function SeatViewer({
               buildStitchTextureCandidates(),
               renderer,
               THREE.NoColorSpace,
-              2.4,
+              stitchRepeat,
             ),
           ]);
 
@@ -1256,28 +1552,10 @@ export default function SeatViewer({
             return;
           }
 
-          [centerColorTexture, centerNormalTexture, centerRoughnessTexture]
-            .filter((texture): texture is THREE.Texture => Boolean(texture))
-            .forEach((texture) => {
-              texture.wrapS = THREE.RepeatWrapping;
-              texture.wrapT = THREE.RepeatWrapping;
-              texture.repeat.set(6, 6);
-              texture.needsUpdate = true;
-            });
-
-          [sideColorTexture, sideNormalTexture, sideRoughnessTexture]
-            .filter((texture): texture is THREE.Texture => Boolean(texture))
-            .forEach((texture) => {
-              texture.wrapS = THREE.RepeatWrapping;
-              texture.wrapT = THREE.RepeatWrapping;
-              texture.repeat.set(6, 6);
-              texture.needsUpdate = true;
-            });
-
           if (stitchTexture) {
             stitchTexture.wrapS = THREE.RepeatWrapping;
             stitchTexture.wrapT = THREE.RepeatWrapping;
-            stitchTexture.repeat.set(2.2, 2.2);
+            stitchTexture.repeat.set(stitchRepeat, stitchRepeat);
             stitchTexture.needsUpdate = true;
           }
 
@@ -1299,33 +1577,45 @@ export default function SeatViewer({
           const previousTextures = activeTexturesRef.current;
           activeTexturesRef.current = { textures: nextTextures };
 
-          seatMaterialAssignments.forEach(({ material }) => {
-            disableAlcantaraWorldGrain(material);
-            material.map = sideColorTexture;
-            material.normalMap = sideNormalTexture ?? centerNormalTexture;
-            material.roughnessMap = sideRoughnessTexture ?? centerRoughnessTexture;
-            material.bumpMap = null;
-            material.bumpScale = 0;
-            material.emissiveMap = null;
-            material.emissive.setHex(0x000000);
-            material.emissiveIntensity = 0;
-            material.normalScale.set(0.8, 0.8);
-            material.roughness = 0.65;
-            material.metalness = 0.02;
-            material.envMapIntensity = 0.6;
-            material.color.setHex(0xffffff);
-            material.needsUpdate = true;
+          seatMaterialAssignments.forEach((assignment) => {
+            const useCenterInsert =
+              PREMIUM_CENTER_INSERT_STYLE !== "dark-alcantara" && assignment.zone === "center";
+            const materialAppearance =
+              useCenterInsert && PREMIUM_CENTER_INSERT_STYLE === "light-leather"
+                ? "light"
+                : "brown";
+
+            syncKunstlederMaterial(assignment.material, {
+              zone: assignment.zone,
+              context: "seat",
+              appearance: materialAppearance,
+              map: useCenterInsert ? centerColorTexture ?? sideColorTexture : sideColorTexture,
+              normalMap: useCenterInsert
+                ? centerNormalTexture ?? sideNormalTexture
+                : sideNormalTexture ?? centerNormalTexture,
+              roughnessMap: useCenterInsert
+                ? centerRoughnessTexture ?? sideRoughnessTexture
+                : sideRoughnessTexture ?? centerRoughnessTexture,
+              repeatScale: useCenterInsert ? centerInsertConfig.repeat : sideRepeat,
+            });
           });
           applySeatMaterialAssignmentsToModel(seatRef.current, seatMaterialAssignments);
-
-          applySoftLightingPreset(renderer, lightRig);
+          refreshAccentMaterials();
 
           disposeTextureSet(previousTextures);
           return;
         }
 
-        const centerRepeat = 6;
-        const sideRepeat = 6;
+        const centerRepeat = getUpholsteryTextureRepeat({
+          family: "kunstleder",
+          context: "seat",
+          zone: "center",
+        });
+        const sideRepeat = getUpholsteryTextureRepeat({
+          family: "kunstleder",
+          context: "seat",
+          zone: "side",
+        });
         const centerColorTexture = await loadFirstAvailableTexture(
           textureLoader,
           buildLeatherTextureCandidates(nextTextureUrl),
@@ -1384,24 +1674,6 @@ export default function SeatViewer({
           return;
         }
 
-        [centerColorTexture, centerNormalTexture, centerRoughnessTexture]
-          .filter((texture): texture is THREE.Texture => Boolean(texture))
-          .forEach((texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(6, 6);
-            texture.needsUpdate = true;
-          });
-
-        [sideColorTexture, sideNormalTexture, sideRoughnessTexture]
-          .filter((texture): texture is THREE.Texture => Boolean(texture))
-          .forEach((texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(6, 6);
-            texture.needsUpdate = true;
-          });
-
         const nextTextures = [
           centerColorTexture,
           centerNormalTexture,
@@ -1419,47 +1691,49 @@ export default function SeatViewer({
         const previousTextures = activeTexturesRef.current;
         activeTexturesRef.current = { textures: nextTextures };
 
-        seatMaterialAssignments.forEach(({ material }) => {
-          disableAlcantaraWorldGrain(material);
-          material.map = sideColorTexture;
-          material.normalMap = sideNormalTexture ?? centerNormalTexture;
-          material.roughnessMap = sideRoughnessTexture ?? centerRoughnessTexture;
-          material.emissiveMap = null;
-          material.emissive.setHex(0x000000);
-          material.emissiveIntensity = 0;
-          material.bumpMap = null;
-          material.bumpScale = 0;
-          material.normalScale.set(0.8, 0.8);
-          material.roughness = 0.65;
-          material.metalness = 0.02;
-          material.envMapIntensity = 0.6;
-          material.color.setHex(0xffffff);
-          material.needsUpdate = true;
+        seatMaterialAssignments.forEach((assignment) => {
+          const useCenterTexture = assignment.zone === "center";
+
+          syncKunstlederMaterial(assignment.material, {
+            zone: assignment.zone,
+            context: "seat",
+            appearance: leatherAppearance,
+            map: useCenterTexture ? centerColorTexture : sideColorTexture,
+            normalMap: useCenterTexture
+              ? centerNormalTexture ?? sideNormalTexture
+              : sideNormalTexture ?? centerNormalTexture,
+            roughnessMap: useCenterTexture
+              ? centerRoughnessTexture ?? sideRoughnessTexture
+              : sideRoughnessTexture ?? centerRoughnessTexture,
+            repeatScale: useCenterTexture ? centerRepeat : sideRepeat,
+          });
         });
         applySeatMaterialAssignmentsToModel(seatRef.current, seatMaterialAssignments);
-
-        applySoftLightingPreset(renderer, lightRig);
+        refreshAccentMaterials();
 
         disposeTextureSet(previousTextures);
         return;
       }
 
       if (isAlcantara) {
-        const nextTextures: THREE.Texture[] = [];
+        const fabricTextures = await loadSeatAlcantaraTextureSet(
+          textureLoader,
+          renderer,
+          nextTextureUrl,
+        );
         if (requestId !== textureRequestIdRef.current) {
-          disposeTextureSet({ textures: nextTextures });
+          disposeTextureSet(fabricTextures);
           return;
         }
 
         const previousTextures = activeTexturesRef.current;
-        activeTexturesRef.current = { textures: nextTextures };
+        activeTexturesRef.current = fabricTextures;
 
-        seatMaterialAssignments.forEach(({ material }) => {
-          applyUnifiedAlcantaraMaterial(material);
+        seatMaterialAssignments.forEach((assignment) => {
+          applyAlcantaraMaterial(assignment, fabricTextures, colorVariant);
         });
         applySeatMaterialAssignmentsToModel(seatRef.current, seatMaterialAssignments);
-
-        applySoftLightingPreset(renderer, lightRig);
+        refreshAccentMaterials();
 
         disposeTextureSet(previousTextures);
         return;
@@ -1505,29 +1779,23 @@ export default function SeatViewer({
       const previousTextures = activeTexturesRef.current;
       activeTexturesRef.current = { textures: nextTextures };
       seatMaterials.forEach((material) => {
-        const seatMaterial = material;
-        disableAlcantaraWorldGrain(seatMaterial);
-        seatMaterial.map = colorTexture;
-        seatMaterial.normalMap = normalTexture ?? null;
-        seatMaterial.roughnessMap = roughnessTexture ?? null;
-        seatMaterial.emissiveMap = null;
-        seatMaterial.emissive.setHex(0x000000);
-        seatMaterial.emissiveIntensity = 0;
-        seatMaterial.bumpMap = null;
-        seatMaterial.bumpScale = 0;
-        seatMaterial.normalScale.set(
+        syncKunstlederMaterial(material, {
+          zone: "side",
+          context: "seat",
+          perforated: variant === "perforated",
+          appearance: isLightLeatherSelection(nextTextureUrl) ? "light" : "dark",
+          map: colorTexture,
+          normalMap: normalTexture ?? null,
+          roughnessMap: roughnessTexture ?? null,
+          repeatScale: materialResponse.textureRepeat,
+        });
+        material.normalScale.set(
           materialResponse.normalStrength,
           materialResponse.normalStrength,
         );
-        seatMaterial.roughness = materialResponse.roughness;
-        seatMaterial.metalness = materialResponse.metalness;
-        seatMaterial.envMapIntensity = materialResponse.envMapIntensity;
-        seatMaterial.color.setHex(0xffffff);
-        seatMaterial.needsUpdate = true;
       });
       applySeatMaterialAssignmentsToModel(seatRef.current, seatMaterialAssignments);
-
-      applySoftLightingPreset(renderer, lightRig);
+      refreshAccentMaterials();
 
       disposeTextureSet(previousTextures);
     },
@@ -1541,85 +1809,63 @@ export default function SeatViewer({
     }
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x060910);
+    scene.background = null;
 
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(31, 1, 0.1, 100);
     camera.position.copy(PREMIUM_CAMERA_POSITION);
     camera.lookAt(PREMIUM_CAMERA_LOOK_AT);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    (renderer as THREE.WebGLRenderer & { physicallyCorrectLights?: boolean }).physicallyCorrectLights = true;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = SOFT_LIGHTING_PRESET.exposure;
+    renderer.setClearColor(0x000000, 0);
+    renderer.toneMappingExposure = 1.2;
     renderer.shadowMap.enabled = false;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
     mountNode.appendChild(renderer.domElement);
     rendererRef.current = renderer;
     textureLoaderRef.current = new THREE.TextureLoader();
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
+    controls.dampingFactor = 0.07;
     controls.enableRotate = true;
     controls.enablePan = false;
     controls.enableZoom = true;
-    controls.rotateSpeed = 0.52;
-    controls.zoomSpeed = 0.6;
-    controls.minDistance = 0.6;
-    controls.maxDistance = 3;
+    controls.rotateSpeed = 0.46;
+    controls.zoomSpeed = 0.72;
+    controls.minDistance = 0.7;
+    controls.maxDistance = 3.6;
     controls.target.copy(PREMIUM_CONTROLS_TARGET);
-    controls.minPolarAngle = 0.32;
-    controls.maxPolarAngle = Math.PI - 0.35;
+    controls.minPolarAngle = 0.38;
+    controls.maxPolarAngle = Math.PI - 0.46;
     controls.minAzimuthAngle = -Infinity;
     controls.maxAzimuthAngle = Infinity;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, SOFT_LIGHTING_PRESET.ambient);
-    scene.add(ambientLight);
-
-    const keyLight = new THREE.DirectionalLight(0xffffff, SOFT_LIGHTING_PRESET.key);
-    keyLight.position.set(2.6, 4.4, 3.2);
-    keyLight.castShadow = false;
-    scene.add(keyLight);
-
-    const fillLight = new THREE.DirectionalLight(0xffffff, SOFT_LIGHTING_PRESET.fill);
-    fillLight.position.set(-2.8, 3.8, 2.6);
-    scene.add(fillLight);
-
-    const rimLight = new THREE.DirectionalLight(0xf5f8ff, SOFT_LIGHTING_PRESET.rim);
-    rimLight.position.set(0.2, 3.1, -4.8);
-    scene.add(rimLight);
-
-    const skyFillLight = new THREE.HemisphereLight(0xffffff, 0x8d99ab, 0.55);
-    scene.add(skyFillLight);
-
-    lightRigRef.current = {
-      ambient: ambientLight,
-      key: keyLight,
-      fill: fillLight,
-      rim: rimLight,
-    };
-    applySoftLightingPreset(renderer, lightRigRef.current);
-
     const stage = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.2, 1.28, 0.08, 72),
-      new THREE.MeshStandardMaterial({
-        color: 0x232830,
-        roughness: 0.74,
-        metalness: 0.05,
-        envMapIntensity: 0.12,
+      new THREE.CylinderGeometry(1, 1.06, 1, 96),
+      new THREE.MeshPhysicalMaterial({
+        color: 0x12161b,
+        roughness: 0.86,
+        metalness: 0.02,
+        envMapIntensity: 0.08,
+        specularIntensity: 0.12,
       }),
     );
     stage.position.y = -1.12;
-    stage.receiveShadow = false;
+    stage.scale.set(1.32, 0.07, 1.32);
+    stage.receiveShadow = true;
     scene.add(stage);
 
     const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(8, 8),
-      new THREE.ShadowMaterial({ opacity: 0.34 }),
+      new THREE.PlaneGeometry(10, 10),
+      new THREE.ShadowMaterial({ opacity: 0.22 }),
     );
     ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -1.161;
-    ground.receiveShadow = false;
+    ground.position.y = -1.165;
+    ground.receiveShadow = true;
     scene.add(ground);
 
     const gltfLoader = new GLTFLoader();
@@ -1628,6 +1874,7 @@ export default function SeatViewer({
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
     let environmentTarget: THREE.WebGLRenderTarget | null = null;
+    scene.background = null;
 
     new RGBELoader().load(
       HDR_ENV_MAP_URL,
@@ -1637,6 +1884,7 @@ export default function SeatViewer({
           return;
         }
 
+        hdrTexture.mapping = THREE.EquirectangularReflectionMapping;
         environmentTarget?.dispose();
         environmentTarget = pmremGenerator.fromEquirectangular(hdrTexture);
         scene.environment = environmentTarget.texture;
@@ -1645,9 +1893,7 @@ export default function SeatViewer({
       },
       undefined,
       () => {
-        if (!disposed) {
-          scene.environment = null;
-        }
+        scene.environment = null;
       },
     );
 
@@ -1759,52 +2005,88 @@ export default function SeatViewer({
         sourceBounds.getSize(sourceSize);
         sourceBounds.getCenter(sourceCenter);
         const seatHalfWidth = Math.max(sourceSize.x * 0.5, 0.001);
+        const colorVariant = getSeatColorVariant(
+          materialPresetRef.current,
+          colorPresetRef.current,
+        );
 
         const targetSlots: MaterialSlot[] = [];
-        const fallbackSlots: MaterialSlot[] = [];
+        const allSlots: MaterialSlot[] = [];
+        const stitchSlots: MaterialSlot[] = [];
 
         seat.traverse((node) => {
           if (!(node instanceof THREE.Mesh)) {
             return;
           }
 
-          node.castShadow = false;
+          node.castShadow = true;
           node.receiveShadow = false;
 
           const materials = Array.isArray(node.material) ? node.material : [node.material];
           materials.forEach((material, materialIndex) => {
             const slot: MaterialSlot = { mesh: node, materialIndex, material };
-            fallbackSlots.push(slot);
+            const materialName = material.name.toLowerCase();
+            if (isStitchMaterialName(materialName)) {
+              stitchSlots.push(slot);
+              return;
+            }
+
+            allSlots.push(slot);
             if (isSeatSurfaceMaterial(node, material)) {
               targetSlots.push(slot);
             }
           });
         });
 
-        const slotsToUpdate = fallbackSlots.length > 0 ? fallbackSlots : targetSlots;
-        const assignedSeatMaterials: THREE.MeshStandardMaterial[] = [];
+        const slotsToUpdate = targetSlots.length > 0 ? targetSlots : allSlots;
+        const upholsterySlotKeys = new Set(
+          slotsToUpdate.map((slot) => buildMaterialSlotKey(slot.mesh, slot.materialIndex)),
+        );
+        const accentSlots = allSlots.filter((slot) => {
+          return !upholsterySlotKeys.has(buildMaterialSlotKey(slot.mesh, slot.materialIndex));
+        });
+
+        const assignedSeatMaterials: THREE.MeshPhysicalMaterial[] = [];
         const assignedSeatMaterialAssignments: SeatMaterialAssignment[] = [];
+        const stitchMaterials: THREE.MeshPhysicalMaterial[] = [];
+        const accentMaterials: THREE.MeshPhysicalMaterial[] = [];
         const seatAreaBySlotKey = new Map<string, SeatInteractiveArea>();
         const centerMaterialIndicesByMesh = new Map<THREE.Mesh, Set<number>>();
 
+        stitchSlots.forEach((slot) => {
+          const stitchMaterial = ensureSeatMaterial(slot.material).clone();
+          stitchMaterial.name = slot.material.name;
+          replaceMeshMaterialAtIndex(slot.mesh, slot.materialIndex, stitchMaterial);
+          applyStitchMaterial(stitchMaterial, colorVariant);
+          stitchMaterials.push(stitchMaterial);
+        });
+
+        accentSlots.forEach((slot) => {
+          const accentMaterial = ensureSeatMaterial(slot.material).clone();
+          accentMaterial.name = slot.material.name;
+          replaceMeshMaterialAtIndex(slot.mesh, slot.materialIndex, accentMaterial);
+          applyAccentMaterial(accentMaterial);
+          accentMaterials.push(accentMaterial);
+        });
+
         slotsToUpdate.forEach((slot) => {
-          const standardizedMaterial = ensureMeshStandardMaterial(slot.material);
-          const meshStandardMaterial = standardizedMaterial.clone();
-          meshStandardMaterial.name = standardizedMaterial.name;
-          replaceMeshMaterialAtIndex(slot.mesh, slot.materialIndex, meshStandardMaterial);
+          const standardizedMaterial = ensureSeatMaterial(slot.material);
+          const meshPhysicalMaterial = standardizedMaterial.clone();
+          meshPhysicalMaterial.name = standardizedMaterial.name;
+          replaceMeshMaterialAtIndex(slot.mesh, slot.materialIndex, meshPhysicalMaterial);
           const slotBounds = collectMaterialSlotBounds(slot.mesh, slot.materialIndex);
           const slotCenter = slotBounds.getCenter(new THREE.Vector3());
 
           const zone = classifySeatSurfaceZone(
             slot.mesh,
-            meshStandardMaterial,
+            meshPhysicalMaterial,
             sourceCenter.x,
             seatHalfWidth,
             slotCenter,
           );
           const area = classifySeatInteractiveArea(
             slot.mesh,
-            meshStandardMaterial,
+            meshPhysicalMaterial,
             slotBounds,
             sourceBounds,
             sourceCenter.x,
@@ -1813,9 +2095,9 @@ export default function SeatViewer({
           );
           seatAreaBySlotKey.set(buildMaterialSlotKey(slot.mesh, slot.materialIndex), area);
 
-          assignedSeatMaterials.push(meshStandardMaterial);
+          assignedSeatMaterials.push(meshPhysicalMaterial);
           assignedSeatMaterialAssignments.push({
-            material: meshStandardMaterial,
+            material: meshPhysicalMaterial,
             zone,
             area,
             mesh: slot.mesh,
@@ -1830,6 +2112,8 @@ export default function SeatViewer({
 
         seatMaterialsRef.current = assignedSeatMaterials;
         seatMaterialAssignmentsRef.current = assignedSeatMaterialAssignments;
+        stitchMaterialsRef.current = stitchMaterials;
+        accentMaterialsRef.current = accentMaterials;
         seatAreaBySlotKeyRef.current = seatAreaBySlotKey;
         meshMaterialSnapshotsRef.current = captureMeshMaterialSnapshots(seat);
 
@@ -1847,7 +2131,7 @@ export default function SeatViewer({
         if (maxDimension > 0.0001) {
           seat.scale.setScalar(2.3 / maxDimension);
         }
-        seat.rotation.y = 0.3;
+        seat.rotation.y = 0.42;
         seat.rotation.x = 0;
 
         // Keep the transformed model perfectly centered at world origin.
@@ -1861,15 +2145,23 @@ export default function SeatViewer({
 
         const framedBox = new THREE.Box3().setFromObject(seat);
         seatBoundsRef.current = framedBox.clone();
-        const modelSize = Math.max(framedBox.getSize(new THREE.Vector3()).length(), 0.001);
+        const framedSize = framedBox.getSize(new THREE.Vector3());
+        const modelSize = Math.max(framedSize.length(), 0.001);
+        const footprint = Math.max(framedSize.x, framedSize.z);
+        const stageTopY = framedBox.min.y - 0.11;
 
-        camera.position.set(modelSize * 0.6, modelSize * 0.5, modelSize * 1.6);
-        controls.target.set(0, 0, 0);
-        controls.minDistance = Math.max(0.6, modelSize * 0.35);
-        controls.maxDistance = Math.max(3, modelSize * 4);
+        stage.scale.set(footprint * 0.82, 0.065, footprint * 0.82);
+        stage.position.y = stageTopY - 0.03;
+        ground.scale.set(footprint * 3.4, footprint * 3.4, 1);
+        ground.position.y = stage.position.y - 0.035;
+
+        camera.position.set(modelSize * 0.82, modelSize * 0.64, modelSize * 1.78);
+        controls.target.set(0, framedSize.y * 0.08, 0);
+        controls.minDistance = Math.max(0.75, modelSize * 0.4);
+        controls.maxDistance = Math.max(3.4, modelSize * 4.6);
         camera.near = Math.max(0.05, modelSize / 100);
         camera.far = Math.max(40, modelSize * 20);
-        camera.lookAt(0, 0, 0);
+        camera.lookAt(controls.target);
         camera.updateProjectionMatrix();
         controls.update();
         setStatus("ready");
@@ -1902,18 +2194,6 @@ export default function SeatViewer({
       renderer.domElement.style.cursor = "";
       controls.dispose();
 
-      seatMaterialsRef.current.forEach((material) => {
-        material.map = null;
-        material.normalMap = null;
-        material.roughnessMap = null;
-        material.emissiveMap = null;
-        material.emissive.setHex(0x000000);
-        material.emissiveIntensity = 0;
-        material.bumpMap = null;
-        material.bumpScale = 0;
-        material.needsUpdate = true;
-      });
-
       disposeTextureSet(activeTexturesRef.current);
       activeTexturesRef.current = null;
       Object.values(areaTexturesRef.current).forEach((texture) => {
@@ -1932,6 +2212,8 @@ export default function SeatViewer({
       }
       seatMaterialsRef.current = [];
       seatMaterialAssignmentsRef.current = [];
+      stitchMaterialsRef.current = [];
+      accentMaterialsRef.current = [];
       meshMaterialSnapshotsRef.current = [];
 
       scene.remove(ground);
@@ -1949,7 +2231,6 @@ export default function SeatViewer({
 
       renderer.dispose();
       rendererRef.current = null;
-      lightRigRef.current = null;
       textureLoaderRef.current = null;
 
       if (mountNode.contains(renderer.domElement)) {

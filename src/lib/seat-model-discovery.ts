@@ -3,6 +3,8 @@ import "server-only";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+// Preserved seat-model discovery utility for future isolated seat work.
+// This helper is intentionally not wired into active user-facing routes today.
 const PUBLIC_MODELS_DIR = path.join(process.cwd(), "public", "models");
 const SUPPORTED_EXTENSIONS = [".glb", ".gltf", ".obj", ".fbx"] as const;
 

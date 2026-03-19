@@ -24,5 +24,7 @@ export default async function LocalizedPage({ params }: LocalizedPageProps) {
 
   const dictionary = await getDictionary(lang);
 
+  // Active homepage path intentionally stays on catalog flow.
+  // Seat-specific viewer code is preserved separately for a future isolated rebuild.
   return <CatalogPage lang={lang} dictionary={dictionary} />;
 }
