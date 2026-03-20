@@ -26,7 +26,9 @@
   },
   "nav": {
     "home": "Home",
-    "about": "About Us"
+    "materials": "Materials",
+    "about": "About Us",
+    "contact": "Contact"
   },
   "contactCta": "Request a Quote",
   "hero": {
@@ -62,20 +64,28 @@
     "p3": "With local warehousing in Austria, we ensure short lead times, high availability, and maximum flexibility in order quantities."
   },
   "materialsHome": {
+    "heading": "Material Categories",
+    "subline": "High-quality materials for automotive, transport, and interior applications.",
     "cards": [
       {
         "slug": "automobilkunstleder",
         "title": "Automotive Synthetic Leather",
         "image": "/images/automobilkunstleder.webp",
-        "alt": "Automotive synthetic leather preview"
+        "alt": "Automotive synthetic leather preview",
+        "label": "Automotive"
       },
       {
         "slug": "other",
-        "title": "Other Materials",
+        "title": "Discover Materials",
         "image": "/images/bus-leder-stoffe-hero.webp",
-        "alt": "Other materials preview"
+        "alt": "Other materials preview",
+        "label": "Transport & Interior"
       }
     ]
+  },
+  "socialsHome": {
+    "heading": "Our Socials",
+    "subline": "Stay in touch with us and discover new materials, projects, and behind-the-scenes insights."
   },
   "materialCatalog": {
     "overviewLabel": "Material Overview",

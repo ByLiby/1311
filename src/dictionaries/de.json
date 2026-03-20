@@ -26,9 +26,11 @@
   },
   "nav": {
     "home": "Start",
-    "about": "Über uns"
+    "materials": "Materialien",
+    "about": "Über uns",
+    "contact": "Kontakt"
   },
-  "contactCta": "Angebot anfragen",
+  "contactCta": "Kontakt",
   "hero": {
     "eyebrow": "Automotive Materialien für professionelle Innenausstattungen",
     "headline": "Automotive Kunstleder und Bezugsstoffe für Sattlereien, Verarbeiter und B2B-Projekte.",
@@ -47,7 +49,7 @@
       "text": "Lieferung in die gesamte EU"
     },
     {
-      "title": "Automotive B2B-Spezialist",
+      "title": "Erfahrung & Qualität",
       "text": "Professionelle Materialien"
     },
     {
@@ -62,20 +64,28 @@
     "p3": "Durch lokale Lagerhaltung in Österreich gewährleisten wir kurze Lieferzeiten, hohe Verfügbarkeit und maximale Flexibilität bei Bestellmengen."
   },
   "materialsHome": {
+    "heading": "Materialbereiche",
+    "subline": "Hochwertige Materialien für Automotive, Transport und Innenausstattung.",
     "cards": [
       {
         "slug": "automobilkunstleder",
         "title": "Automobilkunstleder",
         "image": "/images/automobilkunstleder.webp",
-        "alt": "Vorschau Automobilkunstleder"
+        "alt": "Vorschau Automobilkunstleder",
+        "label": "Automotive"
       },
       {
         "slug": "other",
-        "title": "Weitere Materialien",
+        "title": "Materialien entdecken",
         "image": "/images/bus-leder-stoffe-hero.webp",
-        "alt": "Vorschau weiterer Materialien"
+        "alt": "Vorschau weiterer Materialien",
+        "label": "Transport & Interior"
       }
     ]
+  },
+  "socialsHome": {
+    "heading": "Unsere Socials",
+    "subline": "Bleiben Sie mit uns in Kontakt und entdecken Sie neue Materialien, Projekte und Einblicke."
   },
   "materialCatalog": {
     "overviewLabel": "Materialübersicht",

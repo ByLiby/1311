@@ -1,7 +1,5 @@
-import { notFound } from "next/navigation";
-import { getDictionary } from "@/lib/dictionary";
+import { notFound, redirect } from "next/navigation";
 import { isSupportedLang } from "@/lib/i18n";
-import ContactPageClient from "./contact-client";
 
 type LocalizedPageProps = {
   params: Promise<{
@@ -16,7 +14,5 @@ export default async function ContactPage({ params }: LocalizedPageProps) {
     notFound();
   }
 
-  const dictionary = await getDictionary(lang);
-
-  return <ContactPageClient lang={lang} dictionary={dictionary} />;
+  redirect(`/${lang}/kontakt`);
 }

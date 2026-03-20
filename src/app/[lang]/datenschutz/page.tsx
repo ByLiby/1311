@@ -95,7 +95,7 @@ export default async function DatenschutzPage({ params }: DatenschutzPageProps) 
           <NextLink href={`/${lang}/datenschutz`} className="transition hover:text-text-primary">
             {dictionary.footer.privacyPolicy}
           </NextLink>
-          <NextLink href={`/${lang}/contact`} className="transition hover:text-text-primary">
+          <NextLink href={`/${lang}/kontakt`} className="transition hover:text-text-primary">
             {shared.contactPage}
           </NextLink>
         </nav>

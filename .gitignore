@@ -8,9 +8,13 @@ coverage
 .cache
 .env
 .env.local
+.env.production
+.env.development
 .env.*
 !.env.example
 *.log
+test-results
 test-results/
+.codex-*.spec.js
 seat-*.png
 tsconfig.tsbuildinfo

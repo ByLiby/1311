@@ -53,7 +53,7 @@ export default function ContactPageClient({
               {languageOptions.map((item, index) => (
                 <span key={item.code} className="inline-flex items-center gap-1">
                   <NextLink
-                    href={`/${item.code}/contact`}
+                    href={`/${item.code}/kontakt`}
                     className={`px-1 py-0.5 transition ${
                       item.code === lang
                         ? "text-gold"
@@ -77,7 +77,7 @@ export default function ContactPageClient({
           {languageOptions.map((item, index) => (
             <span key={item.code} className="inline-flex items-center gap-1">
               <NextLink
-                href={`/${item.code}/contact`}
+                href={`/${item.code}/kontakt`}
                 className={`px-1 py-0.5 transition ${
                   item.code === lang
                     ? "text-gold"

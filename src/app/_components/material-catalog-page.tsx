@@ -73,7 +73,7 @@ export default function MaterialCatalogPage({
 
           <div className="hidden items-center gap-5 lg:flex">
             <NextLink
-              href={`/${lang}/contact`}
+              href={`/${lang}/kontakt`}
               className="inline-flex items-center rounded-md bg-gold px-5 py-2.5 text-[13px] font-medium text-base transition hover:bg-gold-hover"
             >
               {dictionary.contactCta}

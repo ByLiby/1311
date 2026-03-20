@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
 
+const VIEWER_BACKGROUND = "radial-gradient(circle at center, #0a0a0a 0%, #000000 70%)";
+
 const SeatViewerClean = dynamic(() => import("@/components/SeatViewerClean"), {
   loading: () => {
     return (
@@ -8,7 +10,7 @@ const SeatViewerClean = dynamic(() => import("@/components/SeatViewerClean"), {
           width: "100%",
           height: "720px",
           borderRadius: "32px",
-          background: "#0e0e11",
+          background: VIEWER_BACKGROUND,
           border: "1px solid rgba(255, 255, 255, 0.08)",
           display: "flex",
           alignItems: "center",
@@ -64,7 +66,7 @@ export default function SeatTestPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: "#0e0e11",
+        background: VIEWER_BACKGROUND,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

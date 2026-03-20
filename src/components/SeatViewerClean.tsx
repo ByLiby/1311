@@ -63,7 +63,7 @@ declare global {
   }
 }
 
-const DEFAULT_BACKGROUND = "#0e0e11";
+const DEFAULT_BACKGROUND = "radial-gradient(circle at center, #0a0a0a 0%, #000000 70%)";
 const DEFAULT_MODEL_URL = "/seat-optimized.glb";
 const HDR_ENV_MAP_URL = "/hdr/luxury-studio.hdr";
 const MAX_TEXTURE_ANISOTROPY = 8;
@@ -77,8 +77,96 @@ const BROWN_LEATHER_TONE = {
   g: 0.29,
   b: 0.25,
 };
+const PREMIUM_CAMERA_FOV = 32;
+const PREMIUM_ZOOM_SPEED = 0.22;
+const PREMIUM_DAMPING_FACTOR = 0.075;
+const PREMIUM_ZOOM_SMOOTHING = 8;
+const PREMIUM_WHEEL_DELTA_FACTOR = 0.0018;
+const PREMIUM_RETURN_TO_DEFAULT_DELAY_MS = 1500;
+const PREMIUM_RETURN_TO_DEFAULT_DURATION_MS = 1500;
+const PREMIUM_HERO_DISTANCE_FACTOR = 1.82;
+const PREMIUM_TARGET_HEIGHT_FACTOR = 0.17;
+const PREMIUM_HERO_FRONT_AZIMUTH = THREE.MathUtils.degToRad(24);
+const PREMIUM_CAMERA_HEIGHT_FACTOR = 0.24;
+const PREMIUM_MIN_DISTANCE_FACTOR = 0.8;
+const PREMIUM_MAX_DISTANCE_FACTOR = 3.3;
+const STUDIO_KEY_LIGHT_INTENSITY = 0.95;
+const STUDIO_FILL_LIGHT_INTENSITY = 0.3;
+const STUDIO_RIM_LIGHT_INTENSITY = 0.5;
+const STUDIO_KEY_LIGHT_POSITION = new THREE.Vector3(0.42, 2.82, 1.68);
+const STUDIO_FILL_LIGHT_POSITION = new THREE.Vector3(-1.62, 1.55, 0.92);
+const STUDIO_RIM_LIGHT_POSITION = new THREE.Vector3(-2.4, 2.04, -0.56);
+const STUDIO_KEY_LIGHT_TARGET = new THREE.Vector3(0, 0.82, 0.28);
+const STUDIO_FILL_LIGHT_TARGET = new THREE.Vector3(0, 0.78, 0.12);
+const STUDIO_RIM_LIGHT_TARGET = new THREE.Vector3(0.2, 0.9, 0.14);
+const STUDIO_SHADOW_MAP_SIZE = 2048;
+const STUDIO_SHADOW_RADIUS = 8;
+const STUDIO_SHADOW_BIAS = -0.00018;
+const STUDIO_SHADOW_NORMAL_BIAS = 0.02;
+
 function configureDirectionalLight(light: THREE.DirectionalLight, targetPosition: THREE.Vector3) {
   light.target.position.copy(targetPosition);
+}
+
+function configureStudioShadowLight(light: THREE.DirectionalLight) {
+  light.castShadow = true;
+  light.shadow.mapSize.width = STUDIO_SHADOW_MAP_SIZE;
+  light.shadow.mapSize.height = STUDIO_SHADOW_MAP_SIZE;
+  light.shadow.radius = STUDIO_SHADOW_RADIUS;
+  light.shadow.bias = STUDIO_SHADOW_BIAS;
+  light.shadow.normalBias = STUDIO_SHADOW_NORMAL_BIAS;
+}
+
+function fitShadowToSeat(light: THREE.DirectionalLight, object: THREE.Object3D) {
+  const box = new THREE.Box3().setFromObject(object);
+  const size = new THREE.Vector3();
+  box.getSize(size);
+
+  const shadowCamera = light.shadow.camera as THREE.OrthographicCamera;
+  shadowCamera.left = -Math.max(1.2, size.x * 0.92);
+  shadowCamera.right = Math.max(1.2, size.x * 0.92);
+  shadowCamera.top = Math.max(1.35, size.y * 1.04);
+  shadowCamera.bottom = -Math.max(0.7, size.y * 0.5);
+  shadowCamera.near = 0.45;
+  shadowCamera.far = Math.max(7, size.z * 7);
+  shadowCamera.updateProjectionMatrix();
+  light.shadow.needsUpdate = true;
+}
+
+function createStudioFloorFadeTexture() {
+  const size = 1024;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return null;
+  }
+
+  const center = size / 2;
+  const radius = size * 0.24;
+  const gradient = context.createRadialGradient(center, center, size * 0.04, center, center, radius);
+  gradient.addColorStop(0, "rgba(38, 42, 50, 0.6)");
+  gradient.addColorStop(0.18, "rgba(32, 35, 41, 0.46)");
+  gradient.addColorStop(0.38, "rgba(21, 23, 28, 0.24)");
+  gradient.addColorStop(0.56, "rgba(11, 12, 15, 0.09)");
+  gradient.addColorStop(0.74, "rgba(4, 4, 5, 0.02)");
+  gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+  context.clearRect(0, 0, size, size);
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, size, size);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.needsUpdate = true;
+
+  return texture;
 }
 
 function resolveCssHeight(height: number | string | undefined) {
@@ -87,6 +175,10 @@ function resolveCssHeight(height: number | string | undefined) {
   }
 
   return height ?? "720px";
+}
+
+function getShortestAngleDelta(from: number, to: number) {
+  return Math.atan2(Math.sin(to - from), Math.cos(to - from));
 }
 
 function setSeatData(container: HTMLDivElement, key: string, value: number | string) {
@@ -470,6 +562,17 @@ function optimizeImportedMaterial(material: THREE.Material, anisotropy: number) 
   optimizeTexture(material.alphaMap, anisotropy);
   optimizeTexture(material.bumpMap, anisotropy);
 
+  const materialName = material.name.trim().toLowerCase();
+  if (
+    materialName === "metal" ||
+    materialName.includes("badge") ||
+    materialName.includes("emblem") ||
+    materialName.includes("logo")
+  ) {
+    material.roughness = 0.35;
+    material.metalness = 0.2;
+  }
+
   material.envMapIntensity = Math.max(material.envMapIntensity ?? 0, 0.18);
   material.dithering = true;
   material.needsUpdate = true;
@@ -557,18 +660,22 @@ function fitCameraToObject(
   object.position.sub(center);
 
   const maxDim = Math.max(size.x, size.y, size.z);
-  const targetY = size.y * 0.15;
-  const distance = maxDim * 2.05;
+  const targetY = size.y * PREMIUM_TARGET_HEIGHT_FACTOR;
+  const horizontalDistance = maxDim * PREMIUM_HERO_DISTANCE_FACTOR;
 
   controls.target.set(0, targetY, 0);
-  camera.position.set(distance * 0.32, targetY + maxDim * 0.22, distance * 0.9);
+  camera.position.set(
+    horizontalDistance * Math.cos(PREMIUM_HERO_FRONT_AZIMUTH),
+    targetY + maxDim * PREMIUM_CAMERA_HEIGHT_FACTOR,
+    horizontalDistance * Math.sin(PREMIUM_HERO_FRONT_AZIMUTH),
+  );
   camera.near = 0.01;
-  camera.far = Math.max(100, distance * 10);
+  camera.far = Math.max(100, horizontalDistance * 10);
   camera.updateProjectionMatrix();
   camera.lookAt(controls.target);
 
-  controls.minDistance = maxDim * 0.95;
-  controls.maxDistance = maxDim * 4.2;
+  controls.minDistance = maxDim * PREMIUM_MIN_DISTANCE_FACTOR;
+  controls.maxDistance = maxDim * PREMIUM_MAX_DISTANCE_FACTOR;
   controls.update();
 }
 
@@ -611,14 +718,15 @@ export default function SeatViewerClean({
       new URLSearchParams(window.location.search).get("debugOuterUpholstery") === "1";
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(DEFAULT_BACKGROUND);
+    scene.background = null;
+    scene.environmentIntensity = 1.6;
 
-    const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 100);
-    camera.position.set(0, 0.95, 3.8);
+    const camera = new THREE.PerspectiveCamera(PREMIUM_CAMERA_FOV, 1, 0.01, 100);
+    camera.position.set(2.4, 1.08, 1.08);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: false,
+      alpha: true,
       powerPreference: "high-performance",
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
@@ -628,36 +736,252 @@ export default function SeatViewerClean({
     );
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.8;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
     renderer.domElement.style.display = "block";
+    renderer.domElement.style.cursor = "grab";
     container.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.06;
+    controls.dampingFactor = PREMIUM_DAMPING_FACTOR;
     controls.enablePan = false;
+    controls.enableZoom = false;
+    controls.zoomSpeed = PREMIUM_ZOOM_SPEED;
+    controls.autoRotate = false;
+    controls.autoRotateSpeed = 0;
     controls.minDistance = 1.8;
     controls.maxDistance = 6.5;
-    controls.target.set(0, 0.9, 0);
+    controls.target.set(0, 0.98, 0);
     controls.update();
 
-    const ambientLift = new THREE.HemisphereLight(0xf0f3f7, 0x121217, 0.82);
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
-    keyLight.position.set(4.8, 6.1, 5.4);
-    configureDirectionalLight(keyLight, new THREE.Vector3(0.08, 0.68, 0.34));
+    const zoomState = {
+      targetDistance: camera.position.distanceTo(controls.target),
+    };
+    const returnState = {
+      defaultAzimuth: controls.getAzimuthalAngle(),
+      defaultPolar: controls.getPolarAngle(),
+      hasDefaultOrbit: false,
+      isUserInteracting: false,
+      isAnimating: false,
+      animationStartedAt: 0,
+      startAzimuth: 0,
+      startPolar: 0,
+    };
+    let resetTimeoutId: number | null = null;
+    const zoomClock = new THREE.Clock();
+    const zoomOffset = new THREE.Vector3();
+    const orbitOffset = new THREE.Vector3();
+    const orbitSpherical = new THREE.Spherical();
 
-    const fillLight = new THREE.DirectionalLight(0xe7edf5, 1.55);
-    fillLight.position.set(-5.1, 3.5, 2.4);
-    configureDirectionalLight(fillLight, new THREE.Vector3(-0.12, 0.6, -0.18));
+    function clampZoomDistance(distance: number) {
+      return THREE.MathUtils.clamp(distance, controls.minDistance, controls.maxDistance);
+    }
 
-    const rimLight = new THREE.DirectionalLight(0xf5f8ff, 2.35);
-    rimLight.position.set(-4.2, 4.1, -5.8);
-    configureDirectionalLight(rimLight, new THREE.Vector3(0, 0.82, -0.46));
+    function syncTargetDistanceFromCamera() {
+      zoomState.targetDistance = clampZoomDistance(camera.position.distanceTo(controls.target));
+    }
+
+    function clearResetTimeout() {
+      if (resetTimeoutId === null) {
+        return;
+      }
+
+      window.clearTimeout(resetTimeoutId);
+      resetTimeoutId = null;
+    }
+
+    function stopReturnToDefault() {
+      returnState.isAnimating = false;
+      returnState.animationStartedAt = 0;
+    }
+
+    function applyOrbitAngles(azimuth: number, polar: number) {
+      const distance = clampZoomDistance(camera.position.distanceTo(controls.target));
+      orbitSpherical.set(distance, polar, azimuth);
+      orbitOffset.setFromSpherical(orbitSpherical);
+      camera.position.copy(controls.target).add(orbitOffset);
+      camera.lookAt(controls.target);
+    }
+
+    function beginReturnToDefault() {
+      if (returnState.isUserInteracting || !returnState.hasDefaultOrbit) {
+        return;
+      }
+
+      const startAzimuth = controls.getAzimuthalAngle();
+      const startPolar = controls.getPolarAngle();
+      const azimuthDelta = getShortestAngleDelta(startAzimuth, returnState.defaultAzimuth);
+      const polarDelta = returnState.defaultPolar - startPolar;
+
+      if (Math.abs(azimuthDelta) < 0.0001 && Math.abs(polarDelta) < 0.0001) {
+        stopReturnToDefault();
+        return;
+      }
+
+      returnState.isAnimating = true;
+      returnState.animationStartedAt = performance.now();
+      returnState.startAzimuth = startAzimuth;
+      returnState.startPolar = startPolar;
+    }
+
+    function scheduleReturnToDefault() {
+      clearResetTimeout();
+      if (!returnState.hasDefaultOrbit) {
+        return;
+      }
+
+      resetTimeoutId = window.setTimeout(() => {
+        resetTimeoutId = null;
+        beginReturnToDefault();
+      }, PREMIUM_RETURN_TO_DEFAULT_DELAY_MS);
+    }
+
+    function markPassiveInteraction() {
+      stopReturnToDefault();
+      clearResetTimeout();
+      scheduleReturnToDefault();
+    }
+
+    function updateReturnToDefault(now: number) {
+      if (!returnState.isAnimating || returnState.isUserInteracting || !returnState.hasDefaultOrbit) {
+        return;
+      }
+
+      const elapsed = now - returnState.animationStartedAt;
+      const t = Math.min(elapsed / PREMIUM_RETURN_TO_DEFAULT_DURATION_MS, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const azimuthDelta = getShortestAngleDelta(returnState.startAzimuth, returnState.defaultAzimuth);
+      const nextAzimuth = returnState.startAzimuth + azimuthDelta * ease;
+      const nextPolar = THREE.MathUtils.lerp(
+        returnState.startPolar,
+        returnState.defaultPolar,
+        ease,
+      );
+
+      applyOrbitAngles(nextAzimuth, nextPolar);
+
+      if (t >= 1) {
+        stopReturnToDefault();
+      }
+    }
+
+    function onControlsStart() {
+      returnState.isUserInteracting = true;
+      stopReturnToDefault();
+      clearResetTimeout();
+      renderer.domElement.style.cursor = "grabbing";
+    }
+
+    function onControlsEnd() {
+      returnState.isUserInteracting = false;
+      renderer.domElement.style.cursor = "grab";
+      scheduleReturnToDefault();
+    }
+
+    function captureDefaultOrbit() {
+      returnState.defaultAzimuth = controls.getAzimuthalAngle();
+      returnState.defaultPolar = controls.getPolarAngle();
+      returnState.hasDefaultOrbit = true;
+    }
+
+    function onWheelZoom(event: WheelEvent) {
+      event.preventDefault();
+
+      const deltaModeScale =
+        event.deltaMode === WheelEvent.DOM_DELTA_LINE
+          ? 16
+          : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+            ? window.innerHeight
+            : 1;
+      const delta = THREE.MathUtils.clamp(event.deltaY * deltaModeScale, -240, 240);
+      if (delta === 0) {
+        return;
+      }
+
+      const zoomFactor = Math.exp(delta * controls.zoomSpeed * PREMIUM_WHEEL_DELTA_FACTOR);
+      zoomState.targetDistance = clampZoomDistance(zoomState.targetDistance * zoomFactor);
+      markPassiveInteraction();
+    }
+
+    function updateSmoothZoom(deltaSeconds: number) {
+      const currentDistance = zoomOffset.copy(camera.position).sub(controls.target).length();
+      if (currentDistance <= 0.0001) {
+        return;
+      }
+
+      const nextDistance = THREE.MathUtils.damp(
+        currentDistance,
+        zoomState.targetDistance,
+        PREMIUM_ZOOM_SMOOTHING,
+        deltaSeconds,
+      );
+      if (Math.abs(nextDistance - currentDistance) <= 0.0001) {
+        return;
+      }
+
+      zoomOffset.setLength(nextDistance);
+      camera.position.copy(controls.target).add(zoomOffset);
+      camera.lookAt(controls.target);
+    }
+
+    renderer.domElement.addEventListener("wheel", onWheelZoom, { passive: false });
+    controls.addEventListener("start", onControlsStart);
+    controls.addEventListener("end", onControlsEnd);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, STUDIO_KEY_LIGHT_INTENSITY);
+    keyLight.position.copy(STUDIO_KEY_LIGHT_POSITION);
+    configureDirectionalLight(keyLight, STUDIO_KEY_LIGHT_TARGET);
+    configureStudioShadowLight(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xffffff, STUDIO_FILL_LIGHT_INTENSITY);
+    fillLight.position.copy(STUDIO_FILL_LIGHT_POSITION);
+    configureDirectionalLight(fillLight, STUDIO_FILL_LIGHT_TARGET);
+
+    const rimLight = new THREE.DirectionalLight(0xffffff, STUDIO_RIM_LIGHT_INTENSITY);
+    rimLight.position.copy(STUDIO_RIM_LIGHT_POSITION);
+    configureDirectionalLight(rimLight, STUDIO_RIM_LIGHT_TARGET);
+
+    const floorFadeTexture = createStudioFloorFadeTexture();
+    const floorBase = new THREE.Mesh(
+      new THREE.PlaneGeometry(24, 24),
+      new THREE.MeshBasicMaterial({
+        map: floorFadeTexture,
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+      }),
+    );
+    floorBase.rotation.x = -Math.PI / 2;
+    floorBase.position.y = -0.601;
+
+    const floorShadow = new THREE.Mesh(
+      new THREE.PlaneGeometry(24, 24),
+      new THREE.ShadowMaterial({
+        color: 0x000000,
+        opacity: 0.2,
+        depthWrite: false,
+      }),
+    );
+    floorShadow.rotation.x = -Math.PI / 2;
+    floorShadow.position.y = -0.599;
+    floorShadow.receiveShadow = true;
+
+    const lightSphere = new THREE.Mesh(
+      new THREE.SphereGeometry(3, 32, 32),
+      new THREE.MeshBasicMaterial({
+        color: 0x16181c,
+        side: THREE.BackSide,
+      }),
+    );
 
     scene.add(
-      ambientLift,
+      floorBase,
+      floorShadow,
+      lightSphere,
       keyLight,
       keyLight.target,
       fillLight,
@@ -670,6 +994,9 @@ export default function SeatViewerClean({
       MAX_TEXTURE_ANISOTROPY,
       renderer.capabilities.getMaxAnisotropy(),
     );
+    if (floorFadeTexture) {
+      floorFadeTexture.anisotropy = maxAnisotropy;
+    }
     const brownLeatherTextures = createBrownLeatherTextures(
       new THREE.TextureLoader(),
       maxAnisotropy,
@@ -829,7 +1156,7 @@ export default function SeatViewerClean({
         }
 
         seatRoot = gltf.scene;
-        seatRoot.rotation.y = Math.PI * 0.08;
+        seatRoot.rotation.y = 0;
 
         let visibleMeshCount = 0;
         let hiddenMeshCount = 0;
@@ -872,7 +1199,7 @@ export default function SeatViewerClean({
           }
 
           obj.visible = true;
-          obj.castShadow = false;
+          obj.castShadow = true;
           obj.receiveShadow = false;
 
           const nextMaterials = materialScan.map(
@@ -949,6 +1276,10 @@ export default function SeatViewerClean({
 
         scene.add(seatRoot);
         fitCameraToObject(seatRoot, camera, controls);
+        fitShadowToSeat(keyLight, seatRoot);
+        syncTargetDistanceFromCamera();
+        captureDefaultOrbit();
+        controls.saveState();
 
         setSeatData(containerEl, "visible-mesh-count", visibleMeshCount);
         setSeatData(containerEl, "hidden-mesh-count", hiddenMeshCount);
@@ -981,7 +1312,10 @@ export default function SeatViewerClean({
 
     function render() {
       frameId = window.requestAnimationFrame(render);
+      const deltaSeconds = Math.min(zoomClock.getDelta(), 0.05);
       controls.update();
+      updateReturnToDefault(performance.now());
+      updateSmoothZoom(deltaSeconds);
       renderer.render(scene, camera);
 
       if (seatRoot && !hasLoggedFirstFrame) {
@@ -1000,6 +1334,10 @@ export default function SeatViewerClean({
       disposed = true;
       window.removeEventListener("resize", onResize);
       window.cancelAnimationFrame(frameId);
+      clearResetTimeout();
+      renderer.domElement.removeEventListener("wheel", onWheelZoom);
+      controls.removeEventListener("start", onControlsStart);
+      controls.removeEventListener("end", onControlsEnd);
 
       controls.dispose();
 
@@ -1029,6 +1367,16 @@ export default function SeatViewerClean({
       envRT?.dispose();
       pmrem?.dispose();
       disposeBrownLeatherTextures(brownLeatherTextures);
+      scene.remove(floorBase);
+      floorBase.geometry.dispose();
+      (floorBase.material as THREE.Material).dispose();
+      scene.remove(floorShadow);
+      floorShadow.geometry.dispose();
+      (floorShadow.material as THREE.Material).dispose();
+      floorFadeTexture?.dispose();
+      scene.remove(lightSphere);
+      lightSphere.geometry.dispose();
+      (lightSphere.material as THREE.Material).dispose();
       renderer.dispose();
 
       if (window.__seatViewerDebug) {
