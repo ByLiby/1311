@@ -84,10 +84,11 @@ const PREMIUM_ZOOM_SMOOTHING = 8;
 const PREMIUM_WHEEL_DELTA_FACTOR = 0.0018;
 const PREMIUM_RETURN_TO_DEFAULT_DELAY_MS = 1500;
 const PREMIUM_RETURN_TO_DEFAULT_DURATION_MS = 1500;
-const PREMIUM_HERO_DISTANCE_FACTOR = 1.82;
-const PREMIUM_TARGET_HEIGHT_FACTOR = 0.17;
-const PREMIUM_HERO_FRONT_AZIMUTH = THREE.MathUtils.degToRad(24);
-const PREMIUM_CAMERA_HEIGHT_FACTOR = 0.24;
+const PREMIUM_HERO_DISTANCE_FACTOR = 2.08;
+const PREMIUM_TARGET_HEIGHT_FACTOR = 0.06;
+const PREMIUM_HERO_FRONT_AZIMUTH = THREE.MathUtils.degToRad(4);
+const PREMIUM_CAMERA_HEIGHT_FACTOR = 0.3;
+const PREMIUM_MODEL_Y_ROTATION = THREE.MathUtils.degToRad(-12);
 const PREMIUM_MIN_DISTANCE_FACTOR = 0.8;
 const PREMIUM_MAX_DISTANCE_FACTOR = 3.3;
 const STUDIO_KEY_LIGHT_INTENSITY = 0.95;
@@ -1156,7 +1157,7 @@ export default function SeatViewerClean({
         }
 
         seatRoot = gltf.scene;
-        seatRoot.rotation.y = 0;
+        seatRoot.rotation.y = PREMIUM_MODEL_Y_ROTATION;
 
         let visibleMeshCount = 0;
         let hiddenMeshCount = 0;

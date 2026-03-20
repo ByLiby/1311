@@ -311,15 +311,15 @@ function HeroSection({
             <div className="pointer-events-none absolute bottom-[10%] left-[20%] h-20 w-[42%] rounded-full bg-white/6 blur-3xl" />
 
             <div className="relative h-[clamp(25rem,62vh,38rem)] w-full sm:h-[clamp(30rem,70vh,48rem)] lg:h-[clamp(40rem,84vh,64rem)]">
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,6,0.92)_0%,rgba(5,5,6,0.34)_18%,rgba(5,5,6,0)_38%,rgba(5,5,6,0)_100%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_14%,rgba(5,5,6,0.6),transparent_22%),radial-gradient(circle_at_90%_14%,rgba(5,5,6,0.52),transparent_20%),radial-gradient(circle_at_88%_86%,rgba(5,5,6,0.46),transparent_22%),radial-gradient(circle_at_16%_88%,rgba(5,5,6,0.42),transparent_24%)]" />
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_8%,rgba(255,255,255,0.14),transparent_28%),radial-gradient(circle_at_82%_50%,rgba(135,153,180,0.12),transparent_24%),radial-gradient(circle_at_28%_48%,rgba(214,187,134,0.08),transparent_30%)]" />
               <div
                 className="absolute inset-0 overflow-hidden"
                 style={{
                   WebkitMaskImage:
-                    "radial-gradient(ellipse 88% 80% at 62% 54%, #000 48%, rgba(0,0,0,0.96) 70%, transparent 100%)",
+                    "radial-gradient(ellipse 90% 84% at 62% 54%, #000 42%, rgba(0,0,0,0.98) 62%, rgba(0,0,0,0.82) 76%, rgba(0,0,0,0.28) 90%, transparent 100%)",
                   maskImage:
-                    "radial-gradient(ellipse 88% 80% at 62% 54%, #000 48%, rgba(0,0,0,0.96) 70%, transparent 100%)",
+                    "radial-gradient(ellipse 90% 84% at 62% 54%, #000 42%, rgba(0,0,0,0.98) 62%, rgba(0,0,0,0.82) 76%, rgba(0,0,0,0.28) 90%, transparent 100%)",
                 }}
               >
                 <div className="absolute inset-[-4%_-6%_-8%_-8%] lg:inset-[-6%_-8%_-10%_-10%]">
@@ -329,7 +329,11 @@ function HeroSection({
                   />
                 </div>
               </div>
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#050506] via-[#050506]/72 to-transparent sm:h-28 lg:h-32" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,#050506_0%,rgba(5,5,6,0.94)_18%,rgba(5,5,6,0.62)_54%,rgba(5,5,6,0)_100%)] sm:h-28 lg:h-32" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(0deg,#050506_0%,rgba(5,5,6,0.94)_20%,rgba(5,5,6,0.62)_56%,rgba(5,5,6,0)_100%)] sm:h-28 lg:h-32" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-[linear-gradient(90deg,#050506_0%,rgba(5,5,6,0.84)_24%,rgba(5,5,6,0.38)_62%,rgba(5,5,6,0)_100%)] sm:w-20 lg:w-24" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-[linear-gradient(270deg,#050506_0%,rgba(5,5,6,0.78)_24%,rgba(5,5,6,0.3)_62%,rgba(5,5,6,0)_100%)] sm:w-20 lg:w-24" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_88%_82%_at_50%_52%,transparent_58%,rgba(5,5,6,0.08)_74%,rgba(5,5,6,0.26)_88%,rgba(5,5,6,0.46)_100%)]" />
             </div>
           </div>
         </div>
