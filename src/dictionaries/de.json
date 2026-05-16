@@ -1,9 +1,9 @@
 {
   "meta": {
-    "siteTitle": "Leder Stoffe | Automotive Kunstleder & Polstermaterialien",
+    "siteTitle": "Leder Stoffe | Automobilkunstleder & Polstermaterialien",
     "siteDescription": "Premium Kunstleder, Mikrofasermaterialien und technische Bezugsstoffe ab Lager Österreich mit europaweiter Lieferung.",
     "home": {
-      "title": "Leder Stoffe | Automotive Kunstleder & Polstermaterialien",
+      "title": "Leder Stoffe | Automobilkunstleder & Polstermaterialien",
       "description": "Premium Kunstleder, Mikrofasermaterialien und technische Bezugsstoffe ab Lager Österreich mit europaweiter Lieferung."
     },
     "legalNotice": {
@@ -30,66 +30,80 @@
     "about": "Über uns",
     "contact": "Kontakt"
   },
-  "contactCta": "Kontakt",
+  "contactCta": "Beratung",
   "hero": {
-    "eyebrow": "Automotive Materialien für professionelle Innenausstattungen",
-    "headline": "Automotive Kunstleder und Bezugsstoffe für Sattlereien, Verarbeiter und B2B-Projekte.",
-    "subline": "Premium Kunstleder, Mikrofaser- und Bezugsstoffe ab Lager Österreich, mit technischer Beratung, verlässlicher Verfügbarkeit und schneller Lieferung für Automotive- und Interieuranwendungen.",
-    "ctaPrimary": "Angebot anfragen",
-    "ctaSecondary": "Materialien ansehen",
-    "heroAlt": "Premium Automotive Lederinterieur"
+    "eyebrow": "Direkt vom Lager in Österreich",
+    "headline": "Kunstleder & technische Stoffe direkt ab Lager",
+    "subline": "Für Auto, Bus, Bahn, Yacht & Möbel. Muster möglich. Europaweite Lieferung.",
+    "ctaPrimary": "Muster anfragen",
+    "ctaSecondary": "Kollektion ansehen",
+    "heroAlt": "Premium Interieur mit Automobilkunstleder"
   },
   "trustBar": [
     {
       "title": "Lagerware in Österreich",
-      "text": "Standort Zell am See"
+      "text": "Sofort verfügbare Materialien"
     },
     {
-      "title": "Europaweiter Versand",
-      "text": "Lieferung in die gesamte EU"
+      "title": "Versand in ganz Europa",
+      "text": "Schnell und zuverlässig"
     },
     {
-      "title": "Erfahrung & Qualität",
-      "text": "Professionelle Materialien"
-    },
-    {
-      "title": "Flexibel ab 1 Meter",
-      "text": "Keine hohen Mindestmengen"
+      "title": "B2B & Privatkunden",
+      "text": "Beratung für Projekte jeder Größe"
     }
   ],
   "about": {
     "headline": "Über uns",
     "p1": "Als spezialisierter Materialdistributor mit Sitz in Zell am See beliefern wir Verarbeiter, Sattlereien und B2B-Partner in ganz Europa mit hochwertigen Kunstleder- und Bezugsstofflösungen.",
-    "p2": "Unsere Materialien sind auf Langlebigkeit, Oberflächenpräzision und verlässliche Verarbeitbarkeit ausgelegt, entwickelt für professionelle Automotive-, Objekt- und Interieuranwendungen.",
+    "p2": "Unsere Materialien sind auf Langlebigkeit, Oberflächenpräzision und verlässliche Verarbeitbarkeit ausgelegt, entwickelt für professionelle Automobil-, Objekt- und Interieuranwendungen.",
     "p3": "Durch lokale Lagerhaltung in Österreich gewährleisten wir kurze Lieferzeiten, hohe Verfügbarkeit und maximale Flexibilität bei Bestellmengen."
   },
   "materialsHome": {
     "heading": "Materialbereiche",
-    "subline": "Hochwertige Materialien für Automotive, Transport und Innenausstattung.",
+    "subline": "Unsere wichtigsten Materialgruppen auf einen Blick.",
     "cards": [
       {
         "slug": "automobilkunstleder",
         "title": "Automobilkunstleder",
-        "image": "/images/automobilkunstleder.webp",
+        "image": "/materials/Materialbereiche/Automobilkunstleder.png",
         "alt": "Vorschau Automobilkunstleder",
-        "label": "Automotive"
+        "label": "Sofort verfügbar",
+        "description": "Für Auto, Möbel & Gewerbe.",
+        "usage": "Für Auto, Möbel & Gewerbe.",
+        "cta": "Kollektion ansehen"
       },
       {
         "slug": "other",
-        "title": "Materialien entdecken",
-        "image": "/images/bus-leder-stoffe-hero.webp",
+        "title": "Technische Stoffe",
+        "image": "/materials/Materialbereiche/Busstoff.png",
         "alt": "Vorschau weiterer Materialien",
-        "label": "Transport & Interior"
+        "label": "Technische Stoffe",
+        "description": "Für Bus, Bahn, Yacht & Innenausbau.",
+        "usage": "Für Bus, Bahn, Yacht & Innenausbau.",
+        "cta": "Materialien ansehen"
       }
     ]
   },
   "socialsHome": {
-    "heading": "Unsere Socials",
-    "subline": "Bleiben Sie mit uns in Kontakt und entdecken Sie neue Materialien, Projekte und Einblicke."
+    "heading": "Social & Direktkontakt",
+    "subline": "Für schnelle Rückfragen, Einblicke und aktuelle Materialien finden Sie uns auch hier.",
+    "cardLabel": "Direktkontakt"
+  },
+  "trustSection": {
+    "kicker": "Vertrauen",
+    "headline": "Warum Leder und Stoffe?",
+    "items": [
+      "Direkt ab Lager",
+      "Große Materialauswahl",
+      "Europaweiter Versand",
+      "Beratung per WhatsApp"
+    ],
+    "contactLabel": "WhatsApp"
   },
   "materialCatalog": {
-    "overviewLabel": "Materialübersicht",
-    "backHomeLabel": "Zur Startseite",
+    "overviewLabel": "Materialien",
+    "backHomeLabel": "Zurück zur Startseite",
     "pricePerMeterLabel": "Preis pro Meter",
     "priceUnitLabel": "EUR/m",
     "categories": {
@@ -100,20 +114,90 @@
           "plural": "Materialien"
         },
         "products": [
-          { "id": "pu-classic-grain", "name": "PU Classic Grain 1,2 mm", "pricePerMeter": 21.9 },
-          { "id": "pu-soft-touch", "name": "PU Soft Touch 1,1 mm", "pricePerMeter": 24.5 },
-          { "id": "pvc-heavy-duty", "name": "PVC Schwerlast 1,3 mm", "pricePerMeter": 19.8 },
-          { "id": "perforated-pu-black", "name": "Perforiertes PU Schwarz", "pricePerMeter": 26.4 },
-          { "id": "double-layer-seat-grade", "name": "Doppelschicht für Sitze", "pricePerMeter": 28.9 },
-          { "id": "uv-stable-exterior-pu", "name": "UV-stabiles Außen-PU", "pricePerMeter": 31.2 },
-          { "id": "micro-fiber-support-pu", "name": "PU mit Mikrofaser-Träger", "pricePerMeter": 33.5 },
-          { "id": "flame-retardant-pvc", "name": "Flammhemmendes PVC", "pricePerMeter": 27.1 },
-          { "id": "nappa-look-pu", "name": "PU Premium Nappa-Optik", "pricePerMeter": 29.7 },
-          { "id": "oem-matte-pvc", "name": "OEM PVC Mattfinish", "pricePerMeter": 23.4 },
-          { "id": "cold-resistant-vinyl", "name": "Kältebeständiges Sitzvinyl", "pricePerMeter": 25.8 },
-          { "id": "carbon-embossed-pu", "name": "PU Carbon-Prägung", "pricePerMeter": 30.6 },
-          { "id": "anti-slip-console-pu", "name": "Anti-Rutsch Konsolen-PU", "pricePerMeter": 22.9 },
-          { "id": "marine-grade-vinyl", "name": "Marine Vinyl 1,0 mm", "pricePerMeter": 27.8 }
+          {
+            "id": "pu-classic-grain",
+            "name": "Kunstleder Grain 01",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-01.png"
+          },
+          {
+            "id": "pu-soft-touch",
+            "name": "Kunstleder Soft Touch 02",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-02.png"
+          },
+          {
+            "id": "pvc-heavy-duty",
+            "name": "Kunstleder Seat Grade 03",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-03.png"
+          },
+          {
+            "id": "perforated-pu-black",
+            "name": "Kunstleder Perforation 04",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-04.png"
+          },
+          {
+            "id": "double-layer-seat-grade",
+            "name": "Kunstleder Saddle Brown 05",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-05.png"
+          },
+          {
+            "id": "uv-stable-exterior-pu",
+            "name": "Kunstleder Ivory 06",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-06.png"
+          },
+          {
+            "id": "micro-fiber-support-pu",
+            "name": "Kunstleder Microfiber Backing 07",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-07.png"
+          },
+          {
+            "id": "flame-retardant-pvc",
+            "name": "Kunstleder Contract FR 08",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-08.png"
+          },
+          {
+            "id": "nappa-look-pu",
+            "name": "Kunstleder Nappa Look 09",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-09.png"
+          },
+          {
+            "id": "oem-matte-pvc",
+            "name": "Kunstleder OEM Matte 10",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-10.png"
+          },
+          {
+            "id": "cold-resistant-vinyl",
+            "name": "Kunstleder Cold Resistant 11",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-11.png"
+          },
+          {
+            "id": "carbon-embossed-pu",
+            "name": "Kunstleder Carbon Embossed 12",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-12.png"
+          },
+          {
+            "id": "anti-slip-console-pu",
+            "name": "Kunstleder Console Grip 13",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-13.png"
+          },
+          {
+            "id": "marine-grade-vinyl",
+            "name": "Kunstleder Marine Grade 14",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-14.png"
+          }
         ]
       },
       "other": {
@@ -123,20 +207,216 @@
           "plural": "Materialien"
         },
         "products": [
-          { "id": "alcantara-style", "name": "Alcantara-Optik", "pricePerMeter": 34.9 },
-          { "id": "headliner-fabric", "name": "Premium Dachhimmelstoff", "pricePerMeter": 17.6 },
-          { "id": "foam-backing", "name": "Schaumstoff-Rücken 5 mm", "pricePerMeter": 8.9 },
-          { "id": "door-panel-mesh", "name": "Türpaneel-Meshgewebe", "pricePerMeter": 15.2 },
-          { "id": "carpet-felt", "name": "Teppichfilz Anthrazit", "pricePerMeter": 13.7 },
-          { "id": "neoprene-laminate", "name": "Neopren-Laminatplatte", "pricePerMeter": 22.4 },
-          { "id": "acoustic-insulation", "name": "Akustikdämmmatte", "pricePerMeter": 11.9 },
-          { "id": "seat-reinforcement", "name": "Sitzverstärkungstextil", "pricePerMeter": 16.8 },
-          { "id": "velour-headliner-grey", "name": "Velours-Dachhimmel Hellgrau", "pricePerMeter": 18.4 },
-          { "id": "suede-dash-wrap", "name": "Wildleder-Dashboardstoff", "pricePerMeter": 20.6 },
-          { "id": "eva-underlay", "name": "EVA-Unterlage 3 mm", "pricePerMeter": 9.7 },
-          { "id": "trunk-liner-felt", "name": "Kofferraum-Nadelfilz", "pricePerMeter": 12.8 },
-          { "id": "spacer-mesh-3d", "name": "3D-Abstandsgewirke", "pricePerMeter": 19.3 },
-          { "id": "quilted-foam-composite", "name": "Gesteppter Schaumstoff-Verbund", "pricePerMeter": 21.5 }
+          {
+            "id": "alcantara-style",
+            "name": "Busstoff 15",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-15.png"
+          },
+          {
+            "id": "headliner-fabric",
+            "name": "Busstoff 16",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-16.png"
+          },
+          {
+            "id": "foam-backing",
+            "name": "Busstoff 17",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-17.png"
+          },
+          {
+            "id": "door-panel-mesh",
+            "name": "Busstoff 18",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-18.png"
+          },
+          {
+            "id": "carpet-felt",
+            "name": "Busstoff 19",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-19.png"
+          },
+          {
+            "id": "neoprene-laminate",
+            "name": "Busstoff 20",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-20.png"
+          },
+          {
+            "id": "acoustic-insulation",
+            "name": "Busstoff 21",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-21.png"
+          },
+          {
+            "id": "seat-reinforcement",
+            "name": "Busstoff 22",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-22.png"
+          },
+          {
+            "id": "velour-headliner-grey",
+            "name": "Busstoff 23",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-23.png"
+          },
+          {
+            "id": "suede-dash-wrap",
+            "name": "Busstoff 24",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-24.png"
+          },
+          {
+            "id": "eva-underlay",
+            "name": "Busstoff 25",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-25.png"
+          },
+          {
+            "id": "trunk-liner-felt",
+            "name": "Busstoff 26",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-26.png"
+          },
+          {
+            "id": "spacer-mesh-3d",
+            "name": "Busstoff 27",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-27.png"
+          },
+          {
+            "id": "quilted-foam-composite",
+            "name": "Busstoff 28",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-28.png"
+          },
+          {
+            "id": "busstoff-29",
+            "name": "Busstoff 29",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-29.png"
+          },
+          {
+            "id": "busstoff-30",
+            "name": "Busstoff 30",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-30.png"
+          },
+          {
+            "id": "busstoff-31",
+            "name": "Busstoff 31",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-31.png"
+          },
+          {
+            "id": "busstoff-32",
+            "name": "Busstoff 32",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-32.png"
+          },
+          {
+            "id": "busstoff-33",
+            "name": "Busstoff 33",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-33.png"
+          },
+          {
+            "id": "busstoff-34",
+            "name": "Busstoff 34",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-34.png"
+          },
+          {
+            "id": "busstoff-35",
+            "name": "Busstoff 35",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-35.png"
+          },
+          {
+            "id": "busstoff-36",
+            "name": "Busstoff 36",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-36.png"
+          },
+          {
+            "id": "busstoff-37",
+            "name": "Busstoff 37",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-37.png"
+          },
+          {
+            "id": "busstoff-38",
+            "name": "Busstoff 38",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-38.png"
+          },
+          {
+            "id": "busstoff-39",
+            "name": "Busstoff 39",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-39.png"
+          },
+          {
+            "id": "busstoff-40",
+            "name": "Busstoff 40",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-40.png"
+          },
+          {
+            "id": "busstoff-41",
+            "name": "Busstoff 41",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-41.png"
+          },
+          {
+            "id": "busstoff-42",
+            "name": "Busstoff 42",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-42.png"
+          },
+          {
+            "id": "busstoff-43",
+            "name": "Busstoff 43",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-43.png"
+          },
+          {
+            "id": "busstoff-44",
+            "name": "Busstoff 44",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-44.png"
+          },
+          {
+            "id": "busstoff-45",
+            "name": "Busstoff 45",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-45.png"
+          },
+          {
+            "id": "busstoff-46",
+            "name": "Busstoff 46",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-46.png"
+          },
+          {
+            "id": "busstoff-47",
+            "name": "Busstoff 47",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-47.png"
+          },
+          {
+            "id": "busstoff-48",
+            "name": "Busstoff 48",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-48.png"
+          },
+          {
+            "id": "busstoff-49",
+            "name": "Busstoff 49",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-49.png"
+          }
         ]
       }
     }
@@ -144,8 +424,34 @@
   "contactPage": {
     "headline": "Kontakt",
     "p1": "Kontaktieren Sie uns fuer Verfuegbarkeiten, technische Spezifikationen und Preisstaffeln.",
-    "p2": "Wir beraten Sie zu passenden Materialien fuer Automotive- und Interieuranwendungen.",
-    "p3": "Anfragen beantworten wir schnell und direkt ueber die unten stehenden Kontaktwege."
+    "p2": "Wir beraten Sie zu passenden Materialien fuer Automobil- und Interieuranwendungen.",
+    "p3": "Anfragen beantworten wir schnell und direkt ueber die unten stehenden Kontaktwege.",
+    "backLabel": "Zurück",
+    "backAriaLabel": "Zurück zur Startseite",
+    "eyebrow": "Persönliche Beratung",
+    "intro": "Wir beraten Sie persönlich zu Materialien, Projekten und Verfügbarkeiten.",
+    "emailSubject": "Anfrage zu Materialien",
+    "options": [
+      {
+        "title": "Telefon",
+        "text": "Sprechen Sie direkt mit uns",
+        "cta": "Jetzt anrufen",
+        "kind": "phone"
+      },
+      {
+        "title": "WhatsApp",
+        "text": "Schnelle Anfrage mit Bildern möglich",
+        "cta": "Nachricht senden",
+        "kind": "whatsapp"
+      },
+      {
+        "title": "E-Mail",
+        "text": "Für detaillierte Anfragen und Projekte",
+        "cta": "Anfrage senden",
+        "kind": "email"
+      }
+    ],
+    "b2bNote": "Für größere Projekte oder regelmäßige Abnahmen bieten wir persönliche Beratung und langfristige Zusammenarbeit."
   },
   "legalPages": {
     "shared": {
@@ -171,7 +477,11 @@
       },
       "values": {
         "company": "Leder Stoffe",
-        "address": ["Kitzsteinhornstraße 63", "A-5700 Zell am See", "Österreich"],
+        "address": [
+          "Kitzsteinhornstraße 63",
+          "A-5700 Zell am See",
+          "Österreich"
+        ],
         "authorizedRepresentative": "Alexander Naimiller",
         "businessPurpose": "Handel mit Kunstleder, technischen Stoffen, Polstermaterialien sowie Materialien für Automobil-, Bus-, Bahn-, Marine- und Möbelindustrie.",
         "registeredOffice": "5700 Zell am See, Österreich",
@@ -194,11 +504,15 @@
       "values": {
         "company": "Leder Stoffe",
         "representative": "Alexander Naimiller",
-        "address": ["Kitzsteinhornstraße 63", "5700 Zell am See", "Österreich"],
+        "address": [
+          "Kitzsteinhornstraße 63",
+          "5700 Zell am See",
+          "Österreich"
+        ],
         "generalInformation": "Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre Daten ausschließlich auf Grundlage der gesetzlichen Bestimmungen der Datenschutz-Grundverordnung (DSGVO).",
         "emailContact": "Wenn Sie per E-Mail Kontakt mit uns aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage gespeichert. Diese Daten werden nicht ohne Ihre Einwilligung weitergegeben.",
         "serverLogs": "Der Betreiber der Website erhebt und speichert automatisch Informationen in sogenannten Server-Logfiles, die Ihr Browser automatisch übermittelt. Dies sind IP-Adresse, Datum und Uhrzeit der Anfrage, Browsertyp und verwendetes Betriebssystem.",
-        "socialMediaLinks": "Unsere Website enthält Links zu externen sozialen Netzwerken wie Instagram und TikTok. Beim Anklicken dieser Links verlassen Sie unsere Website. Für die Datenverarbeitung auf diesen Plattformen sind die jeweiligen Betreiber verantwortlich.",
+        "socialMediaLinks": "Unsere Website enthält Links zu externen Plattformen wie TikTok und WhatsApp. Beim Anklicken dieser Links verlassen Sie unsere Website. Für die Datenverarbeitung auf diesen Plattformen sind die jeweiligen Betreiber verantwortlich.",
         "rights": "Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten."
       }
     }
@@ -206,7 +520,11 @@
   "footer": {
     "company": "Leder Stoffe",
     "tagline": "MATERIALDISTRIBUTOR | ÖSTERREICH",
-    "address": ["Kitzsteinhornstraße 63", "5700 Zell am See", "Österreich"],
+    "address": [
+      "Kitzsteinhornstraße 63",
+      "5700 Zell am See",
+      "Österreich"
+    ],
     "email": "kunstleder5700@gmail.com",
     "phone": "+43 676 4725428",
     "legalNotice": "Impressum",

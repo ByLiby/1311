@@ -63,7 +63,9 @@ declare global {
   }
 }
 
-const DEFAULT_BACKGROUND = "radial-gradient(circle at center, #0a0a0a 0%, #000000 70%)";
+const DEFAULT_BACKGROUND =
+  "radial-gradient(90% 70% at 54% 42%, rgba(40, 44, 50, 0.24), rgba(8, 9, 11, 0.68) 56%, rgba(3, 3, 4, 0.98) 100%), linear-gradient(145deg, #101114, #050506)";
+const VIEWER_BACKGROUND_STYLE = `var(--seat-viewer-background, ${DEFAULT_BACKGROUND})`;
 const DEFAULT_MODEL_URL = "/seat-optimized.glb";
 const HDR_ENV_MAP_URL = "/hdr/luxury-studio.hdr";
 const MAX_TEXTURE_ANISOTROPY = 8;
@@ -71,11 +73,11 @@ const HIDDEN_ARTIFACT_NAME_PARTS = ["stitch", "thread", "seam", "curve", "line"]
 const BROWN_LEATHER_COLOR_URL = "/seat-assets/leather/Leather033C_1K-JPG_Color.jpg";
 const BROWN_LEATHER_NORMAL_URL = "/seat-assets/leather/Leather033C_1K-JPG_NormalGL.jpg";
 const BROWN_LEATHER_ROUGHNESS_URL = "/seat-assets/leather/Leather033C_1K-JPG_Roughness.jpg";
-const BROWN_LEATHER_REPEAT = 3;
+const BROWN_LEATHER_REPEAT = 3.35;
 const BROWN_LEATHER_TONE = {
-  r: 0.4,
-  g: 0.29,
-  b: 0.25,
+  r: 0.365,
+  g: 0.262,
+  b: 0.218,
 };
 const PREMIUM_CAMERA_FOV = 32;
 const PREMIUM_ZOOM_SPEED = 0.22;
@@ -91,12 +93,12 @@ const PREMIUM_CAMERA_HEIGHT_FACTOR = 0.3;
 const PREMIUM_MODEL_Y_ROTATION = THREE.MathUtils.degToRad(-12);
 const PREMIUM_MIN_DISTANCE_FACTOR = 0.8;
 const PREMIUM_MAX_DISTANCE_FACTOR = 3.3;
-const STUDIO_KEY_LIGHT_INTENSITY = 0.95;
-const STUDIO_FILL_LIGHT_INTENSITY = 0.3;
-const STUDIO_RIM_LIGHT_INTENSITY = 0.5;
-const STUDIO_KEY_LIGHT_POSITION = new THREE.Vector3(0.42, 2.82, 1.68);
-const STUDIO_FILL_LIGHT_POSITION = new THREE.Vector3(-1.62, 1.55, 0.92);
-const STUDIO_RIM_LIGHT_POSITION = new THREE.Vector3(-2.4, 2.04, -0.56);
+const STUDIO_KEY_LIGHT_INTENSITY = 1.08;
+const STUDIO_FILL_LIGHT_INTENSITY = 0.24;
+const STUDIO_RIM_LIGHT_INTENSITY = 0.52;
+const STUDIO_KEY_LIGHT_POSITION = new THREE.Vector3(0.54, 3.18, 1.82);
+const STUDIO_FILL_LIGHT_POSITION = new THREE.Vector3(-1.84, 1.45, 0.88);
+const STUDIO_RIM_LIGHT_POSITION = new THREE.Vector3(-2.7, 2.2, -0.74);
 const STUDIO_KEY_LIGHT_TARGET = new THREE.Vector3(0, 0.82, 0.28);
 const STUDIO_FILL_LIGHT_TARGET = new THREE.Vector3(0, 0.78, 0.12);
 const STUDIO_RIM_LIGHT_TARGET = new THREE.Vector3(0.2, 0.9, 0.14);
@@ -148,11 +150,11 @@ function createStudioFloorFadeTexture() {
   const center = size / 2;
   const radius = size * 0.24;
   const gradient = context.createRadialGradient(center, center, size * 0.04, center, center, radius);
-  gradient.addColorStop(0, "rgba(38, 42, 50, 0.6)");
-  gradient.addColorStop(0.18, "rgba(32, 35, 41, 0.46)");
-  gradient.addColorStop(0.38, "rgba(21, 23, 28, 0.24)");
-  gradient.addColorStop(0.56, "rgba(11, 12, 15, 0.09)");
-  gradient.addColorStop(0.74, "rgba(4, 4, 5, 0.02)");
+  gradient.addColorStop(0, "rgba(22, 24, 28, 0.62)");
+  gradient.addColorStop(0.18, "rgba(18, 20, 23, 0.46)");
+  gradient.addColorStop(0.38, "rgba(10, 11, 13, 0.24)");
+  gradient.addColorStop(0.56, "rgba(6, 7, 8, 0.1)");
+  gradient.addColorStop(0.74, "rgba(6, 7, 8, 0.03)");
   gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
   context.clearRect(0, 0, size, size);
@@ -512,21 +514,21 @@ function createBrownLeatherOuterUpholsteryMaterial(
 ) {
   const mat = new THREE.MeshPhysicalMaterial({
     name: `${sourceMaterialName || "outer_upholstery"}__brown_leather`,
-    color: new THREE.Color("#704d40"),
+    color: new THREE.Color("#654538"),
     map: textures.colorMap,
     normalMap: textures.normalMap,
     roughnessMap: textures.roughnessMap,
-    roughness: 0.98,
+    roughness: 0.94,
     metalness: 0.0,
-    specularIntensity: 0.015,
+    specularIntensity: 0.032,
     clearcoat: 0.0,
-    sheen: 0.55,
-    sheenColor: new THREE.Color("#46352f"),
-    sheenRoughness: 0.95,
+    sheen: 0.66,
+    sheenColor: new THREE.Color("#4d3a31"),
+    sheenRoughness: 0.9,
   });
 
-  mat.normalScale.set(0.07, 0.07);
-  mat.envMapIntensity = 0.18;
+  mat.normalScale.set(0.052, 0.052);
+  mat.envMapIntensity = 0.24;
   mat.clearcoatRoughness = 1.0;
   mat.flatShading = false;
   mat.dithering = true;
@@ -720,7 +722,7 @@ export default function SeatViewerClean({
 
     const scene = new THREE.Scene();
     scene.background = null;
-    scene.environmentIntensity = 1.6;
+    scene.environmentIntensity = 1.12;
 
     const camera = new THREE.PerspectiveCamera(PREMIUM_CAMERA_FOV, 1, 0.01, 100);
     camera.position.set(2.4, 1.08, 1.08);
@@ -737,7 +739,7 @@ export default function SeatViewerClean({
     );
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.8;
+    renderer.toneMappingExposure = 1.48;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.domElement.style.width = "100%";
@@ -933,16 +935,16 @@ export default function SeatViewerClean({
     controls.addEventListener("start", onControlsStart);
     controls.addEventListener("end", onControlsEnd);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, STUDIO_KEY_LIGHT_INTENSITY);
+    const keyLight = new THREE.DirectionalLight(0xf2f5ff, STUDIO_KEY_LIGHT_INTENSITY);
     keyLight.position.copy(STUDIO_KEY_LIGHT_POSITION);
     configureDirectionalLight(keyLight, STUDIO_KEY_LIGHT_TARGET);
     configureStudioShadowLight(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, STUDIO_FILL_LIGHT_INTENSITY);
+    const fillLight = new THREE.DirectionalLight(0xb4bed2, STUDIO_FILL_LIGHT_INTENSITY);
     fillLight.position.copy(STUDIO_FILL_LIGHT_POSITION);
     configureDirectionalLight(fillLight, STUDIO_FILL_LIGHT_TARGET);
 
-    const rimLight = new THREE.DirectionalLight(0xffffff, STUDIO_RIM_LIGHT_INTENSITY);
+    const rimLight = new THREE.DirectionalLight(0xd8e4ff, STUDIO_RIM_LIGHT_INTENSITY);
     rimLight.position.copy(STUDIO_RIM_LIGHT_POSITION);
     configureDirectionalLight(rimLight, STUDIO_RIM_LIGHT_TARGET);
 
@@ -963,7 +965,7 @@ export default function SeatViewerClean({
       new THREE.PlaneGeometry(24, 24),
       new THREE.ShadowMaterial({
         color: 0x000000,
-        opacity: 0.2,
+        opacity: 0.24,
         depthWrite: false,
       }),
     );
@@ -974,15 +976,18 @@ export default function SeatViewerClean({
     const lightSphere = new THREE.Mesh(
       new THREE.SphereGeometry(3, 32, 32),
       new THREE.MeshBasicMaterial({
-        color: 0x16181c,
+        color: 0x0b0c0f,
         side: THREE.BackSide,
       }),
     );
+
+    const ambientLift = new THREE.HemisphereLight(0xdfe8f6, 0x05070a, 0.1);
 
     scene.add(
       floorBase,
       floorShadow,
       lightSphere,
+      ambientLift,
       keyLight,
       keyLight.target,
       fillLight,
@@ -1378,6 +1383,7 @@ export default function SeatViewerClean({
       scene.remove(lightSphere);
       lightSphere.geometry.dispose();
       (lightSphere.material as THREE.Material).dispose();
+      scene.remove(ambientLift);
       renderer.dispose();
 
       if (window.__seatViewerDebug) {
@@ -1398,7 +1404,7 @@ export default function SeatViewerClean({
         position: "relative",
         width: "100%",
         height: resolveCssHeight(height),
-        background: DEFAULT_BACKGROUND,
+        background: VIEWER_BACKGROUND_STYLE,
         overflow: "hidden",
       }}
     >
@@ -1411,7 +1417,7 @@ export default function SeatViewerClean({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: DEFAULT_BACKGROUND,
+            background: VIEWER_BACKGROUND_STYLE,
             pointerEvents: "none",
           }}
         >
@@ -1420,7 +1426,7 @@ export default function SeatViewerClean({
               display: "grid",
               gap: "10px",
               justifyItems: "center",
-              color: "rgba(232, 236, 242, 0.92)",
+              color: "rgba(255, 255, 255, 0.92)",
               textAlign: "center",
             }}
           >
@@ -1429,11 +1435,10 @@ export default function SeatViewerClean({
                 width: "52px",
                 height: "52px",
                 borderRadius: "999px",
-                border: "1px solid rgba(255, 255, 255, 0.12)",
-                background: "rgba(255, 255, 255, 0.04)",
+                border: "1px solid rgba(42, 42, 42, 0.95)",
+                background: "rgba(20, 20, 20, 0.94)",
                 display: "grid",
                 placeItems: "center",
-                backdropFilter: "blur(10px)",
               }}
             >
               <div
@@ -1441,17 +1446,15 @@ export default function SeatViewerClean({
                   width: "18px",
                   height: "18px",
                   borderRadius: "999px",
-                  background: "rgba(255, 255, 255, 0.84)",
-                  boxShadow: "0 0 24px rgba(255, 255, 255, 0.18)",
+                  background: "#C6A96B",
+                  boxShadow: "0 0 24px rgba(0, 0, 0, 0.6)",
                 }}
               />
             </div>
             <div style={{ fontSize: "14px", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              Loading 3D Seat
+              3D
             </div>
-            <div style={{ fontSize: "12px", color: "rgba(185, 193, 205, 0.74)" }}>
-              Fast geometry first, studio finish second.
-            </div>
+            <div style={{ fontSize: "12px", color: "rgba(160, 160, 160, 0.92)" }}>...</div>
           </div>
         </div>
       ) : null}

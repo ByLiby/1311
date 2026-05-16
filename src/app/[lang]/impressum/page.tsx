@@ -62,7 +62,7 @@ export default async function ImpressumPage({ params }: ImpressumPageProps) {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <NextLink
             href={`/${lang}`}
-            className="inline-flex items-center text-sm text-gold transition hover:text-gold-hover"
+            className="inline-flex items-center text-sm text-text-primary underline decoration-gold underline-offset-4 transition hover:text-text-primary"
           >
             {shared.backToHome}
           </NextLink>
@@ -74,7 +74,7 @@ export default async function ImpressumPage({ params }: ImpressumPageProps) {
                   href={`/${item.code}/impressum`}
                   className={`px-1 py-0.5 transition ${
                     item.code === lang
-                      ? "text-gold"
+                      ? "text-text-primary underline decoration-gold underline-offset-4"
                       : "text-text-secondary/50 hover:text-text-primary"
                   }`}
                 >

@@ -7,5 +7,5 @@ export default async function OtherRedirectPage() {
   const cookieLang = cookieStore.get(LANG_COOKIE_NAME)?.value;
   const preferredLang = isSupportedLang(cookieLang) ? cookieLang : DEFAULT_LANG;
 
-  redirect(`/${preferredLang}/other`);
+  redirect(`/${preferredLang}/bus-bahn-stoffe`);
 }

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "siteTitle": "Leder Stoffe | Автомобильная искусственная кожа и обивочные материалы",
+    "siteTitle": "Leder Stoffe | Автомобильный кожзаменитель и обивочные материалы",
     "siteDescription": "Надежные PU- и PVC-решения со склада в Австрии с доставкой по всей Европе.",
     "home": {
-      "title": "Leder Stoffe | Автомобильная искусственная кожа и обивочные материалы",
+      "title": "Leder Stoffe | Автомобильный кожзаменитель и обивочные материалы",
       "description": "Надежные PU- и PVC-решения со склада в Австрии с доставкой по всей Европе."
     },
     "legalNotice": {
@@ -30,31 +30,27 @@
     "about": "О нас",
     "contact": "Контакты"
   },
-  "contactCta": "Запросить предложение",
+  "contactCta": "Консультация",
   "hero": {
-    "eyebrow": "Automotive-материалы для профессиональных интерьерных решений",
-    "headline": "Автомобильная искусственная кожа и обивочные материалы для мастерских, переработчиков и B2B-проектов.",
-    "subline": "Премиальные материалы из искусственной кожи, микрофибры и обивки со склада в Австрии, с технической консультацией, стабильным наличием и быстрой доставкой для automotive- и интерьерных применений.",
-    "ctaPrimary": "Запросить предложение",
-    "ctaSecondary": "Смотреть материалы",
+    "eyebrow": "Поставщик материалов из Австрии",
+    "headline": "Премиальная искусственная кожа, Alcantara и технические ткани со склада",
+    "subline": "Для авто, автобусов, поездов, яхт и мебели. Возможны образцы. Доставка по всей Европе.",
+    "ctaPrimary": "Запросить образцы",
+    "ctaSecondary": "Смотреть коллекцию",
     "heroAlt": "Премиальный автомобильный интерьер"
   },
   "trustBar": [
     {
-      "title": "Склад в Австрии",
-      "text": "Локация Целль-ам-Зее"
+      "title": "Складские позиции в Австрии",
+      "text": "Готово к быстрой отправке"
     },
     {
-      "title": "Доставка по Европе",
-      "text": "Отправка по всему ЕС"
+      "title": "Доставка по всей Европе",
+      "text": "Надежная отправка по Европе"
     },
     {
-      "title": "B2B-специалист Automotive",
-      "text": "Профессиональные материалы"
-    },
-    {
-      "title": "Гибко от 1 метра",
-      "text": "Без крупных минимальных заказов"
+      "title": "B2B и частные клиенты",
+      "text": "Консультации для проектов любого масштаба"
     }
   ],
   "about": {
@@ -65,55 +61,143 @@
   },
   "materialsHome": {
     "heading": "Категории материалов",
-    "subline": "Качественные материалы для automotive, transport и интерьерных решений.",
+    "subline": "Наши основные группы материалов с первого взгляда.",
     "cards": [
       {
         "slug": "automobilkunstleder",
-        "title": "Автомобильная искусственная кожа",
-        "image": "/images/automobilkunstleder.webp",
+        "title": "Автомобильный кожзаменитель",
+        "image": "/materials/Materialbereiche/Automobilkunstleder.png",
         "alt": "Превью автомобильной искусственной кожи",
-        "label": "Automotive"
+        "label": "В наличии на складе",
+        "description": "Для авто, мебели и коммерческих объектов.",
+        "usage": "Для авто, мебели и коммерческих объектов.",
+        "cta": "Смотреть коллекцию"
       },
       {
         "slug": "other",
-        "title": "Открыть материалы",
-        "image": "/images/bus-leder-stoffe-hero.webp",
+        "title": "Технические ткани",
+        "image": "/materials/Materialbereiche/Busstoff.png",
         "alt": "Превью других материалов",
-        "label": "Transport & Interior"
+        "label": "Технические ткани",
+        "description": "Для автобусов, ж/д, яхт и интерьеров.",
+        "usage": "Для автобусов, ж/д, яхт и интерьеров.",
+        "cta": "Смотреть материалы"
       }
     ]
   },
   "socialsHome": {
-    "heading": "Наши соцсети",
-    "subline": "Оставайтесь с нами на связи и открывайте новые материалы, проекты и закулисные детали."
+    "heading": "Соцсети и прямой контакт",
+    "subline": "Для быстрых вопросов, обновлений по материалам и новинок вы можете связаться с нами и здесь.",
+    "cardLabel": "Прямой контакт"
+  },
+  "trustSection": {
+    "kicker": "Доверие",
+    "headline": "Почему Leder & Stoffe?",
+    "items": [
+      "Прямо со склада",
+      "Большой выбор материалов",
+      "Доставка по Европе",
+      "Консультация в WhatsApp"
+    ],
+    "contactLabel": "WhatsApp"
   },
   "materialCatalog": {
-    "overviewLabel": "Обзор материалов",
-    "backHomeLabel": "На главную",
+    "overviewLabel": "Материалы",
+    "backHomeLabel": "Вернуться на главную",
     "pricePerMeterLabel": "Цена за метр",
-    "priceUnitLabel": "EUR/м",
+    "priceUnitLabel": "EUR/m",
     "categories": {
       "automobilkunstleder": {
-        "title": "Автомобильная искусственная кожа",
+        "title": "Автомобильный кожзаменитель",
         "countLabel": {
           "singular": "материал",
           "plural": "материалов"
         },
         "products": [
-          { "id": "pu-classic-grain", "name": "PU Classic Grain 1,2 мм", "pricePerMeter": 21.9 },
-          { "id": "pu-soft-touch", "name": "PU Soft Touch 1,1 мм", "pricePerMeter": 24.5 },
-          { "id": "pvc-heavy-duty", "name": "PVC усиленный 1,3 мм", "pricePerMeter": 19.8 },
-          { "id": "perforated-pu-black", "name": "Перфорированный PU черный", "pricePerMeter": 26.4 },
-          { "id": "double-layer-seat-grade", "name": "Двухслойный материал для сидений", "pricePerMeter": 28.9 },
-          { "id": "uv-stable-exterior-pu", "name": "UV-стойкий наружный PU", "pricePerMeter": 31.2 },
-          { "id": "micro-fiber-support-pu", "name": "PU с микрофибровой основой", "pricePerMeter": 33.5 },
-          { "id": "flame-retardant-pvc", "name": "Огнестойкий PVC", "pricePerMeter": 27.1 },
-          { "id": "nappa-look-pu", "name": "PU премиум с эффектом Наппа", "pricePerMeter": 29.7 },
-          { "id": "oem-matte-pvc", "name": "OEM PVC матовый", "pricePerMeter": 23.4 },
-          { "id": "cold-resistant-vinyl", "name": "Морозостойкий винил для сидений", "pricePerMeter": 25.8 },
-          { "id": "carbon-embossed-pu", "name": "PU с карбоновой текстурой", "pricePerMeter": 30.6 },
-          { "id": "anti-slip-console-pu", "name": "Антискользящий PU для консолей", "pricePerMeter": 22.9 },
-          { "id": "marine-grade-vinyl", "name": "Винил морского класса 1,0 мм", "pricePerMeter": 27.8 }
+          {
+            "id": "pu-classic-grain",
+            "name": "Kunstleder Grain 01",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-01.png"
+          },
+          {
+            "id": "pu-soft-touch",
+            "name": "Kunstleder Soft Touch 02",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-02.png"
+          },
+          {
+            "id": "pvc-heavy-duty",
+            "name": "Kunstleder Seat Grade 03",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-03.png"
+          },
+          {
+            "id": "perforated-pu-black",
+            "name": "Kunstleder Perforation 04",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-04.png"
+          },
+          {
+            "id": "double-layer-seat-grade",
+            "name": "Kunstleder Saddle Brown 05",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-05.png"
+          },
+          {
+            "id": "uv-stable-exterior-pu",
+            "name": "Kunstleder Ivory 06",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-06.png"
+          },
+          {
+            "id": "micro-fiber-support-pu",
+            "name": "Kunstleder Microfiber Backing 07",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-07.png"
+          },
+          {
+            "id": "flame-retardant-pvc",
+            "name": "Kunstleder Contract FR 08",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-08.png"
+          },
+          {
+            "id": "nappa-look-pu",
+            "name": "Kunstleder Nappa Look 09",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-09.png"
+          },
+          {
+            "id": "oem-matte-pvc",
+            "name": "Kunstleder OEM Matte 10",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-10.png"
+          },
+          {
+            "id": "cold-resistant-vinyl",
+            "name": "Kunstleder Cold Resistant 11",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-11.png"
+          },
+          {
+            "id": "carbon-embossed-pu",
+            "name": "Kunstleder Carbon Embossed 12",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-12.png"
+          },
+          {
+            "id": "anti-slip-console-pu",
+            "name": "Kunstleder Console Grip 13",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-13.png"
+          },
+          {
+            "id": "marine-grade-vinyl",
+            "name": "Kunstleder Marine Grade 14",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-14.png"
+          }
         ]
       },
       "other": {
@@ -123,20 +207,216 @@
           "plural": "материалов"
         },
         "products": [
-          { "id": "alcantara-style", "name": "Алькантара-стиль", "pricePerMeter": 34.9 },
-          { "id": "headliner-fabric", "name": "Премиум ткань потолка", "pricePerMeter": 17.6 },
-          { "id": "foam-backing", "name": "Поролоновая подложка 5 мм", "pricePerMeter": 8.9 },
-          { "id": "door-panel-mesh", "name": "Сетчатая ткань дверных панелей", "pricePerMeter": 15.2 },
-          { "id": "carpet-felt", "name": "Ковровый войлок антрацит", "pricePerMeter": 13.7 },
-          { "id": "neoprene-laminate", "name": "Неопреновый ламинированный лист", "pricePerMeter": 22.4 },
-          { "id": "acoustic-insulation", "name": "Акустический изоляционный мат", "pricePerMeter": 11.9 },
-          { "id": "seat-reinforcement", "name": "Армирующий текстиль для сидений", "pricePerMeter": 16.8 },
-          { "id": "velour-headliner-grey", "name": "Велюр для потолка светло-серый", "pricePerMeter": 18.4 },
-          { "id": "suede-dash-wrap", "name": "Замша для торпедо", "pricePerMeter": 20.6 },
-          { "id": "eva-underlay", "name": "Подложка EVA 3 мм", "pricePerMeter": 9.7 },
-          { "id": "trunk-liner-felt", "name": "Иглопробивной войлок багажника", "pricePerMeter": 12.8 },
-          { "id": "spacer-mesh-3d", "name": "3D дистанционная сетчатая ткань", "pricePerMeter": 19.3 },
-          { "id": "quilted-foam-composite", "name": "Стеганый пенный композит", "pricePerMeter": 21.5 }
+          {
+            "id": "alcantara-style",
+            "name": "Busstoff 15",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-15.png"
+          },
+          {
+            "id": "headliner-fabric",
+            "name": "Busstoff 16",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-16.png"
+          },
+          {
+            "id": "foam-backing",
+            "name": "Busstoff 17",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-17.png"
+          },
+          {
+            "id": "door-panel-mesh",
+            "name": "Busstoff 18",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-18.png"
+          },
+          {
+            "id": "carpet-felt",
+            "name": "Busstoff 19",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-19.png"
+          },
+          {
+            "id": "neoprene-laminate",
+            "name": "Busstoff 20",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-20.png"
+          },
+          {
+            "id": "acoustic-insulation",
+            "name": "Busstoff 21",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-21.png"
+          },
+          {
+            "id": "seat-reinforcement",
+            "name": "Busstoff 22",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-22.png"
+          },
+          {
+            "id": "velour-headliner-grey",
+            "name": "Busstoff 23",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-23.png"
+          },
+          {
+            "id": "suede-dash-wrap",
+            "name": "Busstoff 24",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-24.png"
+          },
+          {
+            "id": "eva-underlay",
+            "name": "Busstoff 25",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-25.png"
+          },
+          {
+            "id": "trunk-liner-felt",
+            "name": "Busstoff 26",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-26.png"
+          },
+          {
+            "id": "spacer-mesh-3d",
+            "name": "Busstoff 27",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-27.png"
+          },
+          {
+            "id": "quilted-foam-composite",
+            "name": "Busstoff 28",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-28.png"
+          },
+          {
+            "id": "busstoff-29",
+            "name": "Busstoff 29",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-29.png"
+          },
+          {
+            "id": "busstoff-30",
+            "name": "Busstoff 30",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-30.png"
+          },
+          {
+            "id": "busstoff-31",
+            "name": "Busstoff 31",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-31.png"
+          },
+          {
+            "id": "busstoff-32",
+            "name": "Busstoff 32",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-32.png"
+          },
+          {
+            "id": "busstoff-33",
+            "name": "Busstoff 33",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-33.png"
+          },
+          {
+            "id": "busstoff-34",
+            "name": "Busstoff 34",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-34.png"
+          },
+          {
+            "id": "busstoff-35",
+            "name": "Busstoff 35",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-35.png"
+          },
+          {
+            "id": "busstoff-36",
+            "name": "Busstoff 36",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-36.png"
+          },
+          {
+            "id": "busstoff-37",
+            "name": "Busstoff 37",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-37.png"
+          },
+          {
+            "id": "busstoff-38",
+            "name": "Busstoff 38",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-38.png"
+          },
+          {
+            "id": "busstoff-39",
+            "name": "Busstoff 39",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-39.png"
+          },
+          {
+            "id": "busstoff-40",
+            "name": "Busstoff 40",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-40.png"
+          },
+          {
+            "id": "busstoff-41",
+            "name": "Busstoff 41",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-41.png"
+          },
+          {
+            "id": "busstoff-42",
+            "name": "Busstoff 42",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-42.png"
+          },
+          {
+            "id": "busstoff-43",
+            "name": "Busstoff 43",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-43.png"
+          },
+          {
+            "id": "busstoff-44",
+            "name": "Busstoff 44",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-44.png"
+          },
+          {
+            "id": "busstoff-45",
+            "name": "Busstoff 45",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-45.png"
+          },
+          {
+            "id": "busstoff-46",
+            "name": "Busstoff 46",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-46.png"
+          },
+          {
+            "id": "busstoff-47",
+            "name": "Busstoff 47",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-47.png"
+          },
+          {
+            "id": "busstoff-48",
+            "name": "Busstoff 48",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-48.png"
+          },
+          {
+            "id": "busstoff-49",
+            "name": "Busstoff 49",
+            "pricePerMeter": 15,
+            "image": "/images/spheres/busstoff-49.png"
+          }
         ]
       }
     }
@@ -145,11 +425,37 @@
     "headline": "Контакты",
     "p1": "Свяжитесь с нами для уточнения наличия, технических характеристик и ценовых условий.",
     "p2": "Мы поможем подобрать подходящие материалы для автомобильных и интерьерных применений.",
-    "p3": "Мы быстро отвечаем по контактным каналам, указанным ниже."
+    "p3": "Мы быстро отвечаем по контактным каналам, указанным ниже.",
+    "backLabel": "Назад",
+    "backAriaLabel": "Вернуться на главную",
+    "eyebrow": "Персональная консультация",
+    "intro": "Мы лично консультируем по материалам, проектам и наличию на складе.",
+    "emailSubject": "Запрос по материалам",
+    "options": [
+      {
+        "title": "Телефон",
+        "text": "Свяжитесь с нами напрямую",
+        "cta": "Позвонить",
+        "kind": "phone"
+      },
+      {
+        "title": "WhatsApp",
+        "text": "Быстрый запрос с фотографиями",
+        "cta": "Отправить сообщение",
+        "kind": "whatsapp"
+      },
+      {
+        "title": "E-Mail",
+        "text": "Для подробных запросов и проектов",
+        "cta": "Отправить запрос",
+        "kind": "email"
+      }
+    ],
+    "b2bNote": "Для более крупных проектов или регулярных закупок мы предлагаем персональную консультацию и долгосрочное сотрудничество."
   },
   "legalPages": {
     "shared": {
-      "backToHome": "Назад на главную",
+      "backToHome": "Вернуться на главную",
       "contactPage": "Контакты",
       "phoneLabel": "Телефон",
       "emailLabel": "E-Mail"
@@ -171,7 +477,11 @@
       },
       "values": {
         "company": "Leder Stoffe",
-        "address": ["Kitzsteinhornstraße 63", "A-5700 Zell am See", "Австрия"],
+        "address": [
+          "Kitzsteinhornstraße 63",
+          "A-5700 Zell am See",
+          "Австрия"
+        ],
         "authorizedRepresentative": "Alexander Naimiller",
         "businessPurpose": "Торговля искусственной кожей, техническими тканями, обивочными материалами, а также материалами для автомобильной, автобусной, железнодорожной, морской и мебельной промышленности.",
         "registeredOffice": "5700 Zell am See, Австрия",
@@ -194,11 +504,15 @@
       "values": {
         "company": "Leder Stoffe",
         "representative": "Alexander Naimiller",
-        "address": ["Kitzsteinhornstraße 63", "5700 Zell am See", "Австрия"],
+        "address": [
+          "Kitzsteinhornstraße 63",
+          "5700 Zell am See",
+          "Австрия"
+        ],
         "generalInformation": "Защита ваших персональных данных имеет для нас особое значение. Мы обрабатываем ваши данные исключительно на основании положений Общего регламента по защите данных (GDPR).",
         "emailContact": "Если вы связываетесь с нами по электронной почте, предоставленные вами данные сохраняются для обработки запроса. Эти данные не передаются третьим лицам без вашего согласия.",
         "serverLogs": "Оператор сайта автоматически собирает и сохраняет информацию в так называемых логах сервера, которую ваш браузер передает автоматически. Это IP-адрес, дата и время запроса, тип браузера и используемая операционная система.",
-        "socialMediaLinks": "Наш сайт содержит ссылки на внешние социальные сети, такие как Instagram и TikTok. При переходе по этим ссылкам вы покидаете наш сайт. За обработку данных на этих платформах отвечают соответствующие операторы.",
+        "socialMediaLinks": "Наш сайт содержит ссылки на внешние платформы, такие как TikTok и WhatsApp. При переходе по этим ссылкам вы покидаете наш сайт. За обработку данных на этих платформах отвечают соответствующие операторы.",
         "rights": "Вы имеете право на получение информации, исправление, удаление и ограничение обработки ваших персональных данных."
       }
     }
@@ -206,7 +520,11 @@
   "footer": {
     "company": "Leder Stoffe",
     "tagline": "ДИСТРИБЬЮТОР МАТЕРИАЛОВ | АВСТРИЯ",
-    "address": ["Kitzsteinhornstraße 63", "5700 Zell am See", "Австрия"],
+    "address": [
+      "Kitzsteinhornstraße 63",
+      "5700 Zell am See",
+      "Австрия"
+    ],
     "email": "kunstleder5700@gmail.com",
     "phone": "+43 676 4725428",
     "legalNotice": "Юридическая информация",

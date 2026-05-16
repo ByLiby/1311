@@ -1,6 +1,4 @@
-import { notFound } from "next/navigation";
-import MaterialCatalogPage from "@/app/_components/material-catalog-page";
-import { getDictionary } from "@/lib/dictionary";
+import { notFound, redirect } from "next/navigation";
 import { isSupportedLang } from "@/lib/i18n";
 
 type LocalizedPageProps = {
@@ -16,7 +14,5 @@ export default async function OtherMaterialsPage({ params }: LocalizedPageProps)
     notFound();
   }
 
-  const dictionary = await getDictionary(lang);
-
-  return <MaterialCatalogPage lang={lang} category="other" dictionary={dictionary} />;
+  redirect(`/${lang}/bus-bahn-stoffe`);
 }

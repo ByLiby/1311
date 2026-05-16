@@ -25,7 +25,7 @@ export default function ContactPageClient({
             <p className="text-lg font-semibold tracking-tight text-text-primary">
               {dictionary.footer.company}
             </p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-gold">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-text-secondary">
               {dictionary.footer.tagline}
             </p>
           </NextLink>
@@ -56,7 +56,7 @@ export default function ContactPageClient({
                     href={`/${item.code}/kontakt`}
                     className={`px-1 py-0.5 transition ${
                       item.code === lang
-                        ? "text-gold"
+                        ? "text-text-primary underline decoration-gold underline-offset-4"
                         : "text-text-secondary/50 hover:text-text-primary"
                     }`}
                   >
@@ -80,7 +80,7 @@ export default function ContactPageClient({
                 href={`/${item.code}/kontakt`}
                 className={`px-1 py-0.5 transition ${
                   item.code === lang
-                    ? "text-gold"
+                    ? "text-text-primary underline decoration-gold underline-offset-4"
                     : "text-text-secondary/50 hover:text-text-primary"
                 }`}
               >
