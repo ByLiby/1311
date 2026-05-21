@@ -72,7 +72,7 @@ export default function DachhimmelstoffeVariants({
 
   return (
     <>
-      <div className="relative overflow-hidden rounded-[1.75rem] border border-gold/14 bg-[linear-gradient(145deg,rgba(17,16,14,0.76),rgba(5,5,5,0.68))] px-4 py-5 shadow-[0_22px_68px_rgba(0,0,0,0.48)] sm:px-5 sm:py-6 lg:px-6">
+      <div className="relative overflow-hidden rounded-[1.75rem] border border-gold/14 bg-[linear-gradient(145deg,rgba(24,24,24,0.58),rgba(16,16,16,0.64))] px-4 py-5 shadow-[0_22px_68px_rgba(0,0,0,0.38)] backdrop-blur-sm sm:px-5 sm:py-6 lg:px-6">
         <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(208,180,111,0.5),transparent)]" />
 
         <div className="-mx-4 overflow-x-auto px-4 pb-3 [scrollbar-width:none] sm:-mx-5 sm:px-5 lg:mx-0 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
@@ -86,7 +86,7 @@ export default function DachhimmelstoffeVariants({
                   type="button"
                   aria-label={`${variant.name[lang]} - ${copy.enlarge}`}
                   onClick={() => setLightboxIndex(index)}
-                  className="group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-[1rem] border border-white/8 bg-black/34 text-left shadow-[0_18px_42px_rgba(0,0,0,0.36)] transition duration-500 hover:border-gold/32 sm:aspect-[5/4] lg:aspect-[4/5]"
+                  className="group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-[1rem] border border-white/8 bg-[rgba(16,16,16,0.38)] text-left shadow-[0_18px_42px_rgba(0,0,0,0.3)] transition duration-500 hover:border-gold/32 sm:aspect-[5/4] lg:aspect-[4/5]"
                 >
                   <Image
                     src={variant.src}
@@ -96,7 +96,7 @@ export default function DachhimmelstoffeVariants({
                     sizes="(min-width: 1280px) 17vw, (min-width: 1024px) 19vw, (min-width: 640px) 40vw, 74vw"
                     className="object-cover object-center transition duration-700 group-hover:scale-[1.035] group-hover:brightness-110"
                   />
-                  <span className="pointer-events-none absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-gold/22 bg-black/38 text-text-primary opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.42)] backdrop-blur-md transition duration-300 group-hover:opacity-100">
+                  <span className="pointer-events-none absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-gold/22 bg-[rgba(16,16,16,0.46)] text-text-primary opacity-0 shadow-[0_12px_30px_rgba(0,0,0,0.34)] backdrop-blur-md transition duration-300 group-hover:opacity-100">
                     <ZoomIn size={15} strokeWidth={2.2} />
                   </span>
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.24))]" />

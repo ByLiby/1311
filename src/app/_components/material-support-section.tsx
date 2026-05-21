@@ -48,7 +48,7 @@ function InfoAccordion({
         <h2 className="font-serif text-[1.85rem] font-semibold tracking-tight text-text-primary">
           {title}
         </h2>
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/28 bg-black/30 text-gold shadow-[0_12px_32px_rgba(0,0,0,0.34)] transition duration-300 group-hover:border-gold/50 group-hover:bg-black/42">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/28 bg-[rgba(16,16,16,0.4)] text-gold shadow-[0_12px_32px_rgba(0,0,0,0.3)] transition duration-300 group-hover:border-gold/50 group-hover:bg-[rgba(24,24,24,0.54)]">
           <Icon size={18} strokeWidth={2.4} />
         </span>
       </button>
@@ -94,7 +94,7 @@ export default function MaterialSupportSection({
 
       <section className="luxury-glass-panel overflow-hidden rounded-[2rem] border border-divider shadow-[0_24px_70px_rgba(0,0,0,0.62)]">
         <div className="grid gap-0 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-stretch">
-          <div className="relative min-h-[18rem] overflow-hidden border-b border-divider bg-black/40 lg:border-b-0 lg:border-r">
+          <div className="relative min-h-[18rem] overflow-hidden border-b border-divider bg-[rgba(16,16,16,0.34)] lg:border-b-0 lg:border-r">
             <Image
               src={image.src}
               alt={image.alt}

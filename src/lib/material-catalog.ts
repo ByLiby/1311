@@ -27,12 +27,12 @@ type RawMaterialProduct =
 export type MaterialCategorySlug = BaseMaterialCategorySlug;
 export type CustomMaterialCategorySlug =
   | "dachhimmelstoffe"
-  | "bus-bahn-stoffe"
-  | "yacht-marine";
+  | "bus-bahn-stoffe";
 export type MaterialPageSlug = MaterialCategorySlug | CustomMaterialCategorySlug;
 
 export type MaterialProduct = RawMaterialProduct & {
   image: string;
+  stageImage?: string;
   imageAlt: string;
   primaryColor: MaterialColorTone;
   secondaryColor?: MaterialColorTone;
@@ -51,14 +51,12 @@ const MATERIAL_CATEGORIES: MaterialPageSlug[] = [
   "automobilkunstleder",
   "dachhimmelstoffe",
   "bus-bahn-stoffe",
-  "yacht-marine",
   "other",
 ];
 
 const CUSTOM_MATERIAL_CATEGORIES: CustomMaterialCategorySlug[] = [
   "dachhimmelstoffe",
   "bus-bahn-stoffe",
-  "yacht-marine",
 ];
 
 type CustomMaterialPageCopy = {
@@ -115,18 +113,6 @@ const CUSTOM_MATERIAL_COPY: Record<
         "Lagerware verfügbar",
       ],
     },
-    "yacht-marine": {
-      eyebrow: "OUTDOOR & MARINE",
-      title: "Yacht & Marine",
-      description:
-        "Materialien für Boote, Yachten, Outdoor-Polster, Poolbereiche und anspruchsvolle Außenanwendungen.",
-      advantages: [
-        "Für Yacht & Boot",
-        "Für Outdoor geeignet",
-        "Pflegeleichte Oberflächen",
-        "Muster auf Anfrage",
-      ],
-    },
   },
   en: {
     dachhimmelstoffe: {
@@ -151,18 +137,6 @@ const CUSTOM_MATERIAL_COPY: Record<
         "High resilience",
         "Professional quality",
         "Stock available",
-      ],
-    },
-    "yacht-marine": {
-      eyebrow: "OUTDOOR & MARINE",
-      title: "Yacht & Marine",
-      description:
-        "Materials for boats, yachts, outdoor upholstery, pool areas and demanding exterior applications.",
-      advantages: [
-        "For yacht & boat",
-        "Suitable for outdoor use",
-        "Easy-care surfaces",
-        "Samples on request",
       ],
     },
   },
@@ -191,25 +165,15 @@ const CUSTOM_MATERIAL_COPY: Record<
         "Складские позиции",
       ],
     },
-    "yacht-marine": {
-      eyebrow: "МОРСКОЕ И НАРУЖНОЕ ПРИМЕНЕНИЕ",
-      title: "Яхты и морское применение",
-      description:
-        "Материалы для лодок, яхт, наружных подушек, зон у бассейна и требовательных наружных применений.",
-      advantages: [
-        "Для яхт и лодок",
-        "Для наружного применения",
-        "Простые в уходе поверхности",
-        "Образцы по запросу",
-      ],
-    },
   },
 };
 
 const getBusstoffImage = (index: number) =>
   `/images/spheres/busstoff-${String(index).padStart(2, "0")}.png`;
 const KUNSTLEDER_MATERIAL_DIR = join(process.cwd(), "public", "materials", "kunstleder");
+const BUS_STAGE_IMAGE_DIR = join(process.cwd(), "public", "images", "stageImage");
 const KUNSTLEDER_IMAGE_EXTENSIONS = new Set([".jpeg", ".jpg", ".png", ".webp"]);
+const BUS_STAGE_IMAGE_EXTENSIONS = new Set([".jpeg", ".jpg", ".png", ".webp"]);
 const KUNSTLEDER_PRICE_LABEL: Record<SupportedLang, string> = {
   de: "29,99 €",
   en: "29.99 €",
@@ -300,7 +264,7 @@ const CUSTOM_MATERIAL_PRODUCTS: Record<
         en: "Interior Velour Liner",
         ru: "Интерьерный велюр",
       },
-      image: "/textures/alcantara-style.jpg",
+      image: "/images/Himmelstoffe/2.png",
       primaryColor: "grey",
       secondaryColor: "anthracite",
       styles: ["premium", "neutral"],
@@ -318,7 +282,7 @@ const CUSTOM_MATERIAL_PRODUCTS: Record<
         en: "Headliner Anthracite",
         ru: "Потолочная ткань Anthracite",
       },
-      image: "/materials/alcantara_black.jpg",
+      image: "/images/Himmelstoffe/3.png",
       primaryColor: "anthracite",
       secondaryColor: "black",
       styles: ["neutral"],
@@ -336,7 +300,7 @@ const CUSTOM_MATERIAL_PRODUCTS: Record<
         en: "Headliner Black",
         ru: "Потолочная ткань Black",
       },
-      image: "/materials/alcantara%20black.jpg",
+      image: "/images/Himmelstoffe/4.png",
       primaryColor: "black",
       secondaryColor: "anthracite",
       styles: ["modern", "neutral"],
@@ -345,80 +309,6 @@ const CUSTOM_MATERIAL_PRODUCTS: Record<
         de: "Dunkle Stoffqualitaet fuer Himmel, Saeulen und Paneele.",
         en: "Dark fabric quality for headliners, pillars and panels.",
         ru: "Темный материал для потолков, стоек и панелей.",
-      },
-    },
-  ],
-  "yacht-marine": [
-    {
-      id: "outdoor-vinyl-ivory",
-      name: {
-        de: "Outdoor Vinyl Ivory",
-        en: "Outdoor Vinyl Ivory",
-        ru: "Outdoor Vinyl Ivory",
-      },
-      image: "/materials/kunstleder/Arctic%20Ivory.jpeg",
-      primaryColor: "ivory",
-      secondaryColor: "beige",
-      styles: ["premium", "neutral"],
-      applications: ["marine-outdoor", "interior"],
-      subline: {
-        de: "Helle Qualitaet fuer Polster und Aussenbereiche.",
-        en: "Light quality for upholstery and outdoor areas.",
-        ru: "Светлый материал для подушек и наружных зон.",
-      },
-    },
-    {
-      id: "poolbereich-outdoor",
-      name: {
-        de: "Poolbereich Outdoor",
-        en: "Poolside Outdoor",
-        ru: "Poolside Outdoor",
-      },
-      image: "/materials/kunstleder/Camel%20Sand.jpeg",
-      primaryColor: "brown",
-      secondaryColor: "beige",
-      styles: ["neutral", "premium"],
-      applications: ["marine-outdoor"],
-      subline: {
-        de: "Warmer Ton fuer Lounge-, Pool- und Aussenpolster.",
-        en: "Warm tone for lounge, pool and outdoor upholstery.",
-        ru: "Теплый оттенок для lounge, pool и outdoor подушек.",
-      },
-    },
-    {
-      id: "marine-vinyl-ocean",
-      name: {
-        de: "Marine Vinyl Ocean",
-        en: "Marine Vinyl Ocean",
-        ru: "Marine Vinyl Ocean",
-      },
-      image: "/materials/kunstleder/Ocean%20Blue.jpeg",
-      primaryColor: "black",
-      secondaryColor: "grey",
-      styles: ["premium", "neutral"],
-      applications: ["marine-outdoor", "interior"],
-      subline: {
-        de: "Pflegeleichte Marine-Oberflaeche fuer Yacht und Boot.",
-        en: "Easy-care marine surface for yachts and boats.",
-        ru: "Легкая в уходе marine-поверхность для яхт и лодок.",
-      },
-    },
-    {
-      id: "marine-black",
-      name: {
-        de: "Marine Black",
-        en: "Marine Black",
-        ru: "Marine Black",
-      },
-      image: "/materials/kunstleder/Satin%20Black.jpeg",
-      primaryColor: "black",
-      secondaryColor: "anthracite",
-      styles: ["modern", "premium"],
-      applications: ["marine-outdoor", "interior"],
-      subline: {
-        de: "Dunkle Outdoor-Oberflaeche fuer robuste Anwendungen.",
-        en: "Dark outdoor surface for robust applications.",
-        ru: "Темная outdoor-поверхность для прочных применений.",
       },
     },
   ],
@@ -523,6 +413,32 @@ function getKunstlederFiles() {
     });
 }
 
+function normalizeBusStageImageKey(value: string) {
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function getBusStageImagesByName() {
+  try {
+    return readdirSync(BUS_STAGE_IMAGE_DIR, { withFileTypes: true })
+      .filter((entry) => {
+        return (
+          entry.isFile() &&
+          BUS_STAGE_IMAGE_EXTENSIONS.has(extname(entry.name).toLowerCase())
+        );
+      })
+      .reduce((imagesByName, entry) => {
+        imagesByName.set(
+          normalizeBusStageImageKey(parse(entry.name).name),
+          `/images/stageImage/${encodeURIComponent(entry.name)}`,
+        );
+
+        return imagesByName;
+      }, new Map<string, string>());
+  } catch {
+    return new Map<string, string>();
+  }
+}
+
 function getKunstlederProductName(fileName: string) {
   return parse(fileName)
     .name.split(/\s+/)
@@ -604,16 +520,19 @@ function getKunstlederProducts(lang: SupportedLang): MaterialProduct[] {
 
 function getBusBahnProducts(lang: SupportedLang): MaterialProduct[] {
   const colorCycle: MaterialColorTone[] = ["grey", "anthracite", "black", "beige", "brown", "red"];
+  const stageImagesByName = getBusStageImagesByName();
 
   return BUS_BAHN_COLOR_PROGRESSION.map((materialNumber) => {
     const primaryColor = colorCycle[(materialNumber - 1) % colorCycle.length];
+    const name = `Busstoff ${materialNumber}`;
 
     return {
       id: `busstoff-${materialNumber}`,
-      name: `Busstoff ${materialNumber}`,
+      name,
       pricePerMeter: 15,
       image: getBusstoffImage(materialNumber),
-      imageAlt: `Busstoff ${materialNumber} ${BUS_RAIL_IMAGE_ALT_SUFFIX[lang]}`,
+      stageImage: stageImagesByName.get(normalizeBusStageImageKey(name)),
+      imageAlt: `${name} ${BUS_RAIL_IMAGE_ALT_SUFFIX[lang]}`,
       primaryColor,
       secondaryColor: primaryColor === "anthracite" ? "black" : "anthracite",
       styles: ["neutral"],

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { KeyboardEvent } from "react";
+import type { KeyboardEvent, MouseEvent } from "react";
 import type { MaterialProduct } from "@/lib/material-catalog";
 
 function formatPricePerMeter(pricePerMeter: number, _locale: string, unitLabel: string) {
@@ -32,7 +32,7 @@ export function ProductBadge({ label }: { label?: string }) {
   }
 
   return (
-    <span className="pointer-events-none absolute left-3 top-3 z-20 rounded-full border border-gold/45 bg-[linear-gradient(135deg,rgba(208,180,111,0.24),rgba(15,13,10,0.82))] px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-[#F8E8B8] shadow-[0_10px_26px_rgba(0,0,0,0.35),0_0_18px_rgba(208,180,111,0.12)] backdrop-blur-md sm:left-4 sm:top-4">
+    <span className="pointer-events-none absolute left-3 top-3 z-20 rounded-full border border-gold/45 bg-[linear-gradient(135deg,rgba(200,164,93,0.2),rgba(15,15,15,0.84))] px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-[#ead29b] shadow-[0_10px_26px_rgba(0,0,0,0.35)] backdrop-blur-md sm:left-4 sm:top-4">
       {label}
     </span>
   );
@@ -45,6 +45,10 @@ type ProductCardProps = {
   variant?: ProductCardVariant;
   priority?: boolean;
   onSelect?: () => void;
+  focusAriaLabel?: string;
+  actionLabel?: string;
+  actionHref?: string;
+  hintLabel?: string;
 };
 
 export default function ProductCard({
@@ -54,9 +58,17 @@ export default function ProductCard({
   variant = "card",
   priority = false,
   onSelect,
+  focusAriaLabel,
+  actionLabel,
+  actionHref,
+  hintLabel,
 }: ProductCardProps) {
   const usesSvgPreview = product.image.endsWith(".svg");
   const priceLabel = getProductPriceLabel(product, locale, priceUnitLabel);
+  const compactHint = product.badgeLabel ?? product.previewLabel ?? hintLabel;
+  const handleActionClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.stopPropagation();
+  };
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (!onSelect) {
       return;
@@ -73,24 +85,19 @@ export default function ProductCard({
       <article
         role={onSelect ? "button" : undefined}
         tabIndex={onSelect ? 0 : undefined}
-        aria-label={onSelect ? `${product.name} im Fokus ansehen` : undefined}
+        aria-label={onSelect ? focusAriaLabel : undefined}
         onClick={onSelect}
         onKeyDown={onSelect ? handleKeyDown : undefined}
-        className={`group text-center${onSelect ? " cursor-pointer" : ""}`}
+        className={`materialCatalogFloatingProduct group text-center transition duration-500 hover:-translate-y-1${onSelect ? " cursor-pointer" : ""}`}
       >
-        <div
-          className="relative mx-auto grid h-64 place-items-center sm:h-[19rem] lg:h-[21rem]"
-          style={{ perspective: "900px" }}
-        >
+        <div className="relative mx-auto grid h-64 place-items-center sm:h-[19rem] lg:h-[21rem]">
           <div className="relative h-44 w-44 sm:h-56 sm:w-56 lg:h-60 lg:w-60">
             <ProductBadge label={product.badgeLabel} />
             <div
               aria-hidden="true"
-              className="absolute inset-0 rounded-[0.85rem] border border-white/10 bg-cover bg-center shadow-[0_28px_70px_rgba(0,0,0,0.72)] transition duration-700 group-hover:-translate-y-1"
+              className="absolute inset-0 rounded-[0.85rem] border border-white/10 bg-cover bg-center shadow-[0_18px_38px_rgba(0,0,0,0.34)] transition duration-700 group-hover:-translate-y-1"
               style={{
                 backgroundImage: `linear-gradient(140deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02) 32%, rgba(0,0,0,0.18)), url("${product.image}")`,
-                transform: "rotateX(58deg) rotateZ(-34deg)",
-                transformStyle: "preserve-3d",
               }}
             />
           </div>
@@ -105,6 +112,22 @@ export default function ProductCard({
         >
           {priceLabel}
         </p>
+        {compactHint ? (
+          <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-text-secondary">
+            {compactHint}
+          </p>
+        ) : null}
+        {actionLabel && actionHref ? (
+          <a
+            href={actionHref}
+            target="_blank"
+            rel="noreferrer"
+            onClick={handleActionClick}
+            className="luxury-button luxury-button-secondary mt-4 inline-flex min-h-[40px] items-center justify-center rounded-full border border-divider px-4 py-2 text-xs font-semibold tracking-[0.08em] text-text-primary"
+          >
+            {actionLabel}
+          </a>
+        ) : null}
       </article>
     );
   }
@@ -114,13 +137,17 @@ export default function ProductCard({
       <article
         role={onSelect ? "button" : undefined}
         tabIndex={onSelect ? 0 : undefined}
-        aria-label={onSelect ? `${product.name} im Fokus ansehen` : undefined}
+        aria-label={onSelect ? focusAriaLabel : undefined}
         onClick={onSelect}
         onKeyDown={onSelect ? handleKeyDown : undefined}
-        className={`group text-center${onSelect ? " cursor-pointer" : ""}`}
+        className={`group flex h-full flex-col items-center px-2 text-center transition duration-500 hover:-translate-y-1${onSelect ? " cursor-pointer" : ""}`}
       >
-        <div className="mx-auto grid place-items-center">
+        <div className="mx-auto grid w-full place-items-center">
           <div className="relative aspect-square w-full max-w-[18rem] sm:max-w-[19.5rem] lg:max-w-[21rem]">
+            <div
+              aria-hidden="true"
+              className="absolute inset-[14%] rounded-full bg-[radial-gradient(circle,rgba(200,164,93,0.14),rgba(200,164,93,0.03)_45%,transparent_72%)] blur-2xl"
+            />
             <ProductBadge label={product.badgeLabel} />
             <Image
               src={product.image}
@@ -134,13 +161,31 @@ export default function ProductCard({
           </div>
         </div>
 
-        <h3 className="mt-5 text-[1.05rem] font-semibold tracking-tight text-text-primary sm:text-[1.15rem]">
-          {product.name}
-        </h3>
-        <div className="mx-auto mt-3 h-px w-14 bg-gold/70" />
-        <p className="mt-2 text-sm font-semibold tracking-[0.02em] text-text-primary sm:text-[0.95rem]">
-          {priceLabel}
-        </p>
+        <div className="flex flex-1 flex-col items-center pt-5">
+          <h3 className="text-[1.05rem] font-semibold tracking-tight text-text-primary sm:text-[1.15rem]">
+            {product.name}
+          </h3>
+          <div className="mx-auto mt-3 h-px w-14 bg-gold/70" />
+          <p className="mt-2 text-sm font-semibold tracking-[0.02em] text-text-primary sm:text-[0.95rem]">
+            {priceLabel}
+          </p>
+          {compactHint ? (
+            <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-text-secondary">
+              {compactHint}
+            </p>
+          ) : null}
+          {actionLabel && actionHref ? (
+            <a
+              href={actionHref}
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleActionClick}
+              className="luxury-button luxury-button-secondary mt-4 inline-flex min-h-[40px] items-center justify-center rounded-full border border-divider px-4 py-2 text-xs font-semibold tracking-[0.08em] text-text-primary"
+            >
+              {actionLabel}
+            </a>
+          ) : null}
+        </div>
       </article>
     );
   }
@@ -149,14 +194,14 @@ export default function ProductCard({
     <article
       role={onSelect ? "button" : undefined}
       tabIndex={onSelect ? 0 : undefined}
-      aria-label={onSelect ? `${product.name} im Fokus ansehen` : undefined}
+      aria-label={onSelect ? focusAriaLabel : undefined}
       onClick={onSelect}
       onKeyDown={onSelect ? handleKeyDown : undefined}
       className={`luxury-product-card group flex h-full flex-col overflow-hidden rounded-[1.65rem] border border-divider bg-card-bg shadow-[0_24px_65px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1 hover:bg-card-bg-hover${onSelect ? " cursor-pointer" : ""}`}
     >
       <div className="p-2.5">
         <div className="luxury-material-sphere-stage relative aspect-[4/4.1] overflow-hidden rounded-[1.3rem] border border-divider bg-surface">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(208,180,111,0.1),transparent_42%),linear-gradient(180deg,#16181d,#0f1115)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(200,164,93,0.08),transparent_42%),linear-gradient(180deg,#222222,#111111)]" />
           <ProductBadge label={product.badgeLabel} />
           <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-3.5">
             <div className="relative aspect-square h-full max-h-[21rem] w-full max-w-[21rem]">
@@ -186,6 +231,22 @@ export default function ProductCard({
           <p className="mt-3 text-[1.35rem] font-semibold tracking-[0.02em] text-text-primary sm:text-[1.5rem]">
             {priceLabel}
           </p>
+          {compactHint ? (
+            <p className="mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-text-secondary">
+              {compactHint}
+            </p>
+          ) : null}
+          {actionLabel && actionHref ? (
+            <a
+              href={actionHref}
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleActionClick}
+              className="luxury-button luxury-button-secondary mt-4 inline-flex min-h-[40px] items-center justify-center rounded-full border border-divider px-4 py-2 text-xs font-semibold tracking-[0.08em] text-text-primary"
+            >
+              {actionLabel}
+            </a>
+          ) : null}
         </div>
       </div>
     </article>

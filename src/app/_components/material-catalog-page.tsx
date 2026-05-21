@@ -20,9 +20,9 @@ const localeByLang: Record<SupportedLang, string> = {
 
 const WHATSAPP_LINK = "https://wa.me/436764725428";
 const CONSULTATION_PRIMARY_CTA_LABEL: Record<SupportedLang, string> = {
-  de: "Beratung anfragen",
-  en: "Request advice",
-  ru: "Запросить консультацию",
+  de: "Anfragen",
+  en: "Inquire",
+  ru: "Запросить",
 };
 
 type MaterialSupportCopy = {
@@ -39,162 +39,66 @@ type MaterialSupportCopy = {
 const AUTOMOTIVE_LEATHER_SUPPORT_COPY: Record<SupportedLang, MaterialSupportCopy> = {
   de: {
     suitableTitle: "Geeignet für",
-    suitableItems: [
-      "Autositze",
-      "Türverkleidungen",
-      "Seitenverkleidungen",
-      "Armlehnen",
-      "Innenraumumbauten",
-      "Wohnmobile",
-      "Boots- und Yachtbereiche je nach Material",
-    ],
-    trustTitle: "Direkt vom Materialhändler",
-    trustItems: [
-      "Viele Varianten direkt ab Lager",
-      "Muster auf Anfrage",
-      "Meterware erhältlich",
-      "Versand in ganz Europa",
-      "Geeignet für professionelle Fahrzeuginnenräume",
-    ],
+    suitableItems: ["Autositze", "Türtafeln", "Verkleidungen", "Wohnmobile"],
+    trustTitle: "Service",
+    trustItems: ["Lagerware", "Muster", "Meterware", "EU Versand"],
     imageAlt: "Automobilkunstleder im hochwertigen Fahrzeuginnenraum",
-    ctaTitle: "Passendes Automobilkunstleder gesucht?",
-    ctaText:
-      "Schreiben Sie uns auf WhatsApp. Wir senden Fotos, beraten zur passenden Oberfläche und Farbe und können Muster vorbereiten.",
-    ctaButton: "Jetzt Muster anfragen",
+    ctaTitle: "Farbe gesucht?",
+    ctaText: "Wir senden aktuelle Lagerfotos per WhatsApp.",
+    ctaButton: "WhatsApp",
   },
   en: {
     suitableTitle: "Suitable for",
-    suitableItems: [
-      "Car seats",
-      "Door panels",
-      "Side panels",
-      "Armrests",
-      "Interior conversions",
-      "Motorhomes",
-      "Boat and yacht areas depending on material",
-    ],
-    trustTitle: "Directly from the material supplier",
-    trustItems: [
-      "Many variants directly from stock",
-      "Samples on request",
-      "Available by the meter",
-      "Shipping across Europe",
-      "Suitable for professional vehicle interiors",
-    ],
+    suitableItems: ["Car seats", "Door panels", "Trims", "Motorhomes"],
+    trustTitle: "Service",
+    trustItems: ["Stocked", "Samples", "By the meter", "EU shipping"],
     imageAlt: "Automotive synthetic leather in a premium vehicle interior",
-    ctaTitle: "Looking for suitable automotive synthetic leather?",
-    ctaText:
-      "Message us on WhatsApp. We can send photos, advise on the right surface and color, and prepare samples.",
-    ctaButton: "Request samples now",
+    ctaTitle: "Need a color?",
+    ctaText: "We send current stock photos via WhatsApp.",
+    ctaButton: "WhatsApp",
   },
   ru: {
     suitableTitle: "Подходит для",
-    suitableItems: [
-      "Автомобильных сидений",
-      "Дверных карт",
-      "Боковых панелей",
-      "Подлокотников",
-      "Переделки интерьера",
-      "Автодомов",
-      "Зон катеров и яхт в зависимости от материала",
-    ],
-    trustTitle: "Напрямую от поставщика материалов",
-    trustItems: [
-      "Многие варианты напрямую со склада",
-      "Образцы по запросу",
-      "Доступно метражом",
-      "Доставка по всей Европе",
-      "Подходит для профессиональных автомобильных интерьеров",
-    ],
+    suitableItems: ["Сидений", "Дверных карт", "Панелей", "Автодомов"],
+    trustTitle: "Сервис",
+    trustItems: ["Со склада", "Образцы", "Метраж", "Доставка ЕС"],
     imageAlt: "Автомобильная искусственная кожа в премиальном салоне",
-    ctaTitle: "Ищете подходящую автомобильную искусственную кожу?",
-    ctaText:
-      "Напишите нам в WhatsApp. Мы отправим фото, поможем подобрать поверхность и цвет, а также подготовим образцы.",
-    ctaButton: "Запросить образцы",
+    ctaTitle: "Нужен цвет?",
+    ctaText: "Отправим актуальные фото склада в WhatsApp.",
+    ctaButton: "WhatsApp",
   },
 };
 
 const BUS_BAHN_SUPPORT_COPY: Record<SupportedLang, MaterialSupportCopy> = {
   de: {
     suitableTitle: "Geeignet für",
-    suitableItems: [
-      "Busse",
-      "Bahnen",
-      "Straßenbahnen",
-      "Reisebusse",
-      "Öffentliche Verkehrsmittel",
-      "Sitzpolster",
-      "Rückenlehnen",
-      "Stark beanspruchte Innenräume",
-    ],
-    trustTitle: "Direkt vom Materialhändler",
-    trustItems: [
-      "Viele Bus- und Bahnstoffe direkt ab Lager",
-      "Meterware erhältlich",
-      "Muster auf Anfrage",
-      "EU-weiter Versand",
-      "Robuste Qualität für professionelle Polsterarbeiten",
-      "Geeignet für Werkstätten, Sattlereien und Fahrzeugausstatter",
-    ],
+    suitableItems: ["Busse", "Bahnen", "Sitze", "Rückenlehnen"],
+    trustTitle: "Service",
+    trustItems: ["Lagerware", "Meterware", "Muster", "EU Versand"],
     imageAlt: "Bus mit robusten Bus- und Bahnstoffen",
-    ctaTitle: "Passenden Stoff für Bus & Bahn gesucht?",
-    ctaText:
-      "Schreiben Sie uns auf WhatsApp. Wir senden Fotos, beraten zur passenden Farbe und Struktur und können Muster vorbereiten.",
-    ctaButton: "Jetzt Muster anfragen",
+    ctaTitle: "Stoff gesucht?",
+    ctaText: "Wir senden Farben und Muster per WhatsApp.",
+    ctaButton: "WhatsApp",
   },
   en: {
     suitableTitle: "Suitable for",
-    suitableItems: [
-      "Buses",
-      "Rail vehicles",
-      "Trams",
-      "Coaches",
-      "Public transport",
-      "Seat cushions",
-      "Backrests",
-      "High-use interiors",
-    ],
-    trustTitle: "Directly from the material supplier",
-    trustItems: [
-      "Many bus and rail fabrics directly from stock",
-      "Available by the meter",
-      "Samples on request",
-      "EU-wide shipping",
-      "Robust quality for professional upholstery work",
-      "Suitable for workshops, upholsterers and vehicle outfitters",
-    ],
+    suitableItems: ["Buses", "Rail", "Seats", "Backrests"],
+    trustTitle: "Service",
+    trustItems: ["Stocked", "By the meter", "Samples", "EU shipping"],
     imageAlt: "Coach with robust bus and rail fabrics",
-    ctaTitle: "Looking for suitable bus and rail fabric?",
-    ctaText:
-      "Message us on WhatsApp. We can send photos, advise on the right color and structure, and prepare samples.",
-    ctaButton: "Request samples now",
+    ctaTitle: "Need fabric?",
+    ctaText: "We send colors and samples via WhatsApp.",
+    ctaButton: "WhatsApp",
   },
   ru: {
     suitableTitle: "Подходит для",
-    suitableItems: [
-      "Автобусов",
-      "Поездов",
-      "Трамваев",
-      "Туристических автобусов",
-      "Общественного транспорта",
-      "Сидений",
-      "Спинок сидений",
-      "Интерьеров с высокой нагрузкой",
-    ],
-    trustTitle: "Напрямую от поставщика материалов",
-    trustItems: [
-      "Многие ткани для автобусов и поездов напрямую со склада",
-      "Доступно метражом",
-      "Образцы по запросу",
-      "Доставка по всему ЕС",
-      "Прочное качество для профессиональной перетяжки",
-      "Подходит для мастерских, ателье и оснащения транспорта",
-    ],
+    suitableItems: ["Автобусов", "Поездов", "Сидений", "Спинок"],
+    trustTitle: "Сервис",
+    trustItems: ["Со склада", "Метраж", "Образцы", "Доставка ЕС"],
     imageAlt: "Автобус с прочными тканями для автобусов и поездов",
-    ctaTitle: "Ищете подходящую ткань для автобуса или поезда?",
-    ctaText:
-      "Напишите нам в WhatsApp. Мы отправим фото, поможем подобрать цвет и структуру, а также подготовим образцы.",
-    ctaButton: "Запросить образцы",
+    ctaTitle: "Нужна ткань?",
+    ctaText: "Отправим цвета и образцы в WhatsApp.",
+    ctaButton: "WhatsApp",
   },
 };
 
@@ -209,27 +113,26 @@ const AUTOMOTIVE_LEATHER_NOTICE_COPY: Record<
   de: {
     title: "Hinweis zum Automobilkunstleder",
     paragraphs: [
-      "Unser Automobilkunstleder-Sortiment wird aktuell erweitert. Viele Farben und Varianten sind bereits auf Lager, aber noch nicht vollständig online gelistet.",
-      "Bitte schauen Sie sich zuerst unsere aktuellen Materialien und Videos auf TikTok an. Dort zeigen wir regelmäßig verfügbare Farben, Oberflächen und neue Ware aus dem Lager.",
-      "Wenn Sie danach eine bestimmte Farbe, Oberfläche oder Qualität suchen, schreiben Sie uns gerne per WhatsApp. Wir senden aktuelle Fotos aus dem Lager und beraten Sie zur passenden Auswahl.",
+      "Auf der Website ist momentan nur ein Teil unserer verfügbaren Varianten sichtbar. Viele weitere Farben, Strukturen und Qualitäten sind bereits lagernd, aber noch nicht online eingepflegt.",
+      "Wir haben deutlich mehr zu bieten als aktuell dargestellt.",
     ],
-    highlight: "Über 200 weitere Automobilkunstleder-Varianten auf Anfrage verfügbar.",
+    highlight: "über 200 Varianten sind auf Anfrage verfügbar.",
   },
   en: {
-    title: "Note on automotive synthetic leather",
+    title: "Notice about automotive leatherette",
     paragraphs: [
-      "Our automotive synthetic leather range is currently being expanded. Many colors and variants are already in stock, but not yet fully listed online.",
-      "If you are looking for a specific color, surface or quality, message us directly on WhatsApp. We can send current photos from stock and advise on the right selection.",
+      "Currently, only a portion of our available variants is displayed on the website. Many additional colors, textures, and qualities are already in stock but have not yet been added online.",
+      "We offer significantly more than what is currently shown.",
     ],
-    highlight: "Over 200 additional automotive synthetic leather variants available on request.",
+    highlight: "Over 200 variants are available on request.",
   },
   ru: {
-    title: "Примечание по автомобильной искусственной коже",
+    title: "Информация об автомобильном кожзаменителе",
     paragraphs: [
-      "Наш ассортимент автомобильной искусственной кожи сейчас расширяется. Многие цвета и варианты уже есть на складе, но еще не полностью размещены онлайн.",
-      "Если вы ищете определенный цвет, поверхность или качество, лучше напишите нам напрямую в WhatsApp. Мы отправим актуальные фото со склада и поможем с выбором.",
+      "На сайте сейчас представлена только часть доступных вариантов. Многие другие цвета, структуры и качества уже есть в наличии, но ещё не добавлены на сайт.",
+      "Мы можем предложить значительно больше, чем показано сейчас.",
     ],
-    highlight: "Более 200 дополнительных вариантов автомобильной искусственной кожи доступны по запросу.",
+    highlight: "Более 200 вариантов доступны по запросу.",
   },
 };
 
@@ -265,7 +168,7 @@ export default function MaterialCatalogPage({
 
   return (
     <main className="luxury-home min-h-screen overflow-x-clip bg-base text-text-primary">
-      <header className="luxury-nav border-b border-divider bg-base/92 backdrop-blur-xl">
+      <header className="luxury-nav sticky top-0 z-40 border-b border-divider bg-base/88 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-4">
           <NextLink href={`/${lang}`} className="shrink-0">
             <p className="luxury-brand-mark text-lg font-semibold tracking-tight text-text-primary">
@@ -279,7 +182,7 @@ export default function MaterialCatalogPage({
           <div className="flex items-center gap-3 sm:gap-5">
             <NextLink
               href={`/${lang}/kontakt`}
-              className="luxury-button luxury-button-primary hidden items-center rounded-full border border-gold bg-gold px-5 py-2.5 text-[13px] font-medium text-base transition sm:inline-flex"
+              className="luxury-button luxury-button-primary hidden items-center rounded-full border border-gold px-5 py-2.5 text-[13px] font-semibold tracking-[0.08em] text-base transition sm:inline-flex"
             >
               {dictionary.contactCta}
             </NextLink>
@@ -306,7 +209,7 @@ export default function MaterialCatalogPage({
         </div>
       </header>
 
-      <section className="border-b border-divider pb-12 pt-5 sm:pb-14 sm:pt-6 xl:pb-16 xl:pt-8">
+      <section className="premiumPatternBackground border-b border-divider pb-12 pt-5 sm:pb-14 sm:pt-6 xl:pb-16 xl:pt-8">
         <div className="relative mx-auto max-w-[90rem] px-6">
           <div className="mb-5 flex justify-start sm:mb-6">
             <BackToHomeButton href={`/${lang}`} label={copy.backHomeLabel} />
@@ -316,6 +219,7 @@ export default function MaterialCatalogPage({
             <DachhimmelstoffeSection lang={lang} />
           ) : (
             <div className="space-y-8 md:space-y-10">
+              <h1 className="sr-only">{currentCategory.title}</h1>
               <CatalogCollection
                 products={currentCategory.products}
                 locale={localeByLang[lang]}

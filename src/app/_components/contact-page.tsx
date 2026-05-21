@@ -1,6 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 import type { SiteDictionary } from "@/lib/dictionary";
 import { SUPPORTED_LANGS, type SupportedLang } from "@/lib/i18n";
 
@@ -44,13 +45,16 @@ export default function ContactPage({
     code,
     label: dictionary.languageSwitcher[code],
   }));
+  const whatsappHref = getContactHref("whatsapp", dictionary, copy.emailSubject).href;
+  const whatsappLabel =
+    lang === "de" ? "WhatsApp Anfrage" : lang === "en" ? "WhatsApp inquiry" : "WhatsApp запрос";
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-base text-text-primary">
-      <header className="relative z-10 border-b border-divider bg-base/92 backdrop-blur-xl">
+    <main className="luxury-home min-h-screen overflow-hidden bg-base text-text-primary">
+      <header className="luxury-nav sticky top-0 z-40 border-b border-divider bg-base/88 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1500px] flex-col gap-5 px-6 py-5 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12 xl:px-16">
           <NextLink href={`/${lang}`} className="shrink-0">
-            <p className="text-lg font-semibold tracking-tight text-text-primary">
+            <p className="luxury-brand-mark text-lg font-semibold tracking-tight text-text-primary">
               {dictionary.footer.company}
             </p>
             <p className="text-[10px] uppercase tracking-[0.2em] text-text-secondary">
@@ -63,8 +67,8 @@ export default function ContactPage({
               <NextLink href={`/${lang}`} className="transition hover:text-text-primary">
                 {dictionary.nav.home}
               </NextLink>
-              <NextLink href={`/${lang}#about`} className="transition hover:text-text-primary">
-                {dictionary.nav.about}
+              <NextLink href={`/${lang}#materialien`} className="transition hover:text-text-primary">
+                {dictionary.nav.materials}
               </NextLink>
               <span className="text-text-primary underline decoration-gold underline-offset-4">
                 {copy.headline}
@@ -91,10 +95,19 @@ export default function ContactPage({
               ))}
             </div>
           </div>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noreferrer"
+            className="luxury-button luxury-button-primary inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-gold px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-base lg:ml-2"
+          >
+            <MessageCircle size={15} strokeWidth={2.3} />
+            <span>{whatsappLabel}</span>
+          </a>
         </div>
       </header>
 
-      <section className="relative z-10">
+      <section className="premiumPatternBackground relative z-10 border-b border-divider">
         <div className="mx-auto max-w-[1500px] px-6 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-32 lg:px-12 lg:pb-24 xl:px-16">
           <div className="max-w-3xl border-b border-divider pb-16 sm:pb-20">
             <NextLink
@@ -102,7 +115,7 @@ export default function ContactPage({
               className="group inline-flex items-center gap-3 text-[0.78rem] uppercase tracking-[0.18em] text-text-secondary transition duration-300 hover:text-text-primary"
               aria-label={copy.backAriaLabel}
             >
-              <span className="transition duration-300 group-hover:-translate-x-1">&larr;</span>
+              <ArrowLeft size={15} strokeWidth={2.3} className="transition duration-300 group-hover:-translate-x-1" />
               <span>{copy.backLabel}</span>
             </NextLink>
 
@@ -111,7 +124,7 @@ export default function ContactPage({
               <span>{copy.eyebrow}</span>
             </div>
 
-            <h1 className="mt-7 font-serif text-5xl tracking-tight text-text-primary sm:text-6xl md:text-7xl">
+            <h1 className="mt-7 font-serif text-[2.65rem] font-semibold leading-[1.02] tracking-tight text-text-primary sm:text-6xl md:text-7xl">
               {copy.headline}
             </h1>
             <p className="mt-8 max-w-2xl text-pretty text-lg leading-8 text-text-secondary md:text-[1.15rem]">
@@ -140,13 +153,13 @@ export default function ContactPage({
                   href={contactLink.href}
                   target={contactLink.external ? "_blank" : undefined}
                   rel={contactLink.external ? "noreferrer" : undefined}
-                  className="group flex min-h-[320px] flex-col justify-between rounded-[2rem] border border-divider bg-card-bg p-8 transition duration-500 hover:-translate-y-1 hover:bg-card-bg-hover hover:shadow-[0_24px_70px_rgba(0,0,0,0.6)] md:p-10"
+                  className="luxury-product-card group flex min-h-[17rem] flex-col justify-between rounded-[1.45rem] border border-divider bg-card-bg p-7 transition duration-500 hover:-translate-y-1 hover:border-gold/35 hover:bg-card-bg-hover hover:shadow-[0_24px_70px_rgba(0,0,0,0.6)] md:p-8"
                 >
                   <div>
                     <p className="text-[0.72rem] uppercase tracking-[0.28em] text-text-secondary">
                       {String(index + 1).padStart(2, "0")}
                     </p>
-                    <h2 className="mt-12 font-serif text-[2rem] tracking-tight text-text-primary">
+                    <h2 className="mt-10 font-serif text-[1.85rem] font-semibold tracking-tight text-text-primary">
                       {option.title}
                     </h2>
                     <p className="mt-4 max-w-[18rem] text-base leading-7 text-text-secondary">
@@ -170,13 +183,13 @@ export default function ContactPage({
             })}
           </div>
 
-          <div className="mt-16 max-w-3xl border-t border-divider pt-8 text-sm leading-7 text-text-secondary">
+          <div className="luxury-glass-panel mt-16 max-w-3xl rounded-[1.25rem] border border-divider px-5 py-5 text-sm leading-7 text-text-secondary">
             {copy.b2bNote}
           </div>
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-divider bg-base">
+      <footer className="luxury-footer relative z-10 border-t border-divider bg-base">
         <div className="mx-auto max-w-[1500px] px-6 py-8 sm:px-8 lg:px-12 xl:px-16">
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-text-secondary/60">
             <NextLink href={`/${lang}/impressum`} className="transition hover:text-text-secondary">

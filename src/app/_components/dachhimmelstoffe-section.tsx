@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Check, MessageCircle, PackageCheck, Ruler, Truck } from "lucide-react";
-import DachhimmelstoffeGallery from "@/app/_components/dachhimmelstoffe-gallery";
 import MaterialSupportSection from "@/app/_components/material-support-section";
 import {
   HIMMELSTOFFE_COPY,
@@ -45,7 +44,7 @@ export default function DachhimmelstoffeSection({ lang }: { lang: SupportedLang 
                 return (
                   <span
                     key={badge}
-                    className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-black/24 px-3.5 py-2 text-xs font-medium text-text-primary shadow-[0_10px_26px_rgba(0,0,0,0.28)]"
+                    className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-[rgba(16,16,16,0.36)] px-3.5 py-2 text-xs font-medium text-text-primary shadow-[0_10px_26px_rgba(0,0,0,0.24)] backdrop-blur-sm"
                   >
                     <Icon size={14} strokeWidth={2.3} className="text-gold" />
                     {badge}
@@ -65,7 +64,7 @@ export default function DachhimmelstoffeSection({ lang }: { lang: SupportedLang 
             </a>
           </div>
 
-          <div className="relative min-h-[24rem] overflow-hidden border-t border-divider bg-black/40 sm:min-h-[32rem] lg:min-h-full lg:border-l lg:border-t-0">
+          <div className="relative min-h-[24rem] overflow-hidden border-t border-divider bg-[rgba(16,16,16,0.34)] sm:min-h-[32rem] lg:min-h-full lg:border-l lg:border-t-0">
             <Image
               src={HERO_IMAGE_SRC}
               alt={copy.heroImageAlt}
@@ -77,22 +76,6 @@ export default function DachhimmelstoffeSection({ lang }: { lang: SupportedLang 
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,0.52),transparent_42%),linear-gradient(180deg,transparent_40%,rgba(0,0,0,0.72))]" />
           </div>
         </div>
-      </section>
-
-      <section>
-        <div className="mb-6 max-w-3xl">
-          <p className="text-[0.68rem] font-medium uppercase tracking-[0.24em] text-text-secondary">
-            {copy.galleryEyebrow}
-          </p>
-          <h2 className="mt-3 font-serif text-[2rem] font-semibold tracking-tight text-text-primary sm:text-[2.45rem]">
-            {copy.galleryTitle}
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-text-secondary sm:text-[0.98rem]">
-            {copy.galleryText}
-          </p>
-        </div>
-
-        <DachhimmelstoffeGallery lang={lang} />
       </section>
 
       <MaterialSupportSection

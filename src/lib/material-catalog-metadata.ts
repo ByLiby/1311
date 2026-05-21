@@ -222,22 +222,8 @@ const MATERIAL_PRODUCT_BASE_METADATA = {
       styles: ["modern"],
       applications: ["automotive", "interior"],
     },
-    "marine-grade-vinyl": {
-      image: "/materials/kunstleder/Ocean%20Blue.jpeg",
-      primaryColor: "ivory",
-      secondaryColor: "beige",
-      styles: ["premium", "neutral"],
-      applications: ["marine-outdoor", "interior"],
-    },
   },
   other: {
-    "alcantara-style": {
-      image: getSphereImage(15),
-      primaryColor: "black",
-      secondaryColor: "anthracite",
-      styles: ["premium", "modern"],
-      applications: ["interior", "automotive"],
-    },
     "headliner-fabric": {
       image: getSphereImage(16),
       primaryColor: "grey",
@@ -356,7 +342,7 @@ const MATERIAL_PRODUCT_LOCALIZED_METADATA = {
         imageAltSuffix: "Materialvorschau",
       },
       "uv-stable-exterior-pu": {
-        subline: "UV-stabile Oberflaeche fuer helle Projekte im Fahrzeug-, Marine- und Outdoor-Bereich.",
+        subline: "UV-stabile Oberflaeche fuer helle Projekte im Fahrzeug- und Outdoor-Bereich.",
         imageAltSuffix: "Materialvorschau",
       },
       "micro-fiber-support-pu": {
@@ -387,16 +373,8 @@ const MATERIAL_PRODUCT_LOCALIZED_METADATA = {
         subline: "Griffige Oberflaeche fuer Konsolen, Seitenbereiche und funktionale Kontaktzonen.",
         imageAltSuffix: "Materialvorschau",
       },
-      "marine-grade-vinyl": {
-        subline: "Pflegeleichtes Marine-Vinyl fuer helle, feuchtigkeitsresistente Ausstattungen.",
-        imageAltSuffix: "Materialvorschau",
-      },
     },
     other: {
-      "alcantara-style": {
-        subline: "Veloursartige Premium-Optik fuer ruhige, hochwertige Interieurflaechen.",
-        imageAltSuffix: "Materialvorschau",
-      },
       "headliner-fabric": {
         subline: "Feiner Dachhimmelstoff fuer saubere Flaechen und ein stimmiges Raumgefuehl.",
         imageAltSuffix: "Materialvorschau",
@@ -474,7 +452,7 @@ const MATERIAL_PRODUCT_LOCALIZED_METADATA = {
         imageAltSuffix: "material preview",
       },
       "uv-stable-exterior-pu": {
-        subline: "UV-stable finish for light-toned projects in vehicle, marine and outdoor use.",
+        subline: "UV-stable finish for light-toned vehicle and outdoor projects.",
         imageAltSuffix: "material preview",
       },
       "micro-fiber-support-pu": {
@@ -505,16 +483,8 @@ const MATERIAL_PRODUCT_LOCALIZED_METADATA = {
         subline: "Grip-focused surface for consoles, side panels and functional touch zones.",
         imageAltSuffix: "material preview",
       },
-      "marine-grade-vinyl": {
-        subline: "Easy-care marine vinyl for light, moisture-resistant upholstery concepts.",
-        imageAltSuffix: "material preview",
-      },
     },
     other: {
-      "alcantara-style": {
-        subline: "Velour-like premium look for calm, elevated interior surfaces.",
-        imageAltSuffix: "material preview",
-      },
       "headliner-fabric": {
         subline: "Refined headliner fabric for clean ceiling spans and cohesive cabins.",
         imageAltSuffix: "material preview",
@@ -592,7 +562,7 @@ const MATERIAL_PRODUCT_LOCALIZED_METADATA = {
         imageAltSuffix: "превью материала",
       },
       "uv-stable-exterior-pu": {
-        subline: "UV-стойкая поверхность для светлых проектов в авто, marine и outdoor.",
+        subline: "UV-стойкая поверхность для светлых авто- и outdoor-проектов.",
         imageAltSuffix: "превью материала",
       },
       "micro-fiber-support-pu": {
@@ -623,16 +593,8 @@ const MATERIAL_PRODUCT_LOCALIZED_METADATA = {
         subline: "Цепкая поверхность для консолей, боковых зон и функциональных деталей.",
         imageAltSuffix: "превью материала",
       },
-      "marine-grade-vinyl": {
-        subline: "Практичный marine-винил для светлых и влагостойких обивок.",
-        imageAltSuffix: "превью материала",
-      },
     },
     other: {
-      "alcantara-style": {
-        subline: "Премиальная велюровая оптика для спокойных и дорогих интерьеров.",
-        imageAltSuffix: "превью материала",
-      },
       "headliner-fabric": {
         subline: "Аккуратная ткань потолка для чистых плоскостей и цельного салона.",
         imageAltSuffix: "превью материала",
@@ -707,23 +669,18 @@ const AUTOMOTIVE_PLACEHOLDER_COPY = {
 const MATERIAL_CATALOG_UI = {
   de: {
     highlights: [
-      { icon: "sample", label: "Muster verfuegbar" },
-      { icon: "measure", label: "Preis pro Meter" },
-      { icon: "shipping", label: "Europaweiter Versand" },
+      { icon: "sample", label: "Muster" },
+      { icon: "measure", label: "Meterware" },
+      { icon: "shipping", label: "EU Versand" },
     ],
     panelEyebrow: "Persoenliche Beratung",
     panelTitle: "Beratung & Muster",
-    panelText:
-      "Sie suchen das passende Material fuer Automobil, Yacht, Innenraum oder Objektbereich? Wir beraten Sie persoenlich und senden auf Anfrage passende Muster.",
-    panelPoints: [
-      "Direkt aus Oesterreich versendet",
-      "Klare Preise pro Meter",
-      "Persoenliche Beratung auf Anfrage",
-    ],
+    panelText: "Material auswählen. Muster anfragen. Projekt starten.",
+    panelPoints: ["Aus Oesterreich", "Meterpreise", "WhatsApp"],
     filters: {
       sectionEyebrow: "FILTER",
       sectionTitle: "Materialien",
-      sectionText: "Nach Farbe, Stil und Einsatz filtern.",
+      sectionText: "Nach Farbe und Einsatz filtern.",
       resultsLabel: "Materialien",
       activeFiltersLabel: "Aktive Filter",
       colorLabel: "Farbe",
@@ -753,56 +710,43 @@ const MATERIAL_CATALOG_UI = {
         automotive: "Fahrzeug",
         interior: "Innenraum",
         "bus-rail": "Bus & Bahn",
-        "marine-outdoor": "Yacht & Outdoor",
+        "marine-outdoor": "Outdoor",
       },
     },
     categories: {
       automobilkunstleder: {
-        eyebrow: "Kuratiert fuer Fahrzeug, Objekt und anspruchsvolle Innenraeume",
-        description:
-          "Kunstleder mit ruhiger Oberflaeche, klarer Preislogik und direkter Verfuegbarkeit fuer Sitze, Seitenverkleidungen und hochwertige Ausbauprojekte.",
+        eyebrow: "Fahrzeuginterieur",
+        description: "Für Sitze, Türtafeln und Verkleidungen.",
         deliveryHint: "Lieferung aus Oesterreich",
         previewNote: {
           eyebrow: "MATERIAL FUER FAHRZEUGINNENRAEUME",
           title: "Automobilkunstleder",
-          text:
-            "Premium Kunstleder für Fahrzeugsitze, Seitenverkleidungen, Objektbereiche und hochwertige Innenräume.",
-          points: [
-            "Qualität für Fahrzeuginterieurs",
-            "Direkt ab Lager",
-            "Viele Farben verfügbar",
-            "Muster auf Anfrage",
-          ],
-          actionLabel: "Kollektion anfragen",
+          text: "Für Sitze, Türtafeln und Verkleidungen.",
+          points: ["Lagerware", "Muster", "Meterware", "200+ Farben"],
+          actionLabel: "Anfragen",
         },
       },
       other: {
-        eyebrow: "Technische Stoffe fuer Ausbau, Dachhimmel und Transport",
-        description:
-          "Velours, Filze und Spezialmaterialien fuer Bus & Bahn, Innenraum, Daemmung und sichtbare Komfortzonen.",
-        deliveryHint: "Projektgeeignet fuer Transport & Interior",
+        eyebrow: "Technische Stoffe",
+        description: "Für Transport und Innenausbau.",
+        deliveryHint: "Transport & Interior",
       },
     },
   },
   en: {
     highlights: [
-      { icon: "sample", label: "Samples available" },
-      { icon: "measure", label: "Priced per meter" },
-      { icon: "shipping", label: "Shipping across Europe" },
+      { icon: "sample", label: "Samples" },
+      { icon: "measure", label: "By the meter" },
+      { icon: "shipping", label: "EU shipping" },
     ],
     panelEyebrow: "Personal advice",
     panelTitle: "Advice & Samples",
-    panelText:
-      "Looking for the right material for automotive, yacht, interior or contract use? We advise you personally and can send matching samples on request.",
-    panelPoints: [
-      "Dispatched directly from Austria",
-      "Clear prices per meter",
-      "Personal guidance on request",
-    ],
+    panelText: "Choose material. Request samples. Start the project.",
+    panelPoints: ["From Austria", "Meter prices", "WhatsApp"],
     filters: {
       sectionEyebrow: "FILTER",
       sectionTitle: "Materials",
-      sectionText: "Filter by color, style, and application.",
+      sectionText: "Filter by color and use.",
       resultsLabel: "materials",
       activeFiltersLabel: "Active filters",
       colorLabel: "Color",
@@ -832,56 +776,43 @@ const MATERIAL_CATALOG_UI = {
         automotive: "Automotive",
         interior: "Interior",
         "bus-rail": "Bus & Rail",
-        "marine-outdoor": "Yacht & Outdoor",
+        "marine-outdoor": "Outdoor",
       },
     },
     categories: {
       automobilkunstleder: {
-        eyebrow: "Curated for vehicle, contract and elevated interior projects",
-        description:
-          "Synthetic leather surfaces with calm texture, visible pricing logic and direct availability for seating, panels and premium fit-outs.",
+        eyebrow: "Vehicle interiors",
+        description: "For seats, door panels and trims.",
         deliveryHint: "Dispatch from Austria",
         previewNote: {
           eyebrow: "AUTOMOTIVE MATERIAL",
           title: "Automotive Leatherette",
-          text:
-            "Premium synthetic leather for vehicle seats, side panels, contract areas and elevated interior spaces.",
-          points: [
-            "Automotive quality",
-            "Direct from stock",
-            "Many colors available",
-            "Samples on request",
-          ],
-          actionLabel: "Request collection",
+          text: "For seats, door panels and trims.",
+          points: ["Stocked", "Samples", "By the meter", "200+ colors"],
+          actionLabel: "Inquire",
         },
       },
       other: {
-        eyebrow: "Technical fabrics for fit-out, headliners and transport use",
-        description:
-          "Velours, felts and specialist materials for bus, rail, interior lining, insulation and comfort-led visible surfaces.",
-        deliveryHint: "Selected for transport & interior projects",
+        eyebrow: "Technical fabrics",
+        description: "For transport and interior fit-out.",
+        deliveryHint: "Transport & interior",
       },
     },
   },
   ru: {
     highlights: [
-      { icon: "sample", label: "Доступны образцы" },
-      { icon: "measure", label: "Цена за метр" },
-      { icon: "shipping", label: "Доставка по Европе" },
+      { icon: "sample", label: "Образцы" },
+      { icon: "measure", label: "Метраж" },
+      { icon: "shipping", label: "Доставка ЕС" },
     ],
     panelEyebrow: "Персональная консультация",
     panelTitle: "Консультация и образцы",
-    panelText:
-      "Ищете подходящий материал для автомобиля, яхты, интерьера или объектного проекта? Мы лично проконсультируем вас и по запросу отправим подходящие образцы.",
-    panelPoints: [
-      "Отправка напрямую из Австрии",
-      "Понятная цена за метр",
-      "Персональная консультация по запросу",
-    ],
+    panelText: "Выберите материал. Запросите образцы. Начните проект.",
+    panelPoints: ["Из Австрии", "Цена за метр", "WhatsApp"],
     filters: {
       sectionEyebrow: "ФИЛЬТРЫ",
       sectionTitle: "Материалы",
-      sectionText: "Фильтр по цвету, стилю и применению.",
+      sectionText: "Фильтр по цвету и применению.",
       resultsLabel: "материалов",
       activeFiltersLabel: "Активные фильтры",
       colorLabel: "Цвет",
@@ -911,34 +842,26 @@ const MATERIAL_CATALOG_UI = {
         automotive: "Автомобильный салон",
         interior: "Интерьер",
         "bus-rail": "Автобус и ж/д",
-        "marine-outdoor": "Яхты и наружные зоны",
+        "marine-outdoor": "Наружные зоны",
       },
     },
     categories: {
       automobilkunstleder: {
-        eyebrow: "Подборка для транспорта, объектов и премиальных интерьеров",
-        description:
-          "Искусственная кожа со спокойной фактурой, понятной ценой и прямой доступностью для сидений, панелей и качественной отделки.",
+        eyebrow: "Автоинтерьер",
+        description: "Для сидений, дверных карт и панелей.",
         deliveryHint: "Отправка из Австрии",
         previewNote: {
           eyebrow: "МАТЕРИАЛ ДЛЯ АВТОСАЛОНА",
           title: "Автомобильный кожзаменитель",
-          text:
-            "Премиальная искусственная кожа для автомобильных сидений, боковых панелей, объектов и качественных интерьеров.",
-          points: [
-            "Профессиональное качество для автоинтерьера",
-            "Прямо со склада",
-            "Много цветов в наличии",
-            "Образцы по запросу",
-          ],
-          actionLabel: "Запросить коллекцию",
+          text: "Для сидений, дверных карт и панелей.",
+          points: ["Со склада", "Образцы", "Метраж", "200+ цветов"],
+          actionLabel: "Запросить",
         },
       },
       other: {
-        eyebrow: "Технические ткани для потолков, отделки и транспорта",
-        description:
-          "Велюр, войлок и специальные материалы для автобусов, поездов, интерьеров, изоляции и видимых зон комфорта.",
-        deliveryHint: "Подходит для транспортных и интерьерных проектов",
+        eyebrow: "Технические ткани",
+        description: "Для транспорта и интерьера.",
+        deliveryHint: "Транспорт и интерьер",
       },
     },
   },

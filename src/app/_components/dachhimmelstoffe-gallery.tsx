@@ -176,7 +176,7 @@ export default function DachhimmelstoffeGallery({
                 className="object-cover object-center transition duration-700 group-hover:scale-[1.045] group-hover:brightness-110"
               />
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.34))]" />
-              <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-gold/22 bg-black/42 px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-text-primary opacity-0 shadow-[0_12px_32px_rgba(0,0,0,0.42)] backdrop-blur-md transition duration-300 group-hover:opacity-100">
+              <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-gold/22 bg-[rgba(16,16,16,0.48)] px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-text-primary opacity-0 shadow-[0_12px_32px_rgba(0,0,0,0.34)] backdrop-blur-md transition duration-300 group-hover:opacity-100">
                 <ZoomIn size={14} strokeWidth={2.2} />
                 {copy.enlarge}
               </span>
@@ -197,7 +197,7 @@ export default function DachhimmelstoffeGallery({
           <span>{copy.previous}</span>
         </button>
 
-        <span className="min-w-[4.25rem] rounded-full border border-divider bg-black/24 px-3.5 py-2 text-center text-xs font-medium tracking-[0.14em] text-text-secondary">
+        <span className="min-w-[4.25rem] rounded-full border border-divider bg-[rgba(16,16,16,0.36)] px-3.5 py-2 text-center text-xs font-medium tracking-[0.14em] text-text-secondary">
           {currentPage + 1} / {totalPages}
         </span>
 

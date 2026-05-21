@@ -1,10 +1,10 @@
 {
   "meta": {
     "siteTitle": "Leder Stoffe | Automotive Leatherette & Upholstery Materials",
-    "siteDescription": "Premium synthetic leather, microfiber surfaces, and technical upholstery materials stocked in Austria and delivered across Europe.",
+    "siteDescription": "Automotive Interior materials, synthetic leather, headliner fabric, bus fabric and Dinamica from stock in Austria.",
     "home": {
       "title": "Leder Stoffe | Automotive Leatherette & Upholstery Materials",
-      "description": "Premium synthetic leather, microfiber surfaces, and technical upholstery materials stocked in Austria and delivered across Europe."
+      "description": "Automotive Interior materials, synthetic leather, headliner fabric, bus fabric and Dinamica from stock in Austria."
     },
     "legalNotice": {
       "title": "Legal Notice | Leder Stoffe",
@@ -33,35 +33,35 @@
   "contactCta": "Advice",
   "hero": {
     "eyebrow": "Material supplier from Austria",
-    "headline": "High-end synthetic leather, Alcantara & technical fabrics stocked and ready to ship",
-    "subline": "For automotive, bus, rail, yacht & furniture. Samples available. Delivery across Europe.",
+    "headline": "High-end synthetic leather and technical fabrics stocked and ready to ship",
+    "subline": "For automotive, bus, rail & furniture.",
     "ctaPrimary": "Request Samples",
     "ctaSecondary": "View Collection",
     "heroAlt": "Premium automotive leather interior"
   },
   "trustBar": [
     {
-      "title": "Stocked in Austria",
-      "text": "Ready for fast dispatch"
+      "title": "Stock in Austria",
+      "text": "Ready to ship"
     },
     {
-      "title": "Shipping across Europe",
-      "text": "Reliable delivery throughout Europe"
+      "title": "EU shipping",
+      "text": "Reliable"
     },
     {
       "title": "B2B & private customers",
-      "text": "Advice for projects of every size"
+      "text": "Direct contact"
     }
   ],
   "about": {
     "headline": "About Us",
-    "p1": "As a specialized material distributor based in Zell am See, we supply high-quality synthetic leather solutions to processors and B2B partners across Europe.",
-    "p2": "Our materials are engineered for durability, surface precision, and superior processability for professional automotive and interior applications.",
-    "p3": "With local warehousing in Austria, we ensure short lead times, high availability, and maximum flexibility in order quantities."
+    "p1": "Materials for upholsterers, workshops and B2B.",
+    "p2": "Directly from Zell am See.",
+    "p3": "Stock, samples and fast shipping."
   },
   "materialsHome": {
     "heading": "Material Categories",
-    "subline": "Our main material groups at a glance.",
+    "subline": "Clear ranges from stock.",
     "cards": [
       {
         "slug": "automobilkunstleder",
@@ -74,20 +74,20 @@
         "cta": "View collection"
       },
       {
-        "slug": "other",
-        "title": "Technical Fabrics",
-        "image": "/materials/Materialbereiche/Busstoff.png",
-        "alt": "Other materials preview",
-        "label": "Technical fabrics",
-        "description": "For bus, rail, yacht & interiors.",
-        "usage": "For bus, rail, yacht & interiors.",
-        "cta": "View materials"
+        "slug": "bus-bahn-stoffe",
+        "title": "Bus & Rail Fabrics",
+        "image": "/materials/Materialbereiche/Busstoffe.png",
+        "alt": "Bus and rail fabrics preview",
+        "label": "Transport",
+        "description": "For buses, rail and public transport.",
+        "usage": "For buses, rail and public transport.",
+        "cta": "View collection"
       }
     ]
   },
   "socialsHome": {
     "heading": "Social & Direct Contact",
-    "subline": "For quick questions, updates, and product insights, you can also reach us here.",
+    "subline": "Short updates and direct contact.",
     "cardLabel": "Direct contact"
   },
   "trustSection": {
@@ -95,9 +95,9 @@
     "headline": "Why Leder & Stoffe?",
     "items": [
       "Direct from stock",
-      "Wide material selection",
-      "Shipping across Europe",
-      "Advice via WhatsApp"
+      "Samples",
+      "EU shipping",
+      "WhatsApp"
     ],
     "contactLabel": "WhatsApp"
   },
@@ -191,12 +191,6 @@
             "name": "Console Grip Leather 13",
             "pricePerMeter": 15,
             "image": "/images/spheres/busstoff-13.png"
-          },
-          {
-            "id": "marine-grade-vinyl",
-            "name": "Marine Grade Leather 14",
-            "pricePerMeter": 15,
-            "image": "/images/spheres/busstoff-14.png"
           }
         ]
       },
@@ -207,12 +201,6 @@
           "plural": "materials"
         },
         "products": [
-          {
-            "id": "alcantara-style",
-            "name": "Busstoff 15",
-            "pricePerMeter": 15,
-            "image": "/images/spheres/busstoff-15.png"
-          },
           {
             "id": "headliner-fabric",
             "name": "Busstoff 16",
@@ -423,35 +411,35 @@
   },
   "contactPage": {
     "headline": "Contact",
-    "p1": "Reach out to us for availability, technical specifications, and price tiers.",
-    "p2": "We help you choose the right materials for automotive and interior applications.",
-    "p3": "We respond quickly and directly via the contact channels listed below.",
+    "p1": "Availability, samples and prices.",
+    "p2": "Call, WhatsApp or email.",
+    "p3": "Short request. Fast answer.",
     "backLabel": "Back",
     "backAriaLabel": "Back to homepage",
     "eyebrow": "Personal consultation",
-    "intro": "We advise you personally on materials, projects, and availability.",
+    "intro": "Need material? We answer directly.",
     "emailSubject": "Material inquiry",
     "options": [
       {
         "title": "Phone",
-        "text": "Speak with us directly",
+        "text": "Call directly",
         "cta": "Call now",
         "kind": "phone"
       },
       {
         "title": "WhatsApp",
-        "text": "Quick inquiries with photos possible",
+        "text": "Send photos",
         "cta": "Send message",
         "kind": "whatsapp"
       },
       {
         "title": "Email",
-        "text": "For detailed inquiries and projects",
+        "text": "Send details",
         "cta": "Send inquiry",
         "kind": "email"
       }
     ],
-    "b2bNote": "For larger projects or recurring orders, we offer personal consultation and long-term collaboration."
+    "b2bNote": "For B2B projects we advise directly and pragmatically."
   },
   "legalPages": {
     "shared": {
@@ -483,7 +471,7 @@
           "Austria"
         ],
         "authorizedRepresentative": "Alexander Naimiller",
-        "businessPurpose": "Trading in synthetic leather, technical fabrics, upholstery materials, as well as materials for the automotive, bus, rail, marine, and furniture industries.",
+        "businessPurpose": "Trading in synthetic leather, technical fabrics, upholstery materials, as well as materials for the automotive, bus, rail, and furniture industries.",
         "registeredOffice": "5700 Zell am See, Austria",
         "jurisdiction": "Salzburg",
         "liabilityForContent": "The content of our pages has been created with great care. However, we cannot guarantee the accuracy, completeness, or timeliness of the content.",
@@ -525,7 +513,7 @@
       "5700 Zell am See",
       "Austria"
     ],
-    "email": "kunstleder5700@gmail.com",
+    "email": "Lederstoffe@gmail.com",
     "phone": "+43 676 4725428",
     "legalNotice": "Legal Notice",
     "privacyPolicy": "Privacy Policy",

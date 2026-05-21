@@ -134,7 +134,7 @@ export default function ImageLightbox({
       aria-modal="true"
       aria-labelledby={activeImage.title ? titleId : undefined}
       aria-label={activeImage.title ? undefined : activeImage.alt}
-      className="fixed inset-0 z-[120] flex items-center justify-center overflow-y-auto bg-black/85 px-3 py-5 backdrop-blur-sm sm:px-6 sm:py-8"
+      className="fixed inset-0 z-[120] flex items-center justify-center overflow-y-auto bg-[rgba(0,0,0,0.78)] px-3 py-5 backdrop-blur-sm sm:px-6 sm:py-8"
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-[radial-gradient(90%_72%_at_50%_40%,rgba(208,180,111,0.08),transparent_58%)]" />
@@ -148,12 +148,12 @@ export default function ImageLightbox({
           type="button"
           aria-label={labels.close}
           onClick={onClose}
-          className="absolute right-1 top-1 z-30 grid h-11 w-11 place-items-center rounded-full border border-gold/24 bg-black/48 text-text-primary shadow-[0_16px_38px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:border-gold/48 hover:bg-black/68 sm:right-0 sm:top-0"
+          className="absolute right-1 top-1 z-30 grid h-11 w-11 place-items-center rounded-full border border-gold/24 bg-[rgba(16,16,16,0.58)] text-text-primary shadow-[0_16px_38px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:border-gold/48 hover:bg-[rgba(24,24,24,0.7)] sm:right-0 sm:top-0"
         >
           <X size={18} strokeWidth={2.2} />
         </button>
 
-        <div className="relative aspect-[1448/1086] w-[min(90vw,1448px,calc(86vh*1448/1086))] overflow-hidden rounded-[1.55rem] border border-gold/20 bg-black/42 shadow-[0_30px_90px_rgba(0,0,0,0.76),0_0_0_1px_rgba(255,255,255,0.035)_inset]">
+        <div className="relative aspect-[1448/1086] w-[min(90vw,1448px,calc(86vh*1448/1086))] overflow-hidden rounded-[1.55rem] border border-gold/20 bg-[rgba(16,16,16,0.5)] shadow-[0_30px_90px_rgba(0,0,0,0.76),0_0_0_1px_rgba(255,255,255,0.035)_inset]">
           <Image
             src={activeImageSrc}
             alt={activeImage.alt}
@@ -172,7 +172,7 @@ export default function ImageLightbox({
               type="button"
               aria-label={labels.previous}
               onClick={goToPrevious}
-              className="pointer-events-auto grid h-11 w-11 place-items-center rounded-full border border-gold/24 bg-black/46 text-text-primary shadow-[0_16px_38px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:border-gold/48 hover:bg-black/68 sm:h-12 sm:w-12"
+              className="pointer-events-auto grid h-11 w-11 place-items-center rounded-full border border-gold/24 bg-[rgba(16,16,16,0.56)] text-text-primary shadow-[0_16px_38px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:border-gold/48 hover:bg-[rgba(24,24,24,0.7)] sm:h-12 sm:w-12"
             >
               <ArrowLeft size={18} strokeWidth={2.3} />
             </button>
@@ -181,14 +181,14 @@ export default function ImageLightbox({
               type="button"
               aria-label={labels.next}
               onClick={goToNext}
-              className="pointer-events-auto grid h-11 w-11 place-items-center rounded-full border border-gold/24 bg-black/46 text-text-primary shadow-[0_16px_38px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:border-gold/48 hover:bg-black/68 sm:h-12 sm:w-12"
+              className="pointer-events-auto grid h-11 w-11 place-items-center rounded-full border border-gold/24 bg-[rgba(16,16,16,0.56)] text-text-primary shadow-[0_16px_38px_rgba(0,0,0,0.5)] backdrop-blur-md transition hover:border-gold/48 hover:bg-[rgba(24,24,24,0.7)] sm:h-12 sm:w-12"
             >
               <ArrowRight size={18} strokeWidth={2.3} />
             </button>
           </div>
         ) : null}
 
-        <figcaption className="mt-4 flex max-w-3xl flex-col items-center gap-2 rounded-[1.1rem] border border-divider bg-black/38 px-4 py-3 text-center shadow-[0_14px_40px_rgba(0,0,0,0.4)] backdrop-blur-md">
+        <figcaption className="mt-4 flex max-w-3xl flex-col items-center gap-2 rounded-[1.1rem] border border-divider bg-[rgba(16,16,16,0.5)] px-4 py-3 text-center shadow-[0_14px_40px_rgba(0,0,0,0.4)] backdrop-blur-md">
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <span className="text-xs font-medium tracking-[0.14em] text-text-secondary">
               {activeIndex + 1} / {images.length}

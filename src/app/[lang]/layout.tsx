@@ -27,6 +27,7 @@ export async function generateMetadata({
   }
 
   const dictionary = await getDictionary(lang);
+  const locale = lang === "de" ? "de_AT" : lang === "en" ? "en_US" : "ru_RU";
 
   return {
     title: dictionary.meta.home.title,
@@ -37,6 +38,18 @@ export async function generateMetadata({
         en: "/en",
         ru: "/ru",
       },
+    },
+    openGraph: {
+      title: dictionary.meta.home.title,
+      description: dictionary.meta.home.description,
+      type: "website",
+      locale,
+      siteName: "Leder Stoffe",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dictionary.meta.home.title,
+      description: dictionary.meta.home.description,
     },
   };
 }

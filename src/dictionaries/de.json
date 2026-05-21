@@ -1,10 +1,10 @@
 {
   "meta": {
     "siteTitle": "Leder Stoffe | Automobilkunstleder & Polstermaterialien",
-    "siteDescription": "Premium Kunstleder, Mikrofasermaterialien und technische Bezugsstoffe ab Lager Österreich mit europaweiter Lieferung.",
+    "siteDescription": "Kunstleder, Dachhimmelstoff, Busstoff, Dinamica und Automotive Interior Materialien ab Lager Österreich.",
     "home": {
       "title": "Leder Stoffe | Automobilkunstleder & Polstermaterialien",
-      "description": "Premium Kunstleder, Mikrofasermaterialien und technische Bezugsstoffe ab Lager Österreich mit europaweiter Lieferung."
+      "description": "Kunstleder, Dachhimmelstoff, Busstoff, Dinamica und Automotive Interior Materialien ab Lager Österreich."
     },
     "legalNotice": {
       "title": "Impressum | Leder Stoffe",
@@ -34,34 +34,34 @@
   "hero": {
     "eyebrow": "Direkt vom Lager in Österreich",
     "headline": "Kunstleder & technische Stoffe direkt ab Lager",
-    "subline": "Für Auto, Bus, Bahn, Yacht & Möbel. Muster möglich. Europaweite Lieferung.",
+    "subline": "Für Auto, Bus, Bahn & Möbel.",
     "ctaPrimary": "Muster anfragen",
     "ctaSecondary": "Kollektion ansehen",
     "heroAlt": "Premium Interieur mit Automobilkunstleder"
   },
   "trustBar": [
     {
-      "title": "Lagerware in Österreich",
-      "text": "Sofort verfügbare Materialien"
+      "title": "Lager in Österreich",
+      "text": "Sofort verfügbar"
     },
     {
-      "title": "Versand in ganz Europa",
-      "text": "Schnell und zuverlässig"
+      "title": "EU Versand",
+      "text": "Zuverlässig"
     },
     {
       "title": "B2B & Privatkunden",
-      "text": "Beratung für Projekte jeder Größe"
+      "text": "Direktkontakt"
     }
   ],
   "about": {
     "headline": "Über uns",
-    "p1": "Als spezialisierter Materialdistributor mit Sitz in Zell am See beliefern wir Verarbeiter, Sattlereien und B2B-Partner in ganz Europa mit hochwertigen Kunstleder- und Bezugsstofflösungen.",
-    "p2": "Unsere Materialien sind auf Langlebigkeit, Oberflächenpräzision und verlässliche Verarbeitbarkeit ausgelegt, entwickelt für professionelle Automobil-, Objekt- und Interieuranwendungen.",
-    "p3": "Durch lokale Lagerhaltung in Österreich gewährleisten wir kurze Lieferzeiten, hohe Verfügbarkeit und maximale Flexibilität bei Bestellmengen."
+    "p1": "Materialien für Sattlereien, Werkstätten und B2B.",
+    "p2": "Direkt aus Zell am See.",
+    "p3": "Lagerware, Muster und schneller Versand."
   },
   "materialsHome": {
     "heading": "Materialbereiche",
-    "subline": "Unsere wichtigsten Materialgruppen auf einen Blick.",
+    "subline": "Kurz. Klar. Ab Lager.",
     "cards": [
       {
         "slug": "automobilkunstleder",
@@ -74,20 +74,20 @@
         "cta": "Kollektion ansehen"
       },
       {
-        "slug": "other",
-        "title": "Technische Stoffe",
-        "image": "/materials/Materialbereiche/Busstoff.png",
-        "alt": "Vorschau weiterer Materialien",
-        "label": "Technische Stoffe",
-        "description": "Für Bus, Bahn, Yacht & Innenausbau.",
-        "usage": "Für Bus, Bahn, Yacht & Innenausbau.",
-        "cta": "Materialien ansehen"
+        "slug": "bus-bahn-stoffe",
+        "title": "Bus- & Bahnstoffe",
+        "image": "/materials/Materialbereiche/Busstoffe.png",
+        "alt": "Vorschau Bus- und Bahnstoffe",
+        "label": "Transport",
+        "description": "Für Bus, Bahn & öffentliche Verkehrsmittel.",
+        "usage": "Für Bus, Bahn & öffentliche Verkehrsmittel.",
+        "cta": "Kollektion ansehen"
       }
     ]
   },
   "socialsHome": {
     "heading": "Social & Direktkontakt",
-    "subline": "Für schnelle Rückfragen, Einblicke und aktuelle Materialien finden Sie uns auch hier.",
+    "subline": "Kurze Updates und Direktkontakt.",
     "cardLabel": "Direktkontakt"
   },
   "trustSection": {
@@ -95,9 +95,9 @@
     "headline": "Warum Leder und Stoffe?",
     "items": [
       "Direkt ab Lager",
-      "Große Materialauswahl",
-      "Europaweiter Versand",
-      "Beratung per WhatsApp"
+      "Muster",
+      "EU Versand",
+      "WhatsApp"
     ],
     "contactLabel": "WhatsApp"
   },
@@ -191,12 +191,6 @@
             "name": "Kunstleder Console Grip 13",
             "pricePerMeter": 15,
             "image": "/images/spheres/busstoff-13.png"
-          },
-          {
-            "id": "marine-grade-vinyl",
-            "name": "Kunstleder Marine Grade 14",
-            "pricePerMeter": 15,
-            "image": "/images/spheres/busstoff-14.png"
           }
         ]
       },
@@ -207,12 +201,6 @@
           "plural": "Materialien"
         },
         "products": [
-          {
-            "id": "alcantara-style",
-            "name": "Busstoff 15",
-            "pricePerMeter": 15,
-            "image": "/images/spheres/busstoff-15.png"
-          },
           {
             "id": "headliner-fabric",
             "name": "Busstoff 16",
@@ -423,35 +411,35 @@
   },
   "contactPage": {
     "headline": "Kontakt",
-    "p1": "Kontaktieren Sie uns fuer Verfuegbarkeiten, technische Spezifikationen und Preisstaffeln.",
-    "p2": "Wir beraten Sie zu passenden Materialien fuer Automobil- und Interieuranwendungen.",
-    "p3": "Anfragen beantworten wir schnell und direkt ueber die unten stehenden Kontaktwege.",
+    "p1": "Verfügbarkeit, Muster und Preise.",
+    "p2": "Direkt per Telefon, WhatsApp oder E-Mail.",
+    "p3": "Kurz anfragen. Schnell klären.",
     "backLabel": "Zurück",
     "backAriaLabel": "Zurück zur Startseite",
     "eyebrow": "Persönliche Beratung",
-    "intro": "Wir beraten Sie persönlich zu Materialien, Projekten und Verfügbarkeiten.",
+    "intro": "Material gesucht? Wir antworten direkt.",
     "emailSubject": "Anfrage zu Materialien",
     "options": [
       {
         "title": "Telefon",
-        "text": "Sprechen Sie direkt mit uns",
+        "text": "Direkt anrufen",
         "cta": "Jetzt anrufen",
         "kind": "phone"
       },
       {
         "title": "WhatsApp",
-        "text": "Schnelle Anfrage mit Bildern möglich",
+        "text": "Fotos senden",
         "cta": "Nachricht senden",
         "kind": "whatsapp"
       },
       {
         "title": "E-Mail",
-        "text": "Für detaillierte Anfragen und Projekte",
+        "text": "Details senden",
         "cta": "Anfrage senden",
         "kind": "email"
       }
     ],
-    "b2bNote": "Für größere Projekte oder regelmäßige Abnahmen bieten wir persönliche Beratung und langfristige Zusammenarbeit."
+    "b2bNote": "Für B2B-Projekte beraten wir direkt und pragmatisch."
   },
   "legalPages": {
     "shared": {
@@ -483,7 +471,7 @@
           "Österreich"
         ],
         "authorizedRepresentative": "Alexander Naimiller",
-        "businessPurpose": "Handel mit Kunstleder, technischen Stoffen, Polstermaterialien sowie Materialien für Automobil-, Bus-, Bahn-, Marine- und Möbelindustrie.",
+        "businessPurpose": "Handel mit Kunstleder, technischen Stoffen, Polstermaterialien sowie Materialien für Automobil-, Bus-, Bahn- und Möbelindustrie.",
         "registeredOffice": "5700 Zell am See, Österreich",
         "jurisdiction": "Salzburg",
         "liabilityForContent": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.",
@@ -525,7 +513,7 @@
       "5700 Zell am See",
       "Österreich"
     ],
-    "email": "kunstleder5700@gmail.com",
+    "email": "Lederstoffe@gmail.com",
     "phone": "+43 676 4725428",
     "legalNotice": "Impressum",
     "privacyPolicy": "Datenschutz",

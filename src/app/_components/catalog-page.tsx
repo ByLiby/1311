@@ -1,15 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useState } from "react";
-import { Check, Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Check, Mail, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
 import type { SiteDictionary } from "@/lib/dictionary";
 import { SUPPORTED_LANGS, type SupportedLang } from "@/lib/i18n";
 
-const HERO_VIEWER_BACKGROUND =
-  "radial-gradient(90% 70% at 54% 42%, rgba(40, 44, 50, 0.24), rgba(8, 9, 11, 0.68) 56%, rgba(3, 3, 4, 0.98) 100%), linear-gradient(145deg, #101114, #050506)";
 const SOCIAL_PLATFORM_LINKS = {
   tiktok: "https://www.tiktok.com/@leder_stoffe",
   whatsapp: "https://wa.me/436764725428",
@@ -48,31 +45,6 @@ function SocialBrandIcon({
   );
 }
 
-const SeatViewerClean = dynamic(() => import("@/components/SeatViewerClean"), {
-  loading: () => {
-    return (
-      <div
-        className="relative h-full w-full overflow-hidden"
-        style={{ background: HERO_VIEWER_BACKGROUND }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="grid justify-items-center gap-3 text-center">
-            <div className="grid h-14 w-14 place-items-center rounded-full border border-divider bg-card-bg">
-              <div className="h-[18px] w-[18px] rounded-full bg-gold shadow-[0_0_24px_rgba(0,0,0,0.6)]" />
-            </div>
-            <div className="text-[0.76rem] uppercase tracking-[0.26em] text-text-primary">
-              3D
-            </div>
-            <div className="text-xs tracking-[0.06em] text-text-secondary">
-              &nbsp;
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  },
-});
-
 type HomepageCopy = {
   hero: {
     eyebrow: string;
@@ -95,7 +67,15 @@ type HomepageCopy = {
   categories: {
     title: string;
     subtitle: string;
-    cards: [title: string, label: string, image: string, slug: string][];
+    cards: {
+      title: string;
+      label: string;
+      image: string;
+      description: string;
+      tags: string[];
+      slug?: string;
+      cta: string;
+    }[];
   };
   preview: {
     title: string;
@@ -122,39 +102,64 @@ type HomepageCopy = {
 const HOMEPAGE_COPY = {
   de: {
     hero: {
-      eyebrow: "EU-WEITER VERSAND • LAGER IN ÖSTERREICH",
-      title: "Premium Kunstleder",
-      text: "Kunstleder, Dachhimmelstoffe und technische Materialien direkt ab Lager.",
-      primaryCta: "Muster anfragen",
-      secondaryCta: "Materialien ansehen",
-      trust: ["Versand in Europa", "Muster verfügbar", "Lagerware", "WhatsApp Beratung"],
+      eyebrow: "DARK LUXURY AUTOMOTIVE INTERIOR",
+      title: "Materialien für Fahrzeuginterieurs",
+      text: "Materialien für Fahrzeuginterieur und Sattlerei.",
+      primaryCta: "Materialien ansehen",
+      secondaryCta: "WhatsApp",
+      trust: [
+        "Lager in Österreich",
+        "EU Versand",
+        "Muster erhältlich",
+        "Für Sattlereien & Fahrzeugaufbereiter",
+      ],
     },
     social: {
       title: "Folgen Sie uns",
-      subtitle: "Neue Materialien, Lagerware und Einblicke direkt aus unserem Showroom.",
+      subtitle: "Neue Ware. Kurze Einblicke.",
       tiktok: {
         title: "TikTok",
-        text: "Aktuelle Materialien, neue Ware und echte Einblicke direkt aus unserem Lager.",
+        text: "Materialien direkt aus dem Lager.",
         cta: "TikTok ansehen",
-        benefits: [
-          "Neue Materialien aus dem Lager",
-          "Farben und Oberflächen im Video",
-          "Aktuelle Ware vorab ansehen",
-        ],
+        benefits: ["Neue Ware", "Farben im Video", "Lager-Einblicke"],
       },
     },
     categories: {
       title: "Materialbereiche",
-      subtitle: "Hochwertige Materialien für Interieur, Transport und Objektbereich.",
+      subtitle: "Drei Kernsortimente ab Lager.",
       cards: [
-        ["Automobilkunstleder", "Kunstleder", "/materials/Materialbereiche/Automobilkunstleder.png", "automobilkunstleder"],
-        ["Dachhimmelstoffe", "Innenausbau", "/images/Himmelstoffe/1.png", "dachhimmelstoffe"],
-        ["Bus & Bahn Stoffe", "Transport", "/materials/Materialbereiche/Busstoff.png", "bus-bahn-stoffe"],
+        {
+          title: "Automobilkunstleder",
+          label: "Automotive",
+          image: "/materials/Materialbereiche/Automobilkunstleder.png",
+          description: "Für Sitze, Türtafeln und Verkleidungen.",
+          tags: ["lagernd"],
+          slug: "automobilkunstleder",
+          cta: "Anfragen",
+        },
+        {
+          title: "Himmelstoffe",
+          label: "Innenausbau",
+          image: "/materials/Materialbereiche/himmelstoff.png",
+          description: "Kaschierte Stoffe für Autohimmel.",
+          tags: ["Meterware"],
+          slug: "dachhimmelstoffe",
+          cta: "Anfragen",
+        },
+        {
+          title: "Bus- & Bahnstoffe",
+          label: "Transport",
+          image: "/materials/Materialbereiche/Busstoffe.png",
+          description: "Robuste Stoffe für stark beanspruchte Sitze.",
+          tags: ["robust"],
+          slug: "bus-bahn-stoffe",
+          cta: "Anfragen",
+        },
       ],
     },
     preview: {
       title: "Material Vorschau",
-      subtitle: "Freigestellte Materialflächen, reduziert auf Name und Preis.",
+      subtitle: "Auswahl aus dem Lager.",
       materials: [
         ["N19 - Arctic Ivory", "29,99 €", "/materials/kunstleder/Arctic%20Ivory.jpeg"],
         ["Satin Black", "29,99 €", "/materials/kunstleder/Satin%20Black.jpeg"],
@@ -168,67 +173,80 @@ const HOMEPAGE_COPY = {
       title: "Wo anwenden?",
       items: [
         ["Auto", "/materials/Wo%20anwenden/Auto2.png"],
-        ["Yacht", "/materials/Wo%20anwenden/Yachtpng.png"],
         ["Wohnmobil", "/materials/Wo%20anwenden/Wohnmobil.png"],
         ["Bus", "/materials/Wo%20anwenden/Bus.png"],
         ["Hotel", "/materials/Wo%20anwenden/Hotel.png"],
         ["Möbel", "/materials/Wo%20anwenden/Moebel.png"],
+        ["Yacht", "/materials/Wo%20anwenden/Yachtpng.png"],
       ],
     },
     warehouse: {
       eyebrow: "LAGER IN ÖSTERREICH",
-      title: "Direkt aus unserem Lager in Österreich",
-      text: "Materialauswahl, Muster und Versand aus einer klaren europäischen Lieferstruktur.",
-      points: [
-        "Europaweiter Versand",
-        "Muster verfügbar",
-        "Großhandelsmengen",
-        "WhatsApp Support",
-        "Lagerware",
-        "Persönliche Beratung",
-      ],
+      title: "Lager. Muster. Versand.",
+      text: "Direkt aus Österreich. 🇦🇹",
+      points: ["EU Versand", "Muster erhältlich", "Meterware", "WhatsApp"],
     },
     whatsapp: {
-      title: "Sie suchen ein bestimmtes Material?",
-      text: "Wir helfen Ihnen direkt per WhatsApp.",
-      cta: "WhatsApp öffnen",
+      title: "Material gesucht?",
+      text: "Kurze Anfrage. Schnelle Antwort.",
+      cta: "WhatsApp",
     },
   },
   en: {
     hero: {
       eyebrow: "EU-WIDE SHIPPING • STOCK IN AUSTRIA",
-      title: "Premium Synthetic Leather & Automotive Materials",
-      text: "Synthetic leather, headliner fabrics and technical materials directly from stock.",
-      primaryCta: "Request samples",
-      secondaryCta: "View materials",
-      trust: ["Shipping in Europe", "Samples available", "Stocked materials", "WhatsApp advice"],
+      title: "Materials for vehicle interiors",
+      text: "Materials for vehicle interiors and upholstery.",
+      primaryCta: "View materials",
+      secondaryCta: "WhatsApp",
+      trust: ["Stock in Austria", "EU shipping", "Samples", "For upholsterers"],
     },
     social: {
       title: "Follow Us",
-      subtitle: "New materials, stock updates and showroom insights directly from our team.",
+      subtitle: "New stock. Short updates.",
       tiktok: {
         title: "TikTok",
-        text: "Current materials, new stock and real insights directly from our warehouse.",
+        text: "Materials straight from stock.",
         cta: "View TikTok",
-        benefits: [
-          "New materials from stock",
-          "Colors and surfaces in video",
-          "Preview current stock early",
-        ],
+        benefits: ["New stock", "Colors on video", "Warehouse views"],
       },
     },
     categories: {
       title: "Material Categories",
-      subtitle: "Premium materials for interiors, transport and contract projects.",
+      subtitle: "Three stocked core ranges.",
       cards: [
-        ["Automotive Leatherette", "Leatherette", "/materials/Materialbereiche/Automobilkunstleder.png", "automobilkunstleder"],
-        ["Headliner fabrics", "Interior fit-out", "/images/Himmelstoffe/1.png", "dachhimmelstoffe"],
-        ["Bus & rail fabrics", "Transport", "/materials/Materialbereiche/Busstoff.png", "bus-bahn-stoffe"],
+        {
+          title: "Automotive Leatherette",
+          label: "Automotive",
+          image: "/materials/Materialbereiche/Automobilkunstleder.png",
+          description: "For seats, door panels and trims.",
+          tags: ["in stock"],
+          slug: "automobilkunstleder",
+          cta: "Inquire",
+        },
+        {
+          title: "Headliner Fabrics",
+          label: "Interior",
+          image: "/materials/Materialbereiche/himmelstoff.png",
+          description: "Foam-backed fabrics for headliners.",
+          tags: ["by the meter"],
+          slug: "dachhimmelstoffe",
+          cta: "Inquire",
+        },
+        {
+          title: "Bus & Rail Fabrics",
+          label: "Transport",
+          image: "/materials/Materialbereiche/Busstoffe.png",
+          description: "Robust fabrics for high-use seats.",
+          tags: ["robust"],
+          slug: "bus-bahn-stoffe",
+          cta: "Inquire",
+        },
       ],
     },
     preview: {
       title: "Material Preview",
-      subtitle: "Freestanding material planes, reduced to name and price.",
+      subtitle: "Selected stock items.",
       materials: [
         ["N19 - Arctic Ivory", "29.99 €", "/materials/kunstleder/Arctic%20Ivory.jpeg"],
         ["Satin Black", "29.99 €", "/materials/kunstleder/Satin%20Black.jpeg"],
@@ -241,68 +259,81 @@ const HOMEPAGE_COPY = {
     applications: {
       title: "For which areas?",
       items: [
-        ["Auto", "/materials/Wo%20anwenden/Auto2.png"],
-        ["Yacht", "/materials/Wo%20anwenden/Yachtpng.png"],
+        ["Car", "/materials/Wo%20anwenden/Auto2.png"],
         ["Motorhome", "/materials/Wo%20anwenden/Wohnmobil.png"],
         ["Bus", "/materials/Wo%20anwenden/Bus.png"],
         ["Hotel", "/materials/Wo%20anwenden/Hotel.png"],
         ["Furniture", "/materials/Wo%20anwenden/Moebel.png"],
+        ["Yacht", "/materials/Wo%20anwenden/Yachtpng.png"],
       ],
     },
     warehouse: {
       eyebrow: "WAREHOUSE IN AUSTRIA",
-      title: "Directly from our warehouse in Austria",
-      text: "Material selection, samples and shipping from a clear European supply setup.",
-      points: [
-        "Europe-wide shipping",
-        "Samples available",
-        "Wholesale quantities",
-        "WhatsApp support",
-        "Stocked materials",
-        "Personal advice",
-      ],
+      title: "Stock. Samples. Shipping.",
+      text: "Directly from Austria. 🇦🇹",
+      points: ["EU Shipping", "Samples", "By the meter", "WhatsApp"],
     },
     whatsapp: {
-      title: "Looking for a specific material?",
-      text: "We help you directly via WhatsApp.",
-      cta: "Open WhatsApp",
+      title: "Looking for material?",
+      text: "Quick question. Fast answer.",
+      cta: "WhatsApp",
     },
   },
   ru: {
     hero: {
       eyebrow: "ДОСТАВКА ПО ЕС • СКЛАД В АВСТРИИ",
-      title: "Премиальная искусственная кожа и automotive материалы",
-      text: "Искусственная кожа, ткани для потолка и технические материалы прямо со склада.",
-      primaryCta: "Запросить образцы",
-      secondaryCta: "Смотреть материалы",
-      trust: ["Доставка по Европе", "Доступны образцы", "Складские позиции", "Консультация WhatsApp"],
+      title: "Материалы для интерьеров авто",
+      text: "Материалы для автоинтерьера и ателье.",
+      primaryCta: "Смотреть материалы",
+      secondaryCta: "WhatsApp",
+      trust: ["Склад в Австрии", "Доставка ЕС", "Образцы", "Для ателье"],
     },
     social: {
       title: "Следите за нами",
-      subtitle: "Новые материалы, складские поступления и впечатления из нашего шоурума.",
+      subtitle: "Новые поставки. Короткие обзоры.",
       tiktok: {
         title: "TikTok",
-        text: "Актуальные материалы, новые поступления и подлинные впечатления прямо со склада.",
+        text: "Материалы прямо со склада.",
         cta: "Смотреть TikTok",
-        benefits: [
-          "Новые материалы со склада",
-          "Цвета и фактуры в видео",
-          "Текущую ассортимент заранее",
-        ],
+        benefits: ["Новые поставки", "Цвета в видео", "Склад"],
       },
     },
     categories: {
       title: "Категории материалов",
-      subtitle: "Премиальные материалы для интерьеров, транспорта и объектов.",
+      subtitle: "Три основные складские группы.",
       cards: [
-        ["Автомобильный кожзаменитель", "Искусственная кожа", "/materials/Materialbereiche/Automobilkunstleder.png", "automobilkunstleder"],
-        ["Потолочные ткани", "Интерьер", "/images/Himmelstoffe/1.png", "dachhimmelstoffe"],
-        ["Ткани для автобусов и поездов", "Транспорт", "/materials/Materialbereiche/Busstoff.png", "bus-bahn-stoffe"],
+        {
+          title: "Автомобильный кожзаменитель",
+          label: "Automotive",
+          image: "/materials/Materialbereiche/Automobilkunstleder.png",
+          description: "Для сидений, дверных карт и панелей.",
+          tags: ["в наличии"],
+          slug: "automobilkunstleder",
+          cta: "Запросить",
+        },
+        {
+          title: "Потолочные ткани",
+          label: "Интерьер",
+          image: "/materials/Materialbereiche/himmelstoff.png",
+          description: "Дублированные ткани для автопотолка.",
+          tags: ["метраж"],
+          slug: "dachhimmelstoffe",
+          cta: "Запросить",
+        },
+        {
+          title: "Ткани для автобусов и поездов",
+          label: "Транспорт",
+          image: "/materials/Materialbereiche/Busstoffe.png",
+          description: "Прочные ткани для нагруженных сидений.",
+          tags: ["прочно"],
+          slug: "bus-bahn-stoffe",
+          cta: "Запросить",
+        },
       ],
     },
     preview: {
       title: "Превью материалов",
-      subtitle: "Отдельные 3D-плоскости материала: только название и цена.",
+      subtitle: "Выборка со склада.",
       materials: [
         ["N19 - Arctic Ivory", "29,99 €", "/materials/kunstleder/Arctic%20Ivory.jpeg"],
         ["Satin Black", "29,99 €", "/materials/kunstleder/Satin%20Black.jpeg"],
@@ -315,31 +346,24 @@ const HOMEPAGE_COPY = {
     applications: {
       title: "Для каких сфер?",
       items: [
-        ["Auto", "/materials/Wo%20anwenden/Auto2.png"],
-        ["Yacht", "/materials/Wo%20anwenden/Yachtpng.png"],
-        ["Wohnmobil", "/materials/Wo%20anwenden/Wohnmobil.png"],
-        ["Bus", "/materials/Wo%20anwenden/Bus.png"],
-        ["Hotel", "/materials/Wo%20anwenden/Hotel.png"],
+        ["Авто", "/materials/Wo%20anwenden/Auto2.png"],
+        ["Автодом", "/materials/Wo%20anwenden/Wohnmobil.png"],
+        ["Автобус", "/materials/Wo%20anwenden/Bus.png"],
+        ["Отель", "/materials/Wo%20anwenden/Hotel.png"],
         ["Мебель", "/materials/Wo%20anwenden/Moebel.png"],
+        ["Яхта", "/materials/Wo%20anwenden/Yachtpng.png"],
       ],
     },
     warehouse: {
       eyebrow: "СКЛАД В АВСТРИИ",
-      title: "Напрямую с нашего склада в Австрии",
-      text: "Материалы, образцы и отправка через понятную европейскую структуру.",
-      points: [
-        "Доставка по Европе",
-        "Доступны образцы",
-        "Оптовые объемы",
-        "WhatsApp support",
-        "Складские позиции",
-        "Персональная консультация",
-      ],
+      title: "Склад. Образцы. Доставка.",
+      text: "Напрямую из Австрии. 🇦🇹",
+      points: ["Доставка по ЕС", "Образцы", "Продажа метражом", "WhatsApp"],
     },
     whatsapp: {
-      title: "Ищете конкретный материал?",
-      text: "Мы поможем напрямую через WhatsApp.",
-      cta: "Открыть WhatsApp",
+      title: "Ищете материал?",
+      text: "Короткий запрос. Быстрый ответ.",
+      cta: "WhatsApp",
     },
   },
 } satisfies Record<SupportedLang, HomepageCopy>;
@@ -352,23 +376,52 @@ function Navigation({
   content: SiteDictionary;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isInHero, setIsInHero] = useState(true);
   const socialNavLabel = lang === "de" ? "Social" : lang === "en" ? "Social" : "Соцсети";
+  const whatsappNavLabel =
+    lang === "de" ? "WhatsApp Anfrage" : lang === "en" ? "WhatsApp inquiry" : "WhatsApp запрос";
   const languageOptions = SUPPORTED_LANGS.map((code) => ({
     code,
     label: content.languageSwitcher[code],
   }));
 
+  useEffect(() => {
+    const updateHeaderState = () => {
+      const hero = document.getElementById("home");
+      if (!hero) {
+        setIsInHero(window.scrollY < 32);
+        return;
+      }
+
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      setIsInHero(heroBottom > 88);
+    };
+
+    updateHeaderState();
+    window.addEventListener("scroll", updateHeaderState, { passive: true });
+    window.addEventListener("resize", updateHeaderState);
+
+    return () => {
+      window.removeEventListener("scroll", updateHeaderState);
+      window.removeEventListener("resize", updateHeaderState);
+    };
+  }, []);
+
   return (
-    <header className="luxury-nav fixed inset-x-0 top-0 z-40 border-b border-divider bg-base/92 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-4 sm:px-8 lg:px-12 xl:px-16">
-        <div className="shrink-0">
-          <p className="luxury-brand-mark text-lg font-semibold tracking-tight text-text-primary">
+    <header
+      className={`luxury-nav ${
+        isInHero ? "luxury-nav--hero" : "luxury-nav--scrolled"
+      } fixed inset-x-0 top-0 z-40 border-b`}
+    >
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-4 py-3.5 sm:px-8 sm:py-4 lg:px-12 xl:px-16">
+        <NextLink href={`/${lang}`} className="min-w-0 flex-1 pr-2 sm:pr-0 lg:flex-none">
+          <p className="luxury-brand-mark truncate text-base font-semibold tracking-tight text-text-primary sm:text-lg">
             {content.footer.company}
           </p>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-text-secondary">
+          <p className="truncate text-[9px] uppercase tracking-[0.16em] text-text-secondary sm:text-[10px] sm:tracking-[0.2em]">
             {content.footer.tagline}
           </p>
-        </div>
+        </NextLink>
 
         <nav className="hidden items-center gap-8 lg:flex">
           <a href="#home" className="luxury-nav-link text-[13px] text-text-secondary transition hover:text-text-primary">
@@ -405,10 +458,19 @@ function Navigation({
               </span>
             ))}
           </div>
+          <a
+            href={SOCIAL_PLATFORM_LINKS.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="luxury-button luxury-button-primary inline-flex min-h-[42px] items-center justify-center gap-2 rounded-full border border-gold px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-base"
+          >
+            <MessageCircle size={15} strokeWidth={2.3} />
+            <span>{whatsappNavLabel}</span>
+          </a>
         </div>
 
         <button
-          className="flex items-center justify-center text-text-primary lg:hidden"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-text-primary transition hover:bg-white/5 lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={content.common.toggleMenuAriaLabel}
         >
@@ -417,7 +479,7 @@ function Navigation({
       </div>
 
       {menuOpen && (
-        <div className="border-t border-divider bg-base/95 px-6 py-5 shadow-[0_22px_60px_rgba(0,0,0,0.48)] backdrop-blur-xl lg:hidden">
+        <div className="mobileNavPanel border-t border-divider bg-[rgba(10,10,10,0.72)] px-6 py-5 shadow-[0_22px_60px_rgba(0,0,0,0.38)] backdrop-blur-xl lg:hidden">
           <nav className="flex flex-col gap-4 text-[13px] text-text-secondary">
             <a href="#home" onClick={() => setMenuOpen(false)} className="transition hover:text-text-primary">
               {content.nav.home}
@@ -455,6 +517,15 @@ function Navigation({
               </span>
             ))}
           </div>
+          <a
+            href={SOCIAL_PLATFORM_LINKS.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="luxury-button luxury-button-primary mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full border border-gold px-5 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-base"
+          >
+            <MessageCircle size={15} strokeWidth={2.3} />
+            <span>{whatsappNavLabel}</span>
+          </a>
         </div>
       )}
     </header>
@@ -462,151 +533,132 @@ function Navigation({
 }
 
 function HeroSection({ lang }: { lang: SupportedLang }) {
-  const copy = HOMEPAGE_COPY[lang].hero;
+  const materialsButtonLabel =
+    lang === "de"
+      ? "ZU DEN MATERIALIEN"
+      : lang === "en"
+        ? "TO THE MATERIALS"
+        : "К МАТЕРИАЛАМ";
 
   return (
-    <section id="home" className="luxury-hero relative isolate overflow-hidden">
-      <div className="mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-[1600px] items-center px-6 pb-12 pt-28 sm:px-8 sm:pb-14 sm:pt-32 lg:px-12 xl:px-16">
-        <div className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-10 xl:gap-16">
-          <div className="relative z-10 mx-auto flex max-w-[38rem] flex-col items-center text-center lg:items-start lg:text-left">
-            <p className="text-[0.68rem] font-medium uppercase tracking-[0.24em] text-text-secondary">
-              {copy.eyebrow}
-            </p>
-
-            <h1 className="mt-5 max-w-[38rem] font-serif text-[2.35rem] font-semibold leading-[1.02] tracking-tight text-text-primary sm:text-[3.1rem] lg:text-[3.45rem]">
-              {copy.title}
-            </h1>
-
-            <p className="mt-5 max-w-[34rem] text-base leading-7 text-text-secondary sm:text-[1.04rem]">
-              {copy.text}
-            </p>
-
-            <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-nowrap">
-              <NextLink
-                href={`/${lang}/kontakt`}
-                className="luxury-button luxury-button-primary inline-flex min-h-[52px] items-center justify-center rounded-full border border-gold bg-gold px-7 py-3.5 text-sm font-semibold tracking-[0.08em] text-base transition"
-              >
-                {copy.primaryCta}
-              </NextLink>
-              <NextLink
-                href={`/${lang}#materialien`}
-                className="luxury-button luxury-button-secondary inline-flex min-h-[52px] items-center justify-center rounded-full border border-divider bg-card-bg px-7 py-3.5 text-sm font-semibold tracking-[0.08em] text-text-primary transition hover:bg-card-bg-hover"
-              >
-                {copy.secondaryCta}
-              </NextLink>
-            </div>
-
-            <div className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-3 text-sm text-text-secondary lg:justify-start">
-              {copy.trust.map((item) => (
-                <div
-                  key={item}
-                  className="luxury-proof inline-flex items-center gap-2.5"
-                >
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-gold/70 bg-card-bg text-gold">
-                    <Check size={12} strokeWidth={2.6} />
-                  </span>
-                  <span className="text-[0.88rem] leading-6 text-text-secondary">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative lg:-mr-14 xl:-mr-20">
-            <div className="luxury-hero-stage-shell relative h-[clamp(24rem,55vh,38rem)] w-full overflow-hidden rounded-[2rem] border border-divider bg-card-bg shadow-[0_24px_70px_rgba(0,0,0,0.6)] sm:h-[clamp(30rem,66vh,46rem)] lg:h-[clamp(38rem,78vh,58rem)]">
-              <div className="luxury-hero-stage-lights" aria-hidden="true">
-                <span className="luxury-hero-stage-light luxury-hero-stage-light-left" />
-                <span className="luxury-hero-stage-light luxury-hero-stage-light-right" />
-              </div>
-              <div
-                className="relative z-[1] h-full overflow-hidden"
-                style={{
-                  WebkitMaskImage:
-                    "radial-gradient(ellipse 90% 84% at 62% 54%, #000 42%, rgba(0,0,0,0.98) 62%, rgba(0,0,0,0.82) 76%, rgba(0,0,0,0.28) 90%, transparent 100%)",
-                  maskImage:
-                    "radial-gradient(ellipse 90% 84% at 62% 54%, #000 42%, rgba(0,0,0,0.98) 62%, rgba(0,0,0,0.82) 76%, rgba(0,0,0,0.28) 90%, transparent 100%)",
-                }}
-              >
-                <div className="luxury-hero-stage-viewer absolute inset-[-4%_-6%_-8%_-8%] lg:inset-[-6%_-8%_-10%_-10%]">
-                  <SeatViewerClean
-                    className="h-full w-full scale-[1.04] translate-y-[1%] lg:scale-[1.12] lg:translate-y-[3%]"
-                    height="100%"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+    <section id="home" className="heroSection isolate">
+      <div className="heroContent mx-auto flex min-h-[86vh] max-w-[1600px] items-center justify-center px-6 py-14 sm:px-8 sm:py-18 lg:px-12 xl:px-16">
+        <div className="heroMinimalStage relative flex w-full flex-col items-center justify-center">
+          <h1
+            aria-label="Leder & Stoffe"
+            className="heroMinimalTitle relative z-10 font-serif text-[3.6rem] font-semibold leading-none text-white sm:text-[5.5rem] lg:text-[7.5rem]"
+          >
+            <span className="heroTitleWord">Leder </span>
+            <span className="heroAmpersand">
+              &amp; 
+            </span>
+            <span className="heroTitleWord">Stoffe</span>
+          </h1>
+          <a href="#materialien" className="heroMaterialsButton relative z-10">
+            {materialsButtonLabel}
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
+function HeroSocialTransition() {
+  return <div className="heroSocialTransition" aria-hidden="true" />;
+}
+
 function SocialSection({ lang }: { lang: SupportedLang }) {
   const copy = HOMEPAGE_COPY[lang].social;
   const { tiktok } = copy;
+  const socialLabel =
+    lang === "de" ? "Social Presence" : lang === "en" ? "Social Presence" : "Социальное присутствие";
+  const highlightsLabel =
+    lang === "de" ? "Einblicke" : lang === "en" ? "Highlights" : "Акценты";
 
   return (
-    <section id="social" className="relative py-16 sm:py-20">
-      <div className="relative mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-10 xl:px-12">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.15rem]">
-            {copy.title}
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-text-secondary sm:text-[0.98rem]">
-            {copy.subtitle}
-          </p>
-        </div>
+    <section id="social" className="relative z-20 -mt-10 py-18 sm:-mt-12 sm:py-22 lg:-mt-16 lg:py-24">
+      <div className="relative mx-auto max-w-[1600px] px-6 sm:px-8 lg:px-12 xl:px-16">
+        <div className="luxury-glass-panel socialShowcasePanel overflow-hidden rounded-[24px] border border-divider px-6 py-7 shadow-[0_24px_72px_rgba(0,0,0,0.54)] sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+            <div className="max-w-xl">
+              <p className="luxury-mini-label inline-flex rounded-full border px-3.5 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-text-secondary">
+                {socialLabel}
+              </p>
+              <h2 className="mt-5 font-serif text-[2rem] font-semibold tracking-tight text-text-primary sm:text-[2.5rem]">
+                {copy.title}
+              </h2>
+              <p className="mt-4 max-w-lg text-base leading-7 text-text-secondary sm:text-[1.02rem]">
+                {copy.subtitle}
+              </p>
+              <div className="mt-7 hidden h-px w-full max-w-sm bg-gradient-to-r from-gold/70 via-gold/20 to-transparent lg:block" />
+            </div>
 
-        <div className="mx-auto mt-9 flex justify-center px-4">
-          <article className="luxury-social-card w-full overflow-hidden rounded-[1.45rem] border border-divider shadow-[0_18px_48px_rgba(0,0,0,0.44)] sm:max-w-2xl md:max-w-4xl">
-            {/* Gradient border accent */}
-            <div className="h-px bg-gradient-to-r from-gold/50 via-gold/30 to-transparent" />
-            
-            <div className="flex flex-col gap-8 bg-[linear-gradient(135deg,rgba(208,180,111,0.06),transparent),linear-gradient(135deg,rgba(10,10,9,0.96),rgba(6,6,6,0.98))] px-6 py-8 sm:px-8 sm:py-10 md:flex-row md:items-start md:gap-12 md:py-12">
-              {/* Left side - Content & CTA */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 text-gold">
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-gold/25 bg-[linear-gradient(180deg,rgba(208,180,111,0.14),rgba(208,180,111,0.04))]">
+            <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,0.62fr)]">
+              <article className="luxury-social-card socialPrimaryCard relative overflow-hidden rounded-[1.35rem] border border-divider p-6 sm:p-7">
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent" />
+                <div className="flex items-start justify-between gap-5">
+                  <div>
+                    <span className="luxury-mini-label inline-flex rounded-full border px-3 py-1 text-[0.63rem] font-semibold uppercase tracking-[0.2em] text-text-secondary">
+                      TikTok
+                    </span>
+                    <h3 className="mt-5 font-serif text-[1.85rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-[2.15rem]">
+                      {tiktok.title}
+                    </h3>
+                    <p className="mt-4 max-w-md text-base leading-7 text-text-secondary">
+                      {tiktok.text}
+                    </p>
+                  </div>
+
+                  <span className="luxury-icon-button grid h-14 w-14 shrink-0 place-items-center rounded-full border text-gold">
                     <SocialBrandIcon platform="tiktok" className="h-5 w-5" />
                   </span>
-                  <div className="h-px flex-1 bg-gradient-to-r from-gold/70 via-gold/20 to-transparent" />
                 </div>
-                
-                <h3 className="mt-7 font-serif text-[1.95rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-[2.2rem]">
-                  {tiktok.title}
-                </h3>
-                
-                <p className="mt-4 max-w-sm text-base leading-7 text-text-primary/86 sm:text-[1.05rem]">
-                  {tiktok.text}
-                </p>
-                
-                <a
-                  href={SOCIAL_PLATFORM_LINKS.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="luxury-button luxury-button-primary mt-8 inline-flex min-h-[48px] items-center justify-center rounded-full border border-gold bg-gold px-6 py-3 text-sm font-semibold tracking-[0.08em] text-base transition hover:bg-gold/90"
-                >
-                  {tiktok.cta}
-                </a>
-              </div>
 
-              {/* Right side - Benefits list */}
-              <div className="flex-0 md:w-80 md:mt-7">
-                <div className="space-y-3">
-                  {tiktok.benefits.map((benefit, idx) => (
-                    <div key={idx} className="flex gap-4">
-                      <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-gold/50 bg-gold/5 text-gold">
-                        <Check size={12} strokeWidth={2.8} />
-                      </span>
-                      <p className="whitespace-nowrap text-sm leading-6 text-text-secondary sm:text-[0.95rem]">
-                        {benefit}
-                      </p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <a
+                    href={SOCIAL_PLATFORM_LINKS.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="luxury-button luxury-button-primary inline-flex min-h-[50px] items-center justify-center rounded-full border border-gold px-6 py-3 text-sm font-semibold tracking-[0.08em] text-base"
+                  >
+                    {tiktok.cta}
+                  </a>
+                  <a
+                    href={SOCIAL_PLATFORM_LINKS.whatsapp}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="luxury-button luxury-button-secondary inline-flex min-h-[50px] items-center justify-center rounded-full border border-divider px-6 py-3 text-sm font-semibold tracking-[0.08em] text-text-primary"
+                  >
+                    <MessageCircle size={16} strokeWidth={2.3} className="mr-2" />
+                    WhatsApp
+                  </a>
+                </div>
+              </article>
+
+              <article className="luxury-social-card socialInsightsCard rounded-[1.35rem] border border-divider p-5 sm:p-6">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold/82">
+                  {highlightsLabel}
+                </p>
+                <div className="mt-5 space-y-3">
+                  {tiktok.benefits.map((benefit) => (
+                    <div
+                      key={benefit}
+                      className="rounded-[1.15rem] border border-white/6 bg-[rgba(15,15,15,0.34)] px-4 py-3.5 backdrop-blur-md"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-gold/55 bg-[rgba(16,16,16,0.42)] text-gold">
+                          <Check size={12} strokeWidth={2.6} />
+                        </span>
+                        <p className="text-sm leading-6 text-text-secondary sm:text-[0.95rem]">
+                          {benefit}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
+              </article>
             </div>
-          </article>
+          </div>
         </div>
       </div>
     </section>
@@ -615,55 +667,90 @@ function SocialSection({ lang }: { lang: SupportedLang }) {
 
 function MaterialsSection({ lang }: { lang: SupportedLang }) {
   const copy = HOMEPAGE_COPY[lang].categories;
+  const sectionLabel =
+    lang === "de"
+      ? "B2B Interieurmaterialien"
+      : lang === "en"
+        ? "B2B Interior Materials"
+        : "B2B материалы для интерьера";
 
   return (
     <section
       id="materialien"
-      className="relative z-10 overflow-hidden py-16 sm:py-20 lg:py-24"
+      className="relative z-10 overflow-hidden py-18 sm:py-22 lg:py-24"
     >
-      <div className="relative mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10 xl:px-12">
+      <div className="relative mx-auto max-w-[1600px] px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.2rem]">
+          <p className="luxury-mini-label inline-flex rounded-full border px-3.5 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-text-secondary">
+            {sectionLabel}
+          </p>
+          <h2 className="mt-5 font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.45rem]">
             {copy.title}
           </h2>
-          <p className="mt-3 text-sm leading-6 text-text-secondary sm:text-[0.98rem]">
+          <p className="mt-4 text-base leading-7 text-text-secondary sm:text-[1rem]">
             {copy.subtitle}
           </p>
         </div>
 
-        <div className="mx-auto mt-9 grid max-w-[78rem] gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {copy.cards.map(([title, label, image, slug]) => {
-            const hasImage = image.length > 0;
+        <div className="mx-auto mt-10 grid max-w-[78rem] justify-center gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {copy.cards.map((card) => {
+            const href = card.slug ? `/${lang}/${card.slug}` : SOCIAL_PLATFORM_LINKS.whatsapp;
 
             return (
-              <NextLink
-                key={title}
-                href={`/${lang}/${slug}`}
-                className="group block overflow-hidden rounded-[1.45rem] border border-divider bg-card-bg shadow-[0_18px_50px_rgba(0,0,0,0.52)] transition hover:border-gold/45"
+              <article
+                key={card.title}
+                className="luxury-material-card group flex min-h-full flex-col overflow-hidden rounded-[1.35rem] border bg-card-bg"
               >
-                <div className="relative h-[19rem] overflow-hidden xl:h-[22rem]">
-                  {hasImage ? (
-                    <Image
-                      src={image}
-                      alt={title}
-                      fill
-                      sizes="(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,rgba(208,180,111,0.12),transparent_42%),linear-gradient(180deg,rgba(24,22,19,0.98),rgba(10,10,9,0.96)_58%,rgba(6,6,6,0.98))]" />
-                  )}
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.16),rgba(0,0,0,0.5)_54%,rgba(0,0,0,0.88))]" />
-                  <div className="absolute inset-x-0 bottom-0 p-5">
-                    <p className="text-[0.66rem] uppercase tracking-[0.2em] text-text-secondary">
-                      {label}
-                    </p>
-                    <h3 className="mt-2 font-serif text-[1.35rem] font-semibold leading-tight text-text-primary">
-                      {title}
-                    </h3>
-                  </div>
+                <div className="relative h-[17rem] overflow-hidden sm:h-[18.5rem]">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    sizes="(min-width: 1280px) 28vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition duration-700 group-hover:scale-[1.035]"
+                  />
+                  <div className="materialImageShade absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.5)_54%,rgba(0,0,0,0.86))]" />
+                  <p className="absolute left-5 top-5 rounded-full border border-white/10 bg-[rgba(16,16,16,0.48)] px-3 py-1.5 text-[0.63rem] font-semibold uppercase tracking-[0.2em] text-text-secondary backdrop-blur-md">
+                    {card.label}
+                  </p>
                 </div>
-              </NextLink>
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <h3 className="font-serif text-[1.45rem] font-semibold leading-tight text-text-primary">
+                    {card.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-text-secondary">
+                    {card.description}
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {card.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="materialTag rounded-full border border-white/10 bg-[rgba(16,16,16,0.36)] px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.12em] text-text-secondary"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  {card.slug ? (
+                    <NextLink
+                      href={href}
+                      className="luxury-button luxury-button-secondary mt-6 inline-flex min-h-[46px] w-full items-center justify-center rounded-full border px-5 py-3 text-sm font-semibold tracking-[0.08em]"
+                    >
+                      {card.cta}
+                    </NextLink>
+                  ) : (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="luxury-button luxury-button-secondary mt-6 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold tracking-[0.08em]"
+                    >
+                      <MessageCircle size={16} strokeWidth={2.3} />
+                      {card.cta}
+                    </a>
+                  )}
+                </div>
+              </article>
             );
           })}
         </div>
@@ -674,30 +761,37 @@ function MaterialsSection({ lang }: { lang: SupportedLang }) {
 
 function MaterialPreviewSection({ lang }: { lang: SupportedLang }) {
   const copy = HOMEPAGE_COPY[lang].preview;
+  const previewLabel =
+    lang === "de" ? "Aus dem Lager" : lang === "en" ? "From Stock" : "Со склада";
 
   return (
-    <section className="relative py-16 pb-28 sm:py-20 sm:pb-32 lg:min-h-[42rem] lg:py-24 lg:pb-40">
-      <div className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-10 xl:px-12">
+    <section className="relative py-18 pb-24 sm:py-22 sm:pb-28 lg:py-24 lg:pb-32">
+      <div className="mx-auto max-w-[1600px] px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.2rem]">
+          <p className="luxury-mini-label inline-flex rounded-full border px-3.5 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-text-secondary">
+            {previewLabel}
+          </p>
+          <h2 className="mt-5 font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.35rem]">
             {copy.title}
           </h2>
-          <p className="mt-3 text-sm leading-6 text-text-secondary sm:text-[0.98rem]">
+          <p className="mt-4 text-base leading-7 text-text-secondary sm:text-[1rem]">
             {copy.subtitle}
           </p>
         </div>
 
-        <div className="mt-10 grid gap-x-7 gap-y-11 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {copy.materials.map(([name, price, texture]) => {
             const isSpherePreview = texture.includes("/images/spheres/");
 
             return (
-              <article key={name} className="text-center">
+              <article
+                key={name}
+                className="materialPreviewItem flex flex-col text-center"
+              >
                 <div
                   className={`mx-auto grid place-items-center ${
                     isSpherePreview ? "h-80 sm:h-[23.5rem]" : "h-52 sm:h-60"
                   }`}
-                  style={{ perspective: "900px" }}
                 >
                   {isSpherePreview ? (
                     <Image
@@ -706,23 +800,21 @@ function MaterialPreviewSection({ lang }: { lang: SupportedLang }) {
                       width={480}
                       height={480}
                       sizes="384px"
-                      className="h-72 w-72 max-w-none object-contain drop-shadow-[0_28px_44px_rgba(0,0,0,0.72)] sm:h-[21.5rem] sm:w-[21.5rem]"
+                      className="materialPreviewImage h-72 w-72 max-w-none object-contain drop-shadow-[0_28px_44px_rgba(0,0,0,0.72)] sm:h-[21.5rem] sm:w-[21.5rem]"
                     />
                   ) : (
                     <div
                       aria-hidden="true"
-                      className="h-36 w-36 rounded-[0.85rem] border border-white/10 bg-cover bg-center shadow-[0_28px_70px_rgba(0,0,0,0.72)] sm:h-44 sm:w-44"
+                      className="materialPreviewSwatch h-36 w-36 rounded-[0.85rem] bg-cover bg-center shadow-[0_18px_38px_rgba(0,0,0,0.34)] sm:h-44 sm:w-44"
                       style={{
                         backgroundImage: `linear-gradient(140deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02) 32%, rgba(0,0,0,0.18)), url("${texture}")`,
-                        transform: "rotateX(58deg) rotateZ(-34deg)",
-                        transformStyle: "preserve-3d",
                       }}
                     />
                   )}
                 </div>
                 <h3
                   className={`text-base font-semibold tracking-tight text-text-primary ${
-                  isSpherePreview ? "mt-1 sm:mt-2" : "mt-2"
+                    isSpherePreview ? "mt-1 sm:mt-2" : "mt-2"
                   }`}
                 >
                   {name}
@@ -739,21 +831,26 @@ function MaterialPreviewSection({ lang }: { lang: SupportedLang }) {
 
 function ApplicationSection({ lang }: { lang: SupportedLang }) {
   const copy = HOMEPAGE_COPY[lang].applications;
+  const applicationLabel =
+    lang === "de" ? "Einsatzbereiche" : lang === "en" ? "Applications" : "Области применения";
 
   return (
-    <section className="relative py-16 sm:py-20">
-      <div className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-10 xl:px-12">
+    <section className="relative py-18 sm:py-22 lg:py-24">
+      <div className="mx-auto max-w-[1600px] px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.2rem]">
+          <p className="luxury-mini-label inline-flex rounded-full border px-3.5 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-text-secondary">
+            {applicationLabel}
+          </p>
+          <h2 className="mt-5 font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.35rem]">
             {copy.title}
           </h2>
         </div>
 
-        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {copy.items.map(([title, image]) => (
             <article
               key={title}
-              className="relative h-44 overflow-hidden rounded-[1.3rem] border border-divider bg-card-bg shadow-[0_16px_44px_rgba(0,0,0,0.48)] sm:h-52"
+              className="applicationCard luxury-material-card relative h-44 overflow-hidden rounded-[1.5rem] border border-divider bg-card-bg sm:h-52"
             >
               <Image
                 src={image}
@@ -762,7 +859,7 @@ function ApplicationSection({ lang }: { lang: SupportedLang }) {
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.14),rgba(0,0,0,0.74))]" />
+              <div className="applicationImageShade absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.14),rgba(0,0,0,0.74))]" />
               <h3 className="absolute bottom-5 left-5 font-serif text-[1.45rem] font-semibold text-text-primary">
                 {title}
               </h3>
@@ -778,12 +875,12 @@ function WarehouseTrustSection({ lang }: { lang: SupportedLang }) {
   const copy = HOMEPAGE_COPY[lang].warehouse;
 
   return (
-    <section className="relative py-16 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-10 xl:px-12">
-        <div className="luxury-glass-panel rounded-[2rem] border border-divider px-5 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.62)] sm:px-7 sm:py-7 lg:px-9 lg:py-9">
+    <section className="relative py-18 sm:py-22 lg:py-24">
+      <div className="mx-auto max-w-[1600px] px-6 sm:px-8 lg:px-12 xl:px-16">
+        <div className="luxury-glass-panel overflow-hidden rounded-[2rem] border border-divider px-6 py-7 shadow-[0_24px_70px_rgba(0,0,0,0.62)] sm:px-8 sm:py-8 lg:px-10 lg:py-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
             <div className="max-w-xl">
-              <p className="luxury-mini-label inline-flex rounded-full border border-divider px-3 py-1.5 text-[0.66rem] font-medium uppercase tracking-[0.22em] text-text-secondary">
+              <p className="luxury-mini-label inline-flex rounded-full border px-3.5 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-text-secondary">
                 {copy.eyebrow}
               </p>
               <h2 className="mt-5 max-w-xl font-serif text-[2rem] font-semibold leading-tight tracking-tight text-text-primary sm:text-[2.55rem]">
@@ -816,22 +913,27 @@ function WarehouseTrustSection({ lang }: { lang: SupportedLang }) {
 
 function WhatsAppSection({ lang }: { lang: SupportedLang }) {
   const copy = HOMEPAGE_COPY[lang].whatsapp;
+  const whatsappLabel =
+    lang === "de" ? "Direkter Kontakt" : lang === "en" ? "Direct Contact" : "Прямой контакт";
 
   return (
-    <section className="relative pb-16 pt-8 sm:pb-20">
-      <div className="mx-auto max-w-[980px] px-4 text-center sm:px-6">
-        <div className="rounded-[2rem] border border-divider bg-card-bg px-5 py-10 shadow-[0_22px_62px_rgba(0,0,0,0.56)] sm:px-8 sm:py-12">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.4rem]">
+    <section className="relative pb-18 pt-6 sm:pb-22 lg:pb-24">
+      <div className="mx-auto max-w-[1600px] px-6 text-center sm:px-8 lg:px-12 xl:px-16">
+        <div className="luxury-glass-panel whatsappPanel overflow-hidden rounded-[2rem] border border-divider px-6 py-10 shadow-[0_22px_62px_rgba(0,0,0,0.56)] sm:px-8 sm:py-12">
+          <p className="luxury-mini-label inline-flex rounded-full border px-3.5 py-1.5 text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-text-secondary">
+            {whatsappLabel}
+          </p>
+          <h2 className="mt-5 font-serif text-2xl font-semibold tracking-tight text-text-primary sm:text-[2.4rem]">
             {copy.title}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-text-secondary">
+          <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-text-secondary">
             {copy.text}
           </p>
           <a
             href={SOCIAL_PLATFORM_LINKS.whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="mt-7 inline-flex min-h-[52px] items-center justify-center gap-3 rounded-full border border-gold bg-gold px-7 py-3.5 text-sm font-semibold tracking-[0.08em] text-base transition"
+            className="luxury-button luxury-button-primary mt-8 inline-flex min-h-[52px] items-center justify-center gap-3 rounded-full border border-gold px-7 py-3.5 text-sm font-semibold tracking-[0.08em] text-base"
           >
             <SocialBrandIcon platform="whatsapp" className="h-4 w-4" />
             <span>{copy.cta}</span>
@@ -851,7 +953,7 @@ function SiteFooter({
 }) {
   return (
     <footer id="footer" className="luxury-footer border-t border-divider bg-base">
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto max-w-[1600px] px-6 py-12 sm:px-8 lg:px-12 xl:px-16">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="luxury-brand-mark text-base font-semibold text-text-primary">
@@ -921,9 +1023,10 @@ export default function CatalogPage({
   dictionary: SiteDictionary;
 }) {
   return (
-    <main className="luxury-home min-h-screen overflow-x-clip bg-base text-text-primary">
+    <main className="luxury-home automotiveAtelierHome min-h-screen overflow-x-clip bg-base text-text-primary">
       <Navigation lang={lang} content={dictionary} />
       <HeroSection lang={lang} />
+      <HeroSocialTransition />
       <SocialSection lang={lang} />
       <MaterialsSection lang={lang} />
       <MaterialPreviewSection lang={lang} />

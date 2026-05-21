@@ -23,6 +23,13 @@ export async function generateMetadata({ params }: ImpressumPageProps): Promise<
   return {
     title: dictionary.meta.legalNotice.title,
     description: dictionary.meta.legalNotice.description,
+    alternates: {
+      languages: {
+        "de-AT": "/de/impressum",
+        en: "/en/impressum",
+        ru: "/ru/impressum",
+      },
+    },
   };
 }
 
@@ -57,12 +64,12 @@ export default async function ImpressumPage({ params }: ImpressumPageProps) {
   const content = dictionary.legalPages.impressum;
 
   return (
-    <main className="min-h-screen bg-base text-text-primary">
-      <section className="mx-auto w-full max-w-4xl px-6 py-14 md:py-20">
+    <main className="luxury-home premiumPatternBackground min-h-screen bg-base text-text-primary">
+      <section className="mx-auto w-full max-w-5xl px-6 py-14 md:py-20">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <NextLink
             href={`/${lang}`}
-            className="inline-flex items-center text-sm text-text-primary underline decoration-gold underline-offset-4 transition hover:text-text-primary"
+            className="luxury-button luxury-button-secondary inline-flex min-h-[42px] items-center rounded-full border border-gold/24 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-text-primary transition hover:border-gold/48"
           >
             {shared.backToHome}
           </NextLink>
@@ -100,12 +107,12 @@ export default async function ImpressumPage({ params }: ImpressumPageProps) {
           </NextLink>
         </nav>
 
-        <h1 className="mt-6 text-3xl font-bold text-text-primary font-serif md:text-4xl">
+        <h1 className="mt-8 font-serif text-3xl font-semibold tracking-tight text-text-primary md:text-5xl">
           {content.title}
         </h1>
         <p className="mt-4 text-sm text-text-secondary">{content.subtitle}</p>
 
-        <div className="mt-10 space-y-8 rounded-md border border-divider bg-surface p-6 md:p-8">
+        <div className="luxury-glass-panel mt-10 space-y-8 rounded-[1.45rem] border border-divider bg-surface p-6 md:p-8">
           <ImpressumSection title={content.sectionTitles.company}>
             <p>{content.values.company}</p>
           </ImpressumSection>
